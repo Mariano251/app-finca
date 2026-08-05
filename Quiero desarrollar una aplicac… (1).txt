@@ -1,0 +1,227 @@
+Quiero desarrollar una aplicación de gestión agrícola integral para un ingeniero agrónomo y empresario agropecuario, que permita registrar, organizar, consultar y analizar toda la información productiva, agronómica y económica de la finca.
+
+1. Estructura de la finca
+
+La aplicación debe permitir crear y administrar:
+
+* Finca o establecimiento.
+* Sectores.
+* Parcelas o cuadros.
+* Superficie de cada cuadro.
+* Ubicación y características del suelo.
+* Sistema de riego.
+* Cultivo implantado.
+* Variedad.
+* Fecha de plantación.
+* Fecha estimada y real de cosecha.
+* Responsable de las labores.
+
+Cada cuadro/parcela debe tener un historial propio e independiente, de manera que pueda consultarse todo lo que ocurrió en ese lugar a lo largo de los años.
+
+2. Historial de cada cuadro
+
+Dentro de cada cuadro quiero poder registrar, durante toda la campaña, información técnica y observaciones.
+
+Debe existir un registro específico para:
+
+* Productos fitosanitarios: producto utilizado, principio activo, dosis, volumen de aplicación, fecha, motivo de aplicación, plaga/enfermedad/maleza objetivo y responsable.
+* Malezas: especies presentes, nivel de infestación, ubicación y tratamientos realizados.
+* Enfermedades: enfermedad detectada, fecha, nivel de incidencia/severidad, sector afectado, diagnóstico y tratamiento realizado.
+* Plagas: plaga detectada, nivel de presencia, daños observados y tratamiento realizado.
+* Comentarios adicionales: cualquier problemática, observación o situación relevante ocurrida durante el cultivo.
+* Labores culturales: preparación de suelo, plantación, fertilización, riego, poda, desmalezado, aplicaciones, cosecha, etc.
+* Fertilización: producto, dosis, unidades de N, P, K y otros nutrientes, fecha y forma de aplicación.
+* Riego: fecha, duración, volumen estimado y observaciones.
+* Fenología: estados fenológicos importantes y fechas.
+* Clima y eventos: heladas, granizo, viento, altas temperaturas, lluvias, etc.
+* Imágenes: posibilidad de adjuntar fotografías de enfermedades, plagas, daños, malezas y evolución del cultivo.
+
+Toda esta información debe quedar asociada automáticamente al cuadro, cultivo y campaña correspondiente.
+
+3. Historial por cultivo
+
+Además del historial de cada parcela, quiero un historial independiente por cultivo.
+
+Por ejemplo:
+
+* Ajo
+* Cebolla
+* Papa
+* Lechuga
+* Repollo
+* Zanahoria
+* Tomate
+* Durazno
+* Manzana
+* Etc.
+
+Al ingresar a un cultivo quiero poder visualizar todas las campañas realizadas y comparar:
+
+* Cuadro donde se realizó.
+* Superficie.
+* Variedad.
+* Fecha de plantación.
+* Fecha de cosecha.
+* Rendimiento.
+* Producción total.
+* Calidad obtenida.
+* Principales enfermedades.
+* Principales plagas.
+* Principales malezas.
+* Productos fitosanitarios utilizados.
+* Fertilización.
+* Problemas encontrados.
+* Costos.
+* Precio de venta.
+* Ingresos.
+* Margen o resultado económico.
+
+Por ejemplo, al entrar a “Ajo”, debería poder consultar todas las campañas anteriores y comparar qué ocurrió en cada una.
+
+4. Historial de rendimiento
+
+Cada cuadro debe almacenar su historial productivo.
+
+Quiero poder registrar:
+
+* Producción total.
+* Rendimiento por hectárea.
+* Superficie cosechada.
+* Fecha de cosecha.
+* Calidad.
+* Descarte.
+* Producción comercial.
+* Producción no comercial.
+
+La aplicación debe permitir comparar automáticamente el rendimiento del mismo cuadro a través de diferentes años y cultivos.
+
+Ejemplo:
+
+Cuadro 12
+
+* 2024 → Ajo → 14.500 kg/ha
+* 2025 → Papa → 42.000 kg/ha
+* 2026 → Ajo → 16.200 kg/ha
+
+De esta manera, el sistema debe convertirse en una base histórica de productividad de cada ambiente de la finca.
+
+5. Registro de aplicaciones fitosanitarias
+
+Quiero que las aplicaciones queden registradas de forma estructurada y vinculadas al cuadro.
+
+Cada aplicación debe incluir:
+
+* Fecha.
+* Cuadro.
+* Cultivo.
+* Producto comercial.
+* Principio activo.
+* Tipo: fungicida, insecticida, herbicida, acaricida, etc.
+* Dosis.
+* Unidad de dosis.
+* Volumen de caldo.
+* Superficie tratada.
+* Problema objetivo.
+* Estado del cultivo.
+* Responsable.
+* Observaciones.
+
+También quiero poder consultar posteriormente qué productos se utilizaron en cada cuadro, cultivo o campaña.
+
+6. Base de conocimiento agronómico
+
+La aplicación debería permitir generar una base histórica de problemas agronómicos.
+
+Por ejemplo:
+
+Sclerotinia
+
+* Cultivos afectados.
+* Cuadros donde apareció.
+* Campañas en las que apareció.
+* Nivel de afectación.
+* Productos utilizados.
+* Resultados obtenidos.
+
+Lo mismo debería poder hacerse con enfermedades, plagas y malezas.
+
+Esto permitiría detectar problemas recurrentes de determinados cuadros y ayudar a tomar decisiones para futuras campañas.
+
+7. Gestión económica
+
+Como la aplicación está pensada para un ingeniero agrónomo empresario, quiero incorporar también información económica.
+
+Por cada cultivo/campaña debería poder registrar:
+
+* Costo de semillas.
+* Fertilizantes.
+* Productos fitosanitarios.
+* Mano de obra.
+* Maquinaria.
+* Riego.
+* Combustible.
+* Cosecha.
+* Flete.
+* Otros costos.
+* Costo total por hectárea.
+* Costo por kg.
+* Precio de venta.
+* Ingreso total.
+* Margen bruto.
+* Resultado económico por hectárea.
+
+La aplicación debe permitir relacionar los costos con el rendimiento obtenido, para poder evaluar qué cultivos y qué cuadros son más rentables.
+
+8. Panel principal / Dashboard
+
+Quiero un panel inicial que permita visualizar rápidamente el estado de la finca.
+
+Debe mostrar, por ejemplo:
+
+* Superficie total.
+* Superficie por cultivo.
+* Cultivos actualmente implantados.
+* Campañas activas.
+* Próximas labores.
+* Aplicaciones realizadas y pendientes.
+* Principales problemas sanitarios.
+* Rendimientos históricos.
+* Producción total.
+* Costos.
+* Ingresos.
+* Rentabilidad.
+
+También debería poder generar alertas para:
+
+* Aplicaciones pendientes.
+* Labores próximas.
+* Cosechas próximas.
+* Problemas sanitarios registrados.
+* Cuadros con problemas recurrentes.
+* Tareas atrasadas.
+
+9. Búsqueda y análisis
+
+Toda la información debe ser fácilmente filtrable.
+
+Quiero poder realizar consultas como:
+
+* “Mostrar todos los cuadros donde hubo Sclerotinia.”
+* “Mostrar qué productos utilicé en ajo durante 2025.”
+* “Mostrar el rendimiento histórico del Cuadro 15.”
+* “¿Qué enfermedades afectaron a la papa?”
+* “¿Cuál fue el cultivo más rentable?”
+* “¿Qué cuadros tuvieron menor rendimiento?”
+* “Comparar rendimiento de ajo entre campañas.”
+* “Mostrar los productos utilizados en un determinado cultivo.”
+* “Mostrar todos los problemas registrados en un cuadro.”
+
+10. Concepto general de funcionamiento
+
+La estructura principal de la aplicación debería organizarse de la siguiente manera:
+
+FINCA → CUADROS → CAMPAÑAS → CULTIVOS → LABORES / FITOSANITARIOS / FERTILIZACIÓN / RIEGO / PROBLEMAS → COSECHA → RENDIMIENTO → COSTOS → RESULTADO ECONÓMICO
+
+La prioridad es que ningún dato quede aislado. Todo debe estar relacionado con la finca, el cuadro, el cultivo y la campaña correspondiente.
+
+El objetivo final es crear un historial agronómico y empresarial de la finca, que permita no solamente registrar lo que se hizo, sino también analizar qué ocurrió, detectar problemas recurrentes, comparar campañas, conocer la productividad de cada cuadro y tomar mejores decisiones técnicas y económicas en futuras campañas.

@@ -1,0 +1,511 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------------------------------------------------------------------------
+// Estructura de la finca
+// ---------------------------------------------------------------------------
+
+model Finca {
+  id             Int      @id @default(autoincrement())
+  nombre         String
+  ubicacion      String?
+  superficieTotal Float?
+  notas          String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  sectores Sector[]
+  croquis  Croquis[]
+}
+
+model Sector {
+  id          Int      @id @default(autoincrement())
+  fincaId     Int
+  finca       Finca    @relation(fields: [fincaId], references: [id], onDelete: Cascade)
+  nombre      String
+  descripcion String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  cuadros Cuadro[]
+
+  @@index([fincaId])
+}
+
+enum SistemaRiego {
+  GOTEO
+  ASPERSION
+  GRAVEDAD
+  PIVOTE
+  MICROASPERSION
+  SECANO
+  OTRO
+}
+
+model Cuadro {
+  id                    Int          @id @default(autoincrement())
+  sectorId              Int
+  sector                Sector       @relation(fields: [sectorId], references: [id], onDelete: Cascade)
+  nombre                String
+  superficie             Float?
+  ubicacion             String?
+  tipoSuelo             String?
+  caracteristicasSuelo  String?
+  sistemaRiego          SistemaRiego?
+  notas                 String?
+  activo                Boolean      @default(true)
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
+
+  campanas         Campana[]
+  croquisPoligonos CroquisPoligono[]
+
+  @@index([sectorId])
+}
+
+// ---------------------------------------------------------------------------
+// Catalogos de cultivo
+// ---------------------------------------------------------------------------
+
+model Cultivo {
+  id               Int      @id @default(autoincrement())
+  nombre           String   @unique
+  nombreCientifico String?
+  notas            String?
+  activo           Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  variedades Variedad[]
+  campanas   Campana[]
+}
+
+model Variedad {
+  id        Int      @id @default(autoincrement())
+  cultivoId Int
+  cultivo   Cultivo  @relation(fields: [cultivoId], references: [id], onDelete: Cascade)
+  nombre    String
+  notas     String?
+  activo    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  campanas Campana[]
+
+  @@index([cultivoId])
+}
+
+// ---------------------------------------------------------------------------
+// Campana: entidad central de la que cuelga todo el historial
+// ---------------------------------------------------------------------------
+
+enum EstadoCampana {
+  PLANIFICADA
+  ACTIVA
+  COSECHADA
+  FINALIZADA
+  CANCELADA
+}
+
+model Campana {
+  id                    Int           @id @default(autoincrement())
+  cuadroId              Int
+  cuadro                Cuadro        @relation(fields: [cuadroId], references: [id], onDelete: Cascade)
+  cultivoId             Int
+  cultivo               Cultivo       @relation(fields: [cultivoId], references: [id])
+  variedadId            Int?
+  variedad              Variedad?     @relation(fields: [variedadId], references: [id])
+  nombre                String
+  fechaPlantacion       DateTime?
+  fechaCosechaEstimada  DateTime?
+  fechaCosechaReal      DateTime?
+  estado                EstadoCampana @default(PLANIFICADA)
+  superficieImplantada  Float?
+  notas                 String?
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  laboresCulturales       LaborCultural[]
+  aplicaciones            AplicacionFitosanitaria[]
+  fertilizaciones         Fertilizacion[]
+  riegos                  Riego[]
+  fenologias              Fenologia[]
+  eventosClimaticos       EventoClimatico[]
+  malezas                 Maleza[]
+  enfermedades            Enfermedad[]
+  plagas                  Plaga[]
+  comentarios             Comentario[]
+  cosechas                Cosecha[]
+  costos                  Costo[]
+  ventas                  Venta[]
+
+  @@index([cuadroId])
+  @@index([cultivoId])
+}
+
+// ---------------------------------------------------------------------------
+// Sub-registros de campana
+// ---------------------------------------------------------------------------
+
+enum EstadoTarea {
+  PLANIFICADA
+  REALIZADA
+}
+
+enum TipoLabor {
+  PREPARACION_SUELO
+  PLANTACION
+  FERTILIZACION
+  RIEGO
+  PODA
+  DESMALEZADO
+  APLICACION
+  COSECHA
+  OTRO
+}
+
+model LaborCultural {
+  id          Int         @id @default(autoincrement())
+  campanaId   Int
+  campana     Campana     @relation(fields: [campanaId], references: [id], onDelete: Cascade)
+  tipo        TipoLabor
+  fecha       DateTime
+  descripcion String?
+  responsable String?
+  estado      EstadoTarea @default(REALIZADA)
+  notas       String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([campanaId])
+}
+
+enum TipoFitosanitario {
+  FUNGICIDA
+  INSECTICIDA
+  HERBICIDA
+  ACARICIDA
+  NEMATICIDA
+  OTRO
+}
+
+model AplicacionFitosanitaria {
+  id                Int               @id @default(autoincrement())
+  campanaId         Int
+  campana           Campana           @relation(fields: [campanaId], references: [id], onDelete: Cascade)
+  fecha             DateTime
+  productoComercial String
+  principioActivo   String?
+  tipo              TipoFitosanitario
+  dosis             Float?
+  unidadDosis       String?
+  volumenCaldo      Float?
+  superficieTratada Float?
+  problemaObjetivo  String?
+  estadoCultivo     String?
+  responsable       String?
+  estado            EstadoTarea       @default(REALIZADA)
+  observaciones     String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@index([campanaId])
+}
+
+model Fertilizacion {
+  id              Int      @id @default(autoincrement())
+  campanaId       Int
+  campana         Campana  @relation(fields: [campanaId], references: [id], onDelete: Cascade)
+  fecha           DateTime
+  producto        String
+  dosis           Float?
+  unidadDosis     String?
+  nUnidades       Float?
+  pUnidades       Float?
+  kUnidades       Float?
+  otrosNutrientes String?
+  formaAplicacion String?
+  responsable     String?
+  observaciones   String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([campanaId])
+}
+
+model Riego {
+  id              Int      @id @default(autoincrement())
+  campanaId       Int
+  campana         Campana  @relation(fields: [campanaId], references: [id], onDelete: Cascade)
+  fecha           DateTime
+  duracionHoras   Float?
+  volumenEstimado Float?
+  observaciones   String?
+  responsable     String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([campanaId])
+}
+
+model Fenologia {
+  id              Int      @id @default(autoincrement())
+  campanaId       Int
+  campana         Campana  @relation(fields: [campanaId], references: [id], onDelete: Cascade)
+  fecha           DateTime
+  estadoFenologico String
+  notas           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([campanaId])
+}
+
+enum TipoEventoClimatico {
+  HELADA
+  GRANIZO
+  VIENTO
+  ALTA_TEMPERATURA
+  LLUVIA
+  SEQUIA
+  OTRO
+}
+
+enum NivelSeveridad {
+  LEVE
+  MODERADA
+  SEVERA
+}
+
+model EventoClimatico {
+  id          Int                 @id @default(autoincrement())
+  campanaId   Int
+  campana     Campana             @relation(fields: [campanaId], references: [id], onDelete: Cascade)
+  fecha       DateTime
+  tipo        TipoEventoClimatico
+  severidad   NivelSeveridad?
+  descripcion String?
+  notas       String?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  @@index([campanaId])
+}
+
+enum NivelInfestacion {
+  BAJO
+  MEDIO
+  ALTO
+}
+
+model Maleza {
+  id                   Int              @id @default(autoincrement())
+  campanaId            Int
+  campana              Campana          @relation(fields: [campanaId], references: [id], onDelete: Cascade)
+  fecha                DateTime
+  especie              String
+  nivelInfestacion     NivelInfestacion?
+  ubicacion            String?
+  tratamientoRealizado String?
+  responsable          String?
+  notas                String?
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
+
+  @@index([campanaId])
+  @@index([especie])
+}
+
+model Enfermedad {
+  id                   Int              @id @default(autoincrement())
+  campanaId            Int
+  campana              Campana          @relation(fields: [campanaId], references: [id], onDelete: Cascade)
+  fecha                DateTime
+  nombre               String
+  nivelIncidencia      NivelInfestacion?
+  sectorAfectado       String?
+  diagnostico          String?
+  tratamientoRealizado String?
+  responsable          String?
+  notas                String?
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
+
+  @@index([campanaId])
+  @@index([nombre])
+}
+
+model Plaga {
+  id                   Int              @id @default(autoincrement())
+  campanaId            Int
+  campana              Campana          @relation(fields: [campanaId], references: [id], onDelete: Cascade)
+  fecha                DateTime
+  nombre               String
+  nivelPresencia       NivelInfestacion?
+  danosObservados      String?
+  tratamientoRealizado String?
+  responsable          String?
+  notas                String?
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
+
+  @@index([campanaId])
+  @@index([nombre])
+}
+
+model Comentario {
+  id        Int      @id @default(autoincrement())
+  campanaId Int
+  campana   Campana  @relation(fields: [campanaId], references: [id], onDelete: Cascade)
+  fecha     DateTime
+  texto     String
+  categoria String?
+  responsable String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([campanaId])
+}
+
+// ---------------------------------------------------------------------------
+// Cosecha / rendimiento
+// ---------------------------------------------------------------------------
+
+model Cosecha {
+  id                     Int      @id @default(autoincrement())
+  campanaId              Int
+  campana                Campana  @relation(fields: [campanaId], references: [id], onDelete: Cascade)
+  fecha                  DateTime
+  superficieCosechada    Float?
+  produccionTotal        Float?
+  rendimientoPorHa       Float?
+  calidad                String?
+  descarte               Float?
+  produccionComercial    Float?
+  produccionNoComercial  Float?
+  notas                  String?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  @@index([campanaId])
+}
+
+// ---------------------------------------------------------------------------
+// Economia
+// ---------------------------------------------------------------------------
+
+enum CategoriaCosto {
+  SEMILLA
+  FERTILIZANTE
+  FITOSANITARIO
+  MANO_OBRA
+  MAQUINARIA
+  RIEGO
+  COMBUSTIBLE
+  COSECHA
+  FLETE
+  OTRO
+}
+
+model Costo {
+  id          Int            @id @default(autoincrement())
+  campanaId   Int
+  campana     Campana        @relation(fields: [campanaId], references: [id], onDelete: Cascade)
+  categoria   CategoriaCosto
+  descripcion String?
+  monto       Float
+  fecha       DateTime?
+  notas       String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([campanaId])
+}
+
+model Venta {
+  id            Int      @id @default(autoincrement())
+  campanaId     Int
+  campana       Campana  @relation(fields: [campanaId], references: [id], onDelete: Cascade)
+  fecha         DateTime
+  cantidadKg    Float
+  precioUnitario Float
+  ingresoTotal  Float
+  comprador     String?
+  notas         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([campanaId])
+}
+
+// ---------------------------------------------------------------------------
+// Imagenes (adjuntos polimorficos)
+// ---------------------------------------------------------------------------
+
+enum TipoEntidadImagen {
+  CAMPANA
+  LABOR
+  APLICACION
+  FERTILIZACION
+  RIEGO
+  MALEZA
+  ENFERMEDAD
+  PLAGA
+  EVENTO_CLIMATICO
+  COSECHA
+  CROQUIS
+  CUADRO
+}
+
+model Imagen {
+  id          Int               @id @default(autoincrement())
+  path        String
+  entityType  TipoEntidadImagen
+  entityId    Int
+  descripcion String?
+  fecha       DateTime          @default(now())
+  createdAt   DateTime          @default(now())
+
+  @@index([entityType, entityId])
+}
+
+// ---------------------------------------------------------------------------
+// Croquis (plano editable de la finca)
+// ---------------------------------------------------------------------------
+
+model Croquis {
+  id          Int      @id @default(autoincrement())
+  fincaId     Int
+  finca       Finca    @relation(fields: [fincaId], references: [id], onDelete: Cascade)
+  imagenPath  String?
+  imagenAncho Int?
+  imagenAlto  Int?
+  nombre      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  poligonos CroquisPoligono[]
+
+  @@index([fincaId])
+}
+
+model CroquisPoligono {
+  id        Int      @id @default(autoincrement())
+  croquisId Int
+  croquis   Croquis  @relation(fields: [croquisId], references: [id], onDelete: Cascade)
+  cuadroId  Int?
+  cuadro    Cuadro?  @relation(fields: [cuadroId], references: [id], onDelete: SetNull)
+  color     String   @default("#4a7c2c")
+  puntos    Json
+  etiqueta  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([croquisId])
+  @@index([cuadroId])
+}

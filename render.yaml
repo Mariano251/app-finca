@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: app-finca
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: cd client && npm install && npm run build && cd ../server && npm install && npm run build
+    startCommand: cd server && npx prisma migrate deploy && npm start
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: NODE_VERSION
+        value: 20
