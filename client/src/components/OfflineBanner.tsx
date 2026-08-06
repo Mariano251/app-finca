@@ -54,21 +54,9 @@ export function OfflineBanner() {
     <>
       <button
         type="button"
+        className="offline-banner"
         onClick={() => setShowPanel(true)}
-        style={{
-          display: "block",
-          width: "100%",
-          background,
-          color: "white",
-          textAlign: "center",
-          padding: "0.4rem",
-          fontSize: "0.82rem",
-          position: "sticky",
-          top: 0,
-          zIndex: 30,
-          border: "none",
-          cursor: "pointer",
-        }}
+        style={{ background }}
       >
         {online ? (
           <>Sincronizando {pendingLabel(pending.length, errorCount)}… (tocar para ver detalle)</>
