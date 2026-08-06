@@ -11,7 +11,7 @@ dashboardRouter.get("/", async (_req, res, next) => {
     const hoy = new Date();
     const limite = new Date(hoy.getTime() + DIAS_PROXIMOS * 24 * 60 * 60 * 1000);
 
-    const [cuadros, campanasActivas, todasCampanas, laboresPlanificadas, aplicacionesPlanificadas, enfermedades, plagas, malezas] =
+    const [cuadros, campanasActivas, todasCampanas, laboresPlanificadas, aplicacionesPlanificadas, enfermedades, plagas, malezas, insumos] =
       await Promise.all([
         prisma.cuadro.findMany({ select: { id: true, superficie: true, nombre: true } }),
         prisma.campana.findMany({
@@ -44,7 +44,12 @@ dashboardRouter.get("/", async (_req, res, next) => {
           orderBy: { fecha: "desc" },
           take: 200,
         }),
+        prisma.insumo.findMany({ where: { activo: true, stockMinimo: { not: null } } }),
       ]);
+
+    const insumosStockBajo = insumos
+      .filter((i) => i.stockMinimo != null && i.stockActual <= i.stockMinimo)
+      .map((i) => ({ id: i.id, nombre: i.nombre, stockActual: i.stockActual, stockMinimo: i.stockMinimo, unidad: i.unidad }));
 
     const superficieTotal = cuadros.reduce((s, c) => s + (c.superficie ?? 0), 0);
 
@@ -160,6 +165,7 @@ dashboardRouter.get("/", async (_req, res, next) => {
         problemasRecientes,
         cuadrosConProblemasRecurrentes,
         tareasAtrasadas,
+        insumosStockBajo,
       },
     });
   } catch (e) {

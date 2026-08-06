@@ -1,4 +1,20 @@
 import { Router, type RequestHandler } from "express";
+import type { Prisma, OrigenMovimiento } from "@prisma/client";
+import { prisma } from "./prisma";
+import { registrarMovimiento, revertirMovimientosDeOrigen } from "./stock";
+
+interface StockLinkOptions {
+  /** Which OrigenMovimiento this resource writes when it deducts stock. */
+  origen: OrigenMovimiento;
+  /** Returns the model delegate bound to the current transaction, e.g. (tx) => tx.laborCultural. */
+  getTxDelegate: (tx: Prisma.TransactionClient) => any;
+  /** Field on the record holding the chosen Insumo id. Defaults to "insumoId". */
+  insumoIdField?: string;
+  /** Field on the record holding the quantity consumed. Defaults to "cantidadUtilizada". */
+  cantidadField?: string;
+  /** Builds the movement's `motivo` text from the saved record. */
+  motivo?: (record: any) => string | null;
+}
 
 interface CrudOptions {
   /** Query params that filter the list endpoint via equality match. */
@@ -13,6 +29,8 @@ interface CrudOptions {
   dateFields?: string[];
   beforeCreate?: (body: any) => any;
   beforeUpdate?: (body: any) => any;
+  /** When set, create/update/delete run in a transaction that also maintains Insumo stock. */
+  stock?: StockLinkOptions;
 }
 
 function coerceDates(body: any, dateFields: string[] = []) {
@@ -25,6 +43,22 @@ function coerceDates(body: any, dateFields: string[] = []) {
     }
   }
   return out;
+}
+
+/** After create/update of a stock-linked record, (re)registers its SALIDA movement if it has an insumo+cantidad. */
+async function sincronizarMovimientoDeStock(tx: Prisma.TransactionClient, stock: StockLinkOptions, record: any) {
+  const insumoId = record[stock.insumoIdField ?? "insumoId"];
+  const cantidad = record[stock.cantidadField ?? "cantidadUtilizada"];
+  if (!insumoId || !cantidad) return;
+  await registrarMovimiento(tx, {
+    insumoId,
+    tipo: "SALIDA",
+    cantidad,
+    fecha: record.fecha ?? new Date(),
+    origen: stock.origen,
+    origenId: record.id,
+    motivo: stock.motivo ? stock.motivo(record) : undefined,
+  });
 }
 
 /**
@@ -129,13 +163,18 @@ export function crudRouter(delegate: any, options: CrudOptions = {}): Router {
  * List/create are mounted on the parent path and auto-filter/inject the parent foreign key;
  * get/update/delete for an individual record are exposed on `standaloneRouter` mounted at the
  * resource's own top-level path (e.g. /labores/:id) so records remain directly addressable.
+ *
+ * When `options.stock` is set, create/update/delete run inside a transaction that also keeps
+ * the linked Insumo's stock in sync (see sincronizarMovimientoDeStock / revertirMovimientosDeOrigen).
+ * This is purely additive: resources that don't pass `stock` keep the exact same non-transactional
+ * code path as before.
  */
 export function nestedCrudRouter(
   delegate: any,
   parentIdField: string,
   options: CrudOptions = {}
 ) {
-  const { include, orderBy, dateFields = [], beforeCreate, beforeUpdate } = options;
+  const { include, orderBy, dateFields = [], beforeCreate, beforeUpdate, stock } = options;
 
   const nested = Router({ mergeParams: true });
   nested.get("/", async (req, res, next) => {
@@ -157,6 +196,17 @@ export function nestedCrudRouter(
       let data = coerceDates(req.body, dateFields);
       data[parentIdField] = parentId;
       if (beforeCreate) data = beforeCreate(data);
+
+      if (stock) {
+        const item = await prisma.$transaction(async (tx) => {
+          const created = await stock.getTxDelegate(tx).create({ data, include });
+          await sincronizarMovimientoDeStock(tx, stock, created);
+          return created;
+        });
+        res.status(201).json(item);
+        return;
+      }
+
       const item = await delegate.create({ data, include });
       res.status(201).json(item);
     } catch (e) {
@@ -181,11 +231,20 @@ export function nestedCrudRouter(
     try {
       let data = coerceDates(req.body, dateFields);
       if (beforeUpdate) data = beforeUpdate(data);
-      const item = await delegate.update({
-        where: { id: Number(req.params.id) },
-        data,
-        include,
-      });
+      const id = Number(req.params.id);
+
+      if (stock) {
+        const item = await prisma.$transaction(async (tx) => {
+          await revertirMovimientosDeOrigen(tx, stock.origen, id);
+          const updated = await stock.getTxDelegate(tx).update({ where: { id }, data, include });
+          await sincronizarMovimientoDeStock(tx, stock, updated);
+          return updated;
+        });
+        res.json(item);
+        return;
+      }
+
+      const item = await delegate.update({ where: { id }, data, include });
       res.json(item);
     } catch (e) {
       next(e);
@@ -193,7 +252,18 @@ export function nestedCrudRouter(
   });
   standalone.delete("/:id", async (req, res, next) => {
     try {
-      await delegate.delete({ where: { id: Number(req.params.id) } });
+      const id = Number(req.params.id);
+
+      if (stock) {
+        await prisma.$transaction(async (tx) => {
+          await revertirMovimientosDeOrigen(tx, stock.origen, id);
+          await stock.getTxDelegate(tx).delete({ where: { id } });
+        });
+        res.status(204).end();
+        return;
+      }
+
+      await delegate.delete({ where: { id } });
       res.status(204).end();
     } catch (e) {
       next(e);

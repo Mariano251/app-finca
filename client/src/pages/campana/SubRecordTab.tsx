@@ -4,6 +4,7 @@ import { Modal } from "../../components/Modal";
 import { RecordForm } from "../../components/RecordForm";
 import { RecordList } from "../../components/RecordList";
 import { ImageAttachments } from "../../components/ImageAttachments";
+import type { Insumo } from "../../api/types";
 import type { SubRecordConfig } from "./subRecordConfig";
 
 interface Row {
@@ -16,10 +17,18 @@ export function SubRecordTab({ campanaId, config }: { campanaId: number; config:
   const standalonePath = `/${config.path}`;
 
   const { data, isLoading } = useList<Row>(nestedPath);
-  const create = useCreate<Row>(nestedPath, [nestedPath]);
-  const update = useUpdate<Row>(standalonePath, [nestedPath]);
-  const del = useDelete(standalonePath, [nestedPath]);
+  const { data: insumos } = useList<Insumo>("/insumos", { activo: "true" });
+  const create = useCreate<Row>(nestedPath, [nestedPath, "/insumos"]);
+  const update = useUpdate<Row>(standalonePath, [nestedPath, "/insumos"]);
+  const del = useDelete(standalonePath, [nestedPath, "/insumos"]);
   const [modal, setModal] = useState<{ mode: "create" | "edit"; record?: Row } | null>(null);
+
+  const fields = typeof config.fields === "function" ? config.fields(insumos ?? []) : config.fields;
+
+  function withInsumoCoercido(formData: Record<string, unknown>) {
+    if (!("insumoId" in formData)) return formData;
+    return { ...formData, insumoId: formData.insumoId ? Number(formData.insumoId) : null };
+  }
 
   return (
     <div>
@@ -49,15 +58,21 @@ export function SubRecordTab({ campanaId, config }: { campanaId: number; config:
           onClose={() => setModal(null)}
         >
           <RecordForm
-            fields={config.fields}
-            initial={modal.record}
+            fields={fields}
+            initial={
+              modal.record && {
+                ...modal.record,
+                insumoId: modal.record.insumoId != null ? String(modal.record.insumoId) : "",
+              }
+            }
             submitting={create.isPending || update.isPending}
             onCancel={() => setModal(null)}
             onSubmit={(formData) => {
+              const payload = withInsumoCoercido(formData);
               if (modal.mode === "create") {
-                create.mutate(formData as Partial<Row>, { onSuccess: () => setModal(null) });
+                create.mutate(payload as Partial<Row>, { onSuccess: () => setModal(null) });
               } else if (modal.record) {
-                update.mutate({ id: modal.record.id, data: formData }, { onSuccess: () => setModal(null) });
+                update.mutate({ id: modal.record.id, data: payload }, { onSuccess: () => setModal(null) });
               }
             }}
           />

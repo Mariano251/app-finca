@@ -11,6 +11,8 @@ import CampanaDetalle from "./pages/campana/CampanaDetalle";
 import CultivoList from "./pages/cultivo/CultivoList";
 import ConocimientoIndex from "./pages/conocimiento/ConocimientoIndex";
 import ConocimientoDetalle from "./pages/conocimiento/ConocimientoDetalle";
+import StockList from "./pages/stock/StockList";
+import InsumoDetalle from "./pages/stock/InsumoDetalle";
 
 // Code-split the heaviest pages (Konva canvas editor, recharts charts) so the initial bundle
 // stays small — these pull in large libraries only needed once the user navigates there.
@@ -40,6 +42,8 @@ function App() {
           <Route path="/busqueda" element={<Busqueda />} />
           <Route path="/economia" element={<Economia />} />
           <Route path="/ajustes" element={<Ajustes />} />
+          <Route path="/stock" element={<StockList />} />
+          <Route path="/stock/:id" element={<InsumoDetalle />} />
         </Routes>
       </Suspense>
     </Layout>

@@ -10,7 +10,10 @@ const NAV_ITEMS = [
   { to: "/busqueda", label: "Búsqueda", icon: "🔍", end: false },
 ];
 
-const SECONDARY_NAV_ITEMS = [{ to: "/ajustes", label: "Ajustes", icon: "⚙️", end: false }];
+const SECONDARY_NAV_ITEMS = [
+  { to: "/stock", label: "Stock", icon: "📦", end: false },
+  { to: "/ajustes", label: "Ajustes", icon: "⚙️", end: false },
+];
 
 function NavLinks({ items }: { items: typeof NAV_ITEMS }) {
   return (

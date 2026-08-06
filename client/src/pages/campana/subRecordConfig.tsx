@@ -1,6 +1,6 @@
 import type { ColumnSchema } from "../../components/RecordList";
 import type { FieldSchema } from "../../components/RecordForm";
-import type { TipoEntidadImagen } from "../../api/types";
+import type { CategoriaInsumo, Insumo, TipoEntidadImagen } from "../../api/types";
 import {
   CATEGORIA_COSTO_OPTIONS,
   ESTADO_TAREA_OPTIONS,
@@ -15,8 +15,25 @@ export interface SubRecordConfig {
   path: string;
   label: string;
   entityType?: TipoEntidadImagen;
-  fields: FieldSchema[];
+  fields: FieldSchema[] | ((insumos: Insumo[]) => FieldSchema[]);
   columns: ColumnSchema<any>[];
+}
+
+/** Appends the optional "insumo del stock" + "cantidad utilizada" fields, filtered by category
+ * when one applies (e.g. only fitosanitarios for the Aplicaciones form). Linking an insumo here
+ * makes the corresponding stock deduction automatic — leaving it unset keeps the old free-text
+ * product field working exactly as before. */
+function conInsumoOpcional(base: FieldSchema[], categoria?: CategoriaInsumo) {
+  return (insumos: Insumo[]): FieldSchema[] => {
+    const opciones = insumos
+      .filter((i) => !categoria || i.categoria === categoria)
+      .map((i) => ({ value: String(i.id), label: `${i.nombre} (${i.stockActual} ${i.unidad})` }));
+    return [
+      ...base,
+      { name: "insumoId", label: "Insumo del stock (opcional)", type: "select", options: opciones },
+      { name: "cantidadUtilizada", label: "Cantidad utilizada", type: "number", step: "0.01" },
+    ];
+  };
 }
 
 function fecha(label = "Fecha"): FieldSchema {
@@ -44,14 +61,14 @@ export const SUB_RECORD_CONFIGS: SubRecordConfig[] = [
     path: "labores",
     label: "Labores culturales",
     entityType: "LABOR",
-    fields: [
+    fields: conInsumoOpcional([
       fecha(),
       { name: "tipo", label: "Tipo", type: "select", options: TIPO_LABOR_OPTIONS, required: true },
       { name: "descripcion", label: "Descripción", type: "textarea", fullWidth: true },
       { name: "responsable", label: "Responsable", type: "text" },
       { name: "estado", label: "Estado", type: "select", options: ESTADO_TAREA_OPTIONS },
       { name: "notas", label: "Notas", type: "textarea", fullWidth: true },
-    ],
+    ]),
     columns: [
       fechaCol(),
       { key: "tipo", label: "Tipo", render: (r) => labelFor(TIPO_LABOR_OPTIONS, r.tipo) },
@@ -64,21 +81,24 @@ export const SUB_RECORD_CONFIGS: SubRecordConfig[] = [
     path: "aplicaciones",
     label: "Fitosanitarios",
     entityType: "APLICACION",
-    fields: [
-      fecha(),
-      { name: "productoComercial", label: "Producto comercial", type: "text", required: true },
-      { name: "principioActivo", label: "Principio activo", type: "text" },
-      { name: "tipo", label: "Tipo", type: "select", options: TIPO_FITOSANITARIO_OPTIONS, required: true },
-      { name: "dosis", label: "Dosis", type: "number", step: "0.01" },
-      { name: "unidadDosis", label: "Unidad de dosis", type: "text", placeholder: "cc/100L" },
-      { name: "volumenCaldo", label: "Volumen de caldo (L)", type: "number", step: "0.1" },
-      { name: "superficieTratada", label: "Superficie tratada (ha)", type: "number", step: "0.01" },
-      { name: "problemaObjetivo", label: "Problema objetivo", type: "text" },
-      { name: "estadoCultivo", label: "Estado del cultivo", type: "text" },
-      { name: "responsable", label: "Responsable", type: "text" },
-      { name: "estado", label: "Estado", type: "select", options: ESTADO_TAREA_OPTIONS },
-      { name: "observaciones", label: "Observaciones", type: "textarea", fullWidth: true },
-    ],
+    fields: conInsumoOpcional(
+      [
+        fecha(),
+        { name: "productoComercial", label: "Producto comercial", type: "text", required: true },
+        { name: "principioActivo", label: "Principio activo", type: "text" },
+        { name: "tipo", label: "Tipo", type: "select", options: TIPO_FITOSANITARIO_OPTIONS, required: true },
+        { name: "dosis", label: "Dosis", type: "number", step: "0.01" },
+        { name: "unidadDosis", label: "Unidad de dosis", type: "text", placeholder: "cc/100L" },
+        { name: "volumenCaldo", label: "Volumen de caldo (L)", type: "number", step: "0.1" },
+        { name: "superficieTratada", label: "Superficie tratada (ha)", type: "number", step: "0.01" },
+        { name: "problemaObjetivo", label: "Problema objetivo", type: "text" },
+        { name: "estadoCultivo", label: "Estado del cultivo", type: "text" },
+        { name: "responsable", label: "Responsable", type: "text" },
+        { name: "estado", label: "Estado", type: "select", options: ESTADO_TAREA_OPTIONS },
+        { name: "observaciones", label: "Observaciones", type: "textarea", fullWidth: true },
+      ],
+      "FITOSANITARIO"
+    ),
     columns: [
       fechaCol(),
       { key: "productoComercial", label: "Producto" },
@@ -92,19 +112,22 @@ export const SUB_RECORD_CONFIGS: SubRecordConfig[] = [
     path: "fertilizaciones",
     label: "Fertilización",
     entityType: "FERTILIZACION",
-    fields: [
-      fecha(),
-      { name: "producto", label: "Producto", type: "text", required: true },
-      { name: "dosis", label: "Dosis", type: "number", step: "0.01" },
-      { name: "unidadDosis", label: "Unidad de dosis", type: "text" },
-      { name: "nUnidades", label: "N (unidades)", type: "number", step: "0.1" },
-      { name: "pUnidades", label: "P (unidades)", type: "number", step: "0.1" },
-      { name: "kUnidades", label: "K (unidades)", type: "number", step: "0.1" },
-      { name: "otrosNutrientes", label: "Otros nutrientes", type: "text" },
-      { name: "formaAplicacion", label: "Forma de aplicación", type: "text" },
-      { name: "responsable", label: "Responsable", type: "text" },
-      { name: "observaciones", label: "Observaciones", type: "textarea", fullWidth: true },
-    ],
+    fields: conInsumoOpcional(
+      [
+        fecha(),
+        { name: "producto", label: "Producto", type: "text", required: true },
+        { name: "dosis", label: "Dosis", type: "number", step: "0.01" },
+        { name: "unidadDosis", label: "Unidad de dosis", type: "text" },
+        { name: "nUnidades", label: "N (unidades)", type: "number", step: "0.1" },
+        { name: "pUnidades", label: "P (unidades)", type: "number", step: "0.1" },
+        { name: "kUnidades", label: "K (unidades)", type: "number", step: "0.1" },
+        { name: "otrosNutrientes", label: "Otros nutrientes", type: "text" },
+        { name: "formaAplicacion", label: "Forma de aplicación", type: "text" },
+        { name: "responsable", label: "Responsable", type: "text" },
+        { name: "observaciones", label: "Observaciones", type: "textarea", fullWidth: true },
+      ],
+      "FERTILIZANTE"
+    ),
     columns: [
       fechaCol(),
       { key: "producto", label: "Producto" },

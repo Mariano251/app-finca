@@ -53,6 +53,33 @@ export type CategoriaCosto =
   | "FLETE"
   | "OTRO";
 
+export type CategoriaInsumo = "FITOSANITARIO" | "FERTILIZANTE" | "SEMILLA" | "OTRO";
+export type TipoMovimientoStock = "ENTRADA" | "SALIDA" | "AJUSTE";
+export type OrigenMovimiento = "MANUAL" | "APLICACION" | "FERTILIZACION" | "LABOR";
+
+export interface Insumo {
+  id: number;
+  nombre: string;
+  categoria: CategoriaInsumo;
+  unidad: string;
+  stockActual: number;
+  stockMinimo?: number | null;
+  notas?: string | null;
+  activo: boolean;
+}
+
+export interface MovimientoStock {
+  id: number;
+  insumoId: number;
+  tipo: TipoMovimientoStock;
+  cantidad: number;
+  fecha: string;
+  origen: OrigenMovimiento;
+  origenId?: number | null;
+  motivo?: string | null;
+  notas?: string | null;
+}
+
 export type TipoEntidadImagen =
   | "CAMPANA"
   | "LABOR"

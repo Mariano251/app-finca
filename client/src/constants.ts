@@ -83,6 +83,19 @@ export const CATEGORIA_COSTO_OPTIONS = [
   { value: "OTRO", label: "Otro" },
 ];
 
+export const CATEGORIA_INSUMO_OPTIONS = [
+  { value: "FITOSANITARIO", label: "Fitosanitario" },
+  { value: "FERTILIZANTE", label: "Fertilizante" },
+  { value: "SEMILLA", label: "Semilla" },
+  { value: "OTRO", label: "Otro" },
+];
+
+export const TIPO_MOVIMIENTO_OPTIONS = [
+  { value: "ENTRADA", label: "Entrada (compra)" },
+  { value: "SALIDA", label: "Salida (consumo)" },
+  { value: "AJUSTE", label: "Ajuste de inventario" },
+];
+
 export const CULTIVO_COLOR_PALETTE = [
   "#3f7d3f",
   "#c2703d",

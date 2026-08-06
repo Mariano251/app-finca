@@ -18,6 +18,7 @@ interface DashboardData {
     problemasRecientes: { tipo: string; nombre: string; fecha: string; cuadro: string; cuadroId: number }[];
     cuadrosConProblemasRecurrentes: { cuadroId: number; cuadro: string; nombre: string; campanas: number }[];
     tareasAtrasadas: { tipo: string; id: number; descripcion: string; fecha: string; cuadro: string }[];
+    insumosStockBajo: { id: number; nombre: string; stockActual: number; stockMinimo: number; unidad: string }[];
   };
 }
 
@@ -36,7 +37,8 @@ export default function Dashboard() {
     alertas.aplicacionesPendientes.length +
     alertas.cosechasProximas.length +
     alertas.tareasAtrasadas.length +
-    alertas.cuadrosConProblemasRecurrentes.length;
+    alertas.cuadrosConProblemasRecurrentes.length +
+    alertas.insumosStockBajo.length;
 
   return (
     <div>
@@ -146,6 +148,17 @@ export default function Dashboard() {
               ))}
             </div>
           )}
+
+          {alertas.insumosStockBajo.length > 0 && (
+            <div className="card">
+              <h3>📦 Insumos con stock bajo</h3>
+              {alertas.insumosStockBajo.map((i) => (
+                <p key={i.id} style={{ margin: "0.25rem 0" }}>
+                  <Link to={`/stock/${i.id}`}>{i.nombre}</Link> · {i.stockActual} {i.unidad} (mínimo {i.stockMinimo} {i.unidad})
+                </p>
+              ))}
+            </div>
+          )}
         </>
       )}
 
@@ -166,6 +179,9 @@ export default function Dashboard() {
       )}
 
       <div className="card" style={{ marginTop: "1.25rem", display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+        <Link className="btn secondary" to="/stock">
+          📦 Stock de insumos
+        </Link>
         <Link className="btn secondary" to="/economia">
           💰 Rentabilidad por cultivo y cuadro
         </Link>

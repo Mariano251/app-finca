@@ -27,6 +27,7 @@ import { rendimientoRouter } from "./rendimiento";
 import { economiaRouter } from "./economia";
 import { dashboardRouter } from "./dashboard";
 import { busquedaRouter } from "./busqueda";
+import { insumosRouter, movimientosRouter } from "./insumos";
 
 export const apiRouter = Router();
 
@@ -66,3 +67,5 @@ apiRouter.use("/conocimiento", conocimientoRouter);
 apiRouter.use("/rendimiento", rendimientoRouter);
 apiRouter.use("/economia", economiaRouter);
 apiRouter.use("/dashboard", dashboardRouter);
+apiRouter.use("/insumos/:insumoId/movimientos", movimientosRouter);
+apiRouter.use("/insumos", insumosRouter);
