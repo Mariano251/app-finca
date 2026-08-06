@@ -3,6 +3,10 @@ import { api } from "../api/client";
 import { useDelete, useList } from "../api/useCrud";
 import type { Imagen, TipoEntidadImagen } from "../api/types";
 import { resolveImageUrl } from "../constants";
+import { isConnectivityError } from "../offline/isConnectivityError";
+import { enqueuePhotoCreate } from "../offline/queue";
+import { applyOptimisticCreate } from "../offline/cachePatch";
+import { scheduleSync } from "../offline/sync";
 
 export function ImageAttachments({
   entityType,
@@ -15,14 +19,26 @@ export function ImageAttachments({
   const qc = useQueryClient();
 
   const upload = useMutation({
-    mutationFn: async (file: File) => {
+    mutationFn: async (file: File): Promise<Imagen> => {
       const form = new FormData();
       form.append("file", file);
       form.append("entityType", entityType);
       form.append("entityId", String(entityId));
-      return (await api.post("/imagenes", form)).data;
+      try {
+        return (await api.post("/imagenes", form)).data;
+      } catch (error) {
+        if (!isConnectivityError(error)) throw error;
+        // Sin conexión: se guarda el archivo tal cual en IndexedDB y se muestra desde un object
+        // URL local hasta que se pueda subir de verdad al reconectar (ver offline/sync.ts).
+        const { tempId } = await enqueuePhotoCreate(entityType, entityId, file, file.name);
+        const objectUrl = URL.createObjectURL(file);
+        return applyOptimisticCreate(qc, "/imagenes", tempId, { entityType, entityId }, { path: objectUrl }) as Imagen;
+      }
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["/imagenes"] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["/imagenes"] });
+      scheduleSync(qc);
+    },
   });
 
   const del = useDelete("/imagenes", ["/imagenes"]);
@@ -43,7 +59,10 @@ export function ImageAttachments({
                 className="btn danger small"
                 style={{ position: "absolute", top: 2, right: 2, padding: "0 6px", lineHeight: "1.4rem" }}
                 onClick={() => {
-                  if (confirm("¿Borrar esta foto?")) del.mutate(img.id);
+                  if (confirm("¿Borrar esta foto?")) {
+                    if (img.path.startsWith("blob:")) URL.revokeObjectURL(img.path);
+                    del.mutate(img.id);
+                  }
                 }}
               >
                 ×

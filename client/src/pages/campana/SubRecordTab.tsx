@@ -19,8 +19,8 @@ export function SubRecordTab({ campanaId, config }: { campanaId: number; config:
   const { data, isLoading } = useList<Row>(nestedPath);
   const { data: insumos } = useList<Insumo>("/insumos", { activo: "true" });
   const create = useCreate<Row>(nestedPath, [nestedPath, "/insumos"]);
-  const update = useUpdate<Row>(standalonePath, [nestedPath, "/insumos"]);
-  const del = useDelete(standalonePath, [nestedPath, "/insumos"]);
+  const update = useUpdate<Row>(standalonePath, [nestedPath, "/insumos"], [nestedPath]);
+  const del = useDelete(standalonePath, [nestedPath, "/insumos"], [nestedPath]);
   const [modal, setModal] = useState<{ mode: "create" | "edit"; record?: Row } | null>(null);
 
   const fields = typeof config.fields === "function" ? config.fields(insumos ?? []) : config.fields;

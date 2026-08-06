@@ -5,6 +5,7 @@ export const campanasRouter = crudRouter(prisma.campana, {
   filterFields: ["cuadroId", "cultivoId", "estado"],
   intFilterFields: ["cuadroId", "cultivoId"],
   dateFields: ["fechaPlantacion", "fechaCosechaEstimada", "fechaCosechaReal"],
+  dropNullFields: ["estado"],
   include: {
     cultivo: true,
     variedad: true,

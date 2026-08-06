@@ -58,15 +58,17 @@ export default function StockList() {
 
       <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))" }}>
         {filtrados.map((i) => {
-          const bajo = i.stockMinimo != null && i.stockActual <= i.stockMinimo;
+          const negativo = i.stockActual < 0;
+          const bajo = !negativo && i.stockMinimo != null && i.stockActual <= i.stockMinimo;
           return (
             <div className="card" key={i.id} style={{ cursor: "pointer" }} onClick={() => navigate(`/stock/${i.id}`)}>
               <div className="page-header" style={{ marginBottom: "0.3rem" }}>
                 <h3 style={{ margin: 0 }}>{i.nombre}</h3>
+                {negativo && <span className="tag" style={{ background: "#fbe9e7", color: "var(--color-danger)" }}>Stock negativo</span>}
                 {bajo && <span className="tag" style={{ background: "#fbe9e7", color: "var(--color-danger)" }}>Stock bajo</span>}
               </div>
               <p className="text-muted" style={{ fontSize: "0.8rem" }}>{labelFor(i.categoria)}</p>
-              <p style={{ fontSize: "1.1rem", fontWeight: 700 }}>
+              <p style={{ fontSize: "1.1rem", fontWeight: 700, color: negativo ? "var(--color-danger)" : undefined }}>
                 {i.stockActual.toLocaleString("es-AR")} <span style={{ fontSize: "0.8rem", fontWeight: 400 }}>{i.unidad}</span>
               </p>
               {i.stockMinimo != null && (

@@ -11,6 +11,7 @@ function conInsumoCoercido(data: any) {
 
 export const labores = nestedCrudRouter(prisma.laborCultural, "campanaId", {
   dateFields: ["fecha"],
+  dropNullFields: ["estado"],
   orderBy: { fecha: "desc" },
   include: { insumo: true },
   beforeCreate: conInsumoCoercido,
@@ -24,6 +25,7 @@ export const labores = nestedCrudRouter(prisma.laborCultural, "campanaId", {
 
 export const aplicaciones = nestedCrudRouter(prisma.aplicacionFitosanitaria, "campanaId", {
   dateFields: ["fecha"],
+  dropNullFields: ["estado"],
   orderBy: { fecha: "desc" },
   include: { insumo: true },
   beforeCreate: conInsumoCoercido,

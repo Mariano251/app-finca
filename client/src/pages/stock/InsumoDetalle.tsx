@@ -47,6 +47,7 @@ export default function InsumoDetalle() {
   if (!insumo) return <div className="card empty-state">Insumo no encontrado.</div>;
 
   const bajo = insumo.stockMinimo != null && insumo.stockActual <= insumo.stockMinimo;
+  const negativo = insumo.stockActual < 0;
 
   return (
     <div>
@@ -75,11 +76,28 @@ export default function InsumoDetalle() {
           </div>
           <div>
             <span className="text-muted">Stock actual: </span>
-            <strong style={bajo ? { color: "var(--color-danger)" } : undefined}>
+            <strong style={bajo || negativo ? { color: "var(--color-danger)" } : undefined}>
               {insumo.stockActual.toLocaleString("es-AR")} {insumo.unidad}
             </strong>
-            {bajo && <span className="tag" style={{ marginLeft: "0.4rem", background: "#fbe9e7", color: "var(--color-danger)" }}>Stock bajo</span>}
+            {negativo ? (
+              <span className="tag" style={{ marginLeft: "0.4rem", background: "#fbe9e7", color: "var(--color-danger)" }}>
+                Stock negativo
+              </span>
+            ) : (
+              bajo && (
+                <span className="tag" style={{ marginLeft: "0.4rem", background: "#fbe9e7", color: "var(--color-danger)" }}>
+                  Stock bajo
+                </span>
+              )
+            )}
           </div>
+          {negativo && (
+            <div style={{ gridColumn: "1 / -1", fontSize: "0.8rem", color: "var(--color-danger)" }}>
+              El stock quedó negativo — probablemente dos movimientos offline en distintos
+              dispositivos descontaron lo mismo antes de sincronizar. Revisá el historial de abajo
+              y cargá un ajuste manual si hace falta.
+            </div>
+          )}
           {insumo.stockMinimo != null && (
             <div>
               <span className="text-muted">Stock mínimo: </span>

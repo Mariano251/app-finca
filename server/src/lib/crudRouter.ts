@@ -27,13 +27,18 @@ interface CrudOptions {
   orderBy?: Record<string, unknown> | Record<string, unknown>[];
   /** Field names on the body that should be coerced from ISO string to Date. */
   dateFields?: string[];
+  /** Enum/scalar fields that have a Prisma `@default` and are NOT nullable in the schema: si el
+   *  body manda `null` para uno de estos (típicamente un <select> del form dejado en blanco), se
+   *  saca del payload en vez de mandarlo tal cual — Prisma rechaza un `null` explícito en un
+   *  campo no-nullable aunque tenga default (el default solo aplica si la clave está ausente). */
+  dropNullFields?: string[];
   beforeCreate?: (body: any) => any;
   beforeUpdate?: (body: any) => any;
   /** When set, create/update/delete run in a transaction that also maintains Insumo stock. */
   stock?: StockLinkOptions;
 }
 
-function coerceDates(body: any, dateFields: string[] = []) {
+function coerceDates(body: any, dateFields: string[] = [], dropNullFields: string[] = []) {
   const out = { ...body };
   for (const f of dateFields) {
     if (out[f] !== undefined && out[f] !== null && out[f] !== "") {
@@ -41,6 +46,9 @@ function coerceDates(body: any, dateFields: string[] = []) {
     } else if (out[f] === "") {
       out[f] = null;
     }
+  }
+  for (const f of dropNullFields) {
+    if (out[f] === null) delete out[f];
   }
   return out;
 }
@@ -74,6 +82,7 @@ export function crudRouter(delegate: any, options: CrudOptions = {}): Router {
     include,
     orderBy,
     dateFields = [],
+    dropNullFields = [],
     beforeCreate,
     beforeUpdate,
   } = options;
@@ -116,7 +125,7 @@ export function crudRouter(delegate: any, options: CrudOptions = {}): Router {
 
   const create: RequestHandler = async (req, res, next) => {
     try {
-      let data = coerceDates(req.body, dateFields);
+      let data = coerceDates(req.body, dateFields, dropNullFields);
       if (beforeCreate) data = beforeCreate(data);
       const item = await delegate.create({ data, include });
       res.status(201).json(item);
@@ -127,7 +136,7 @@ export function crudRouter(delegate: any, options: CrudOptions = {}): Router {
 
   const update: RequestHandler = async (req, res, next) => {
     try {
-      let data = coerceDates(req.body, dateFields);
+      let data = coerceDates(req.body, dateFields, dropNullFields);
       if (beforeUpdate) data = beforeUpdate(data);
       const item = await delegate.update({
         where: { id: Number(req.params.id) },
@@ -174,7 +183,7 @@ export function nestedCrudRouter(
   parentIdField: string,
   options: CrudOptions = {}
 ) {
-  const { include, orderBy, dateFields = [], beforeCreate, beforeUpdate, stock } = options;
+  const { include, orderBy, dateFields = [], dropNullFields = [], beforeCreate, beforeUpdate, stock } = options;
 
   const nested = Router({ mergeParams: true });
   nested.get("/", async (req, res, next) => {
@@ -193,7 +202,7 @@ export function nestedCrudRouter(
   nested.post("/", async (req, res, next) => {
     try {
       const parentId = Number((req.params as any).campanaId ?? (req.params as any).parentId);
-      let data = coerceDates(req.body, dateFields);
+      let data = coerceDates(req.body, dateFields, dropNullFields);
       data[parentIdField] = parentId;
       if (beforeCreate) data = beforeCreate(data);
 
@@ -229,7 +238,7 @@ export function nestedCrudRouter(
   });
   standalone.put("/:id", async (req, res, next) => {
     try {
-      let data = coerceDates(req.body, dateFields);
+      let data = coerceDates(req.body, dateFields, dropNullFields);
       if (beforeUpdate) data = beforeUpdate(data);
       const id = Number(req.params.id);
 

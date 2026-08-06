@@ -1,7 +1,8 @@
 /** Imagenes vienen como URL absoluta de Supabase Storage; se deja el prefijo "/" como fallback
- * por si en algún entorno viejo quedara un path relativo. */
+ * por si en algún entorno viejo quedara un path relativo. Una foto sacada offline y todavía sin
+ * sincronizar vive como object URL local (`blob:...`), que también hay que dejar pasar tal cual. */
 export function resolveImageUrl(path: string): string {
-  return path.startsWith("http") ? path : `/${path}`;
+  return path.startsWith("http") || path.startsWith("blob:") ? path : `/${path}`;
 }
 
 export const RIEGO_OPTIONS = [

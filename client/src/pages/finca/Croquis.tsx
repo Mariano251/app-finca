@@ -7,6 +7,10 @@ import type { Croquis, CroquisPoligono, Cuadro, Finca } from "../../api/types";
 import { CroquisStage, type Point } from "../../components/croquis/CroquisStage";
 import { AssignCuadroModal } from "../../components/croquis/AssignCuadroModal";
 import { colorForCultivo, resolveImageUrl } from "../../constants";
+import { isConnectivityError } from "../../offline/isConnectivityError";
+import { enqueueCroquisImage } from "../../offline/queue";
+import { applyOptimisticUpdate } from "../../offline/cachePatch";
+import { scheduleSync } from "../../offline/sync";
 
 export default function CroquisPage() {
   const { id } = useParams();
@@ -27,12 +31,24 @@ export default function CroquisPage() {
   void deleteCroquis;
 
   const uploadImage = useMutation({
-    mutationFn: async ({ croquisId, file }: { croquisId: number; file: File }) => {
+    mutationFn: async ({ croquisId, file }: { croquisId: number; file: File }): Promise<Croquis> => {
       const form = new FormData();
       form.append("file", file);
-      return (await api.post(`/croquis/${croquisId}/imagen`, form)).data;
+      try {
+        return (await api.post(`/croquis/${croquisId}/imagen`, form)).data;
+      } catch (error) {
+        if (!isConnectivityError(error)) throw error;
+        // Sin conexión: se guarda el archivo en IndexedDB y se muestra desde un object URL local
+        // hasta poder subirlo de verdad al reconectar (ver offline/sync.ts).
+        await enqueueCroquisImage(croquisId, file);
+        const objectUrl = URL.createObjectURL(file);
+        return applyOptimisticUpdate(qc, "/croquis", croquisId, { imagenPath: objectUrl }) as Croquis;
+      }
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["/croquis"] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["/croquis"] });
+      scheduleSync(qc);
+    },
   });
 
   const createPoligono = useCreate<CroquisPoligono>(
