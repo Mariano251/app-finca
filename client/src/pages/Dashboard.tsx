@@ -4,6 +4,7 @@ import { api } from "../api/client";
 
 interface DashboardData {
   superficieTotal: number;
+  superficiePorFinca: { id: number; nombre: string; superficie: number }[];
   superficiePorCultivo: { cultivo: string; superficie: number }[];
   cultivosImplantados: string[];
   campanasActivas: { id: number; nombre: string; cultivo: string; cuadro: string; cuadroId: number }[];
@@ -70,6 +71,19 @@ export default function Dashboard() {
           <div className="label">Rentabilidad acumulada</div>
         </div>
       </div>
+
+      {data.superficiePorFinca.length > 0 && (
+        <div className="card" style={{ marginTop: "0.75rem" }}>
+          <h3>Superficie por finca</h3>
+          <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap" }}>
+            {data.superficiePorFinca.map((f) => (
+              <span key={f.id} className="tag">
+                {f.nombre}: {f.superficie.toFixed(1)} ha
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
 
       {data.superficiePorCultivo.length > 0 && (
         <div className="card" style={{ marginTop: "0.75rem" }}>

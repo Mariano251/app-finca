@@ -113,7 +113,7 @@ export default function CroquisPage() {
   const cultivosEnUso = Array.from(
     new Set(
       localPoligonos
-        .map((p) => p.cuadro?.campanas?.[0]?.cultivo?.nombre)
+        .flatMap((p) => p.cuadro?.campanas?.map((c) => c.cultivo?.nombre) ?? [])
         .filter((n): n is string => !!n)
     )
   );

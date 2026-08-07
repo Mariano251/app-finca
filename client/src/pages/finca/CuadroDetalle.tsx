@@ -48,6 +48,7 @@ export default function CuadroDetalle() {
   if (!cuadro) return <div className="card empty-state">Cuadro no encontrado.</div>;
 
   const finca = cuadro.sector?.finca;
+  const cultivosActivos = (cuadro.campanas ?? []).filter((c) => c.estado === "ACTIVA");
 
   return (
     <div>
@@ -94,6 +95,21 @@ export default function CuadroDetalle() {
             <span className="text-muted">Estado: </span>
             <span className="tag">{cuadro.activo ? "Activo" : "Inactivo"}</span>
           </div>
+        </div>
+        <div style={{ marginTop: "0.6rem" }}>
+          <span className="text-muted">Cultivos activos: </span>
+          {cultivosActivos.length === 0 ? (
+            "—"
+          ) : (
+            <span style={{ display: "inline-flex", gap: "0.4rem", flexWrap: "wrap" }}>
+              {cultivosActivos.map((c) => (
+                <span key={c.id} className="tag">
+                  {c.cultivo?.nombre ?? "—"}
+                  {c.variedad?.nombre ? ` (${c.variedad.nombre})` : ""}
+                </span>
+              ))}
+            </span>
+          )}
         </div>
         {cuadro.caracteristicasSuelo && (
           <p style={{ marginTop: "0.5rem" }}>

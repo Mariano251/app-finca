@@ -9,6 +9,7 @@ const include = {
   campanas: {
     where: { estado: "ACTIVA" as const },
     include: { cultivo: true, variedad: true },
+    orderBy: { fechaPlantacion: "asc" as const },
   },
 };
 

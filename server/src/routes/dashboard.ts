@@ -11,9 +11,16 @@ dashboardRouter.get("/", async (_req, res, next) => {
     const hoy = new Date();
     const limite = new Date(hoy.getTime() + DIAS_PROXIMOS * 24 * 60 * 60 * 1000);
 
-    const [cuadros, campanasActivas, todasCampanas, laboresPlanificadas, aplicacionesPlanificadas, enfermedades, plagas, malezas, insumos] =
+    const [fincas, campanasActivas, todasCampanas, laboresPlanificadas, aplicacionesPlanificadas, enfermedades, plagas, malezas, insumos] =
       await Promise.all([
-        prisma.cuadro.findMany({ select: { id: true, superficie: true, nombre: true } }),
+        prisma.finca.findMany({
+          select: {
+            id: true,
+            nombre: true,
+            superficieTotal: true,
+            sectores: { select: { cuadros: { select: { superficie: true } } } },
+          },
+        }),
         prisma.campana.findMany({
           where: { estado: "ACTIVA" },
           include: { cultivo: true, cuadro: true },
@@ -51,7 +58,14 @@ dashboardRouter.get("/", async (_req, res, next) => {
       .filter((i) => i.stockMinimo != null && i.stockActual <= i.stockMinimo)
       .map((i) => ({ id: i.id, nombre: i.nombre, stockActual: i.stockActual, stockMinimo: i.stockMinimo, unidad: i.unidad }));
 
-    const superficieTotal = cuadros.reduce((s, c) => s + (c.superficie ?? 0), 0);
+    const superficiePorFinca = fincas.map((f) => {
+      const superficieCuadros = f.sectores.reduce(
+        (s, sec) => s + sec.cuadros.reduce((s2, c) => s2 + (c.superficie ?? 0), 0),
+        0
+      );
+      return { id: f.id, nombre: f.nombre, superficie: f.superficieTotal ?? superficieCuadros };
+    });
+    const superficieTotal = superficiePorFinca.reduce((s, f) => s + f.superficie, 0);
 
     const superficiePorCultivoMap = new Map<string, number>();
     for (const c of campanasActivas) {
@@ -141,6 +155,7 @@ dashboardRouter.get("/", async (_req, res, next) => {
 
     res.json({
       superficieTotal,
+      superficiePorFinca,
       superficiePorCultivo,
       cultivosImplantados,
       campanasActivas: campanasActivas.map((c) => ({

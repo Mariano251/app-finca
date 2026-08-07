@@ -139,6 +139,14 @@ export default function FincaDetalle() {
                 label: "Riego",
                 render: (c) => RIEGO_OPTIONS.find((o) => o.value === c.sistemaRiego)?.label ?? "—",
               },
+              {
+                key: "cultivos",
+                label: "Cultivos activos",
+                render: (c) =>
+                  (c.campanas ?? []).length > 0
+                    ? c.campanas!.map((camp) => camp.cultivo?.nombre).filter(Boolean).join(", ")
+                    : "—",
+              },
             ]}
             onEdit={(c) => setCuadroModal({ mode: "edit", sectorId: sector.id, cuadro: c })}
             onDelete={(c) => {
