@@ -1,24 +1,35 @@
 import { useEffect, useRef, useState } from "react";
-import { Circle, Image as KonvaImage, Layer, Line, Stage } from "react-konva";
+import { Circle, Group, Image as KonvaImage, Layer, Line, Stage, Text } from "react-konva";
 import useImage from "use-image";
 import type Konva from "konva";
-import type { CroquisPoligono } from "../../api/types";
+import type { CroquisPoligono, Enfermedad, Maleza } from "../../api/types";
+import { colorForNivelInfestacion } from "../../constants";
+import { distanceMeters, formatArea, formatDistance, metersPerNormalizedUnit, polygonAreaM2 } from "./geometry";
 
 export interface Point {
   x: number;
   y: number;
 }
 
+export type CroquisTool = "cuadro" | "calibrar" | "enfermedad" | "maleza" | "rectangulo" | null;
+
 interface Props {
   imageUrl: string;
   imgWidth: number;
   imgHeight: number;
   poligonos: CroquisPoligono[];
+  enfermedades: Enfermedad[];
+  malezas: Maleza[];
+  escalaMetrosPorPixel?: number | null;
+  escalaPuntoA?: Point | null;
+  escalaPuntoB?: Point | null;
   mode: "ver" | "editar";
   selectedId: number | null;
   onSelect: (id: number | null) => void;
   onNavigateCuadro: (cuadroId: number) => void;
-  drawing: boolean;
+  onSelectEnfermedad: (enfermedad: Enfermedad) => void;
+  onSelectMaleza: (maleza: Maleza) => void;
+  tool: CroquisTool;
   draft: Point[];
   onAddDraftPoint: (pt: Point) => void;
   onVertexDrag: (poligonoId: number, index: number, pt: Point) => void;
@@ -36,11 +47,18 @@ export function CroquisStage({
   imgWidth,
   imgHeight,
   poligonos,
+  enfermedades,
+  malezas,
+  escalaMetrosPorPixel,
+  escalaPuntoA,
+  escalaPuntoB,
   mode,
   selectedId,
   onSelect,
   onNavigateCuadro,
-  drawing,
+  onSelectEnfermedad,
+  onSelectMaleza,
+  tool,
   draft,
   onAddDraftPoint,
   onVertexDrag,
@@ -65,9 +83,10 @@ export function CroquisStage({
 
   const aspect = imgHeight && imgWidth ? imgHeight / imgWidth : 0.66;
   const stageH = Math.round(stageW * aspect);
+  const croquisForScale = { escalaMetrosPorPixel, imagenAncho: imgWidth, imagenAlto: imgHeight };
 
   function handleStageClick(e: Konva.KonvaEventObject<MouseEvent | TouchEvent>) {
-    if (mode !== "editar" || !drawing) return;
+    if (mode !== "editar" || !tool) return;
     const stage = e.target.getStage();
     const pos = stage?.getPointerPosition();
     if (!pos) return;
@@ -125,22 +144,187 @@ export function CroquisStage({
                 />
               ))}
 
-          {drawing && draft.length > 0 && (
+          {/* Linea de calibracion de escala, tenue cuando no se esta recalibrando */}
+          {escalaPuntoA && escalaPuntoB && tool !== "calibrar" && (
+            <>
+              <Line
+                points={flatten([escalaPuntoA, escalaPuntoB], stageW, stageH)}
+                stroke="#555"
+                strokeWidth={1}
+                dash={[4, 4]}
+                opacity={0.5}
+              />
+              <Circle x={escalaPuntoA.x * stageW} y={escalaPuntoA.y * stageH} radius={3} fill="#555" opacity={0.6} />
+              <Circle x={escalaPuntoB.x * stageW} y={escalaPuntoB.y * stageH} radius={3} fill="#555" opacity={0.6} />
+            </>
+          )}
+
+          {/* Circulos de enfermedades marcadas: borde solido */}
+          {enfermedades.map((enf) => {
+            if (enf.croquisX == null || enf.croquisY == null || !enf.radioMetros) return null;
+            const m = metersPerNormalizedUnit(croquisForScale);
+            const radiusPx = m ? (enf.radioMetros / m.x) * stageW : 0;
+            if (!radiusPx) return null;
+            return (
+              <MarcadorCirculo
+                key={`enf-${enf.id}`}
+                x={enf.croquisX * stageW}
+                y={enf.croquisY * stageH}
+                radius={radiusPx}
+                color={colorForNivelInfestacion(enf.nivelIncidencia)}
+                dashed={false}
+                label={enf.nombre}
+                onClick={() => onSelectEnfermedad(enf)}
+              />
+            );
+          })}
+
+          {/* Circulos de malezas marcadas: borde punteado, para distinguirlas de enfermedades */}
+          {malezas.map((mal) => {
+            if (mal.croquisX == null || mal.croquisY == null || !mal.radioMetros) return null;
+            const m = metersPerNormalizedUnit(croquisForScale);
+            const radiusPx = m ? (mal.radioMetros / m.x) * stageW : 0;
+            if (!radiusPx) return null;
+            return (
+              <MarcadorCirculo
+                key={`mal-${mal.id}`}
+                x={mal.croquisX * stageW}
+                y={mal.croquisY * stageH}
+                radius={radiusPx}
+                color={colorForNivelInfestacion(mal.nivelInfestacion)}
+                dashed
+                label={mal.especie}
+                onClick={() => onSelectMaleza(mal)}
+              />
+            );
+          })}
+
+          {tool === "cuadro" && draft.length > 0 && (
             <>
               <Line
                 points={flatten(draft, stageW, stageH)}
                 stroke="#2c5a2c"
                 strokeWidth={2}
                 dash={[6, 4]}
+                closed={draft.length >= 3}
               />
               {draft.map((p, i) => (
                 <Circle key={i} x={p.x * stageW} y={p.y * stageH} radius={6} fill="#2c5a2c" />
               ))}
+              {escalaMetrosPorPixel &&
+                draft.map((p, i) => {
+                  if (i === 0) return null;
+                  const prev = draft[i - 1];
+                  const d = distanceMeters(prev, p, croquisForScale);
+                  const mid = { x: (prev.x + p.x) / 2, y: (prev.y + p.y) / 2 };
+                  return (
+                    <Text
+                      key={`len-${i}`}
+                      x={mid.x * stageW}
+                      y={mid.y * stageH}
+                      text={formatDistance(d)}
+                      fontSize={12}
+                      fill="#1f3d1f"
+                      padding={2}
+                    />
+                  );
+                })}
+              {escalaMetrosPorPixel && draft.length >= 3 && (
+                <Text
+                  x={(draft.reduce((s, p) => s + p.x, 0) / draft.length) * stageW}
+                  y={(draft.reduce((s, p) => s + p.y, 0) / draft.length) * stageH}
+                  text={formatArea(polygonAreaM2(draft, croquisForScale))}
+                  fontSize={13}
+                  fontStyle="bold"
+                  fill="#1f3d1f"
+                  padding={2}
+                />
+              )}
+            </>
+          )}
+
+          {tool === "calibrar" && draft.length > 0 && (
+            <>
+              {draft.length === 2 && (
+                <Line points={flatten(draft, stageW, stageH)} stroke="#c2703d" strokeWidth={2} />
+              )}
+              {draft.map((p, i) => (
+                <Circle key={i} x={p.x * stageW} y={p.y * stageH} radius={6} fill="#c2703d" />
+              ))}
+            </>
+          )}
+
+          {(tool === "enfermedad" || tool === "maleza") && draft.length > 0 && (
+            <>
+              <Circle x={draft[0].x * stageW} y={draft[0].y * stageH} radius={5} fill="#8a5fc2" />
+              {draft.length === 2 && (
+                <Circle
+                  x={draft[0].x * stageW}
+                  y={draft[0].y * stageH}
+                  radius={Math.hypot((draft[1].x - draft[0].x) * stageW, (draft[1].y - draft[0].y) * stageH)}
+                  stroke="#8a5fc2"
+                  strokeWidth={2}
+                  dash={[5, 4]}
+                />
+              )}
             </>
           )}
         </Layer>
       </Stage>
     </div>
+  );
+}
+
+/** Circulo de un registro geolocalizado (enfermedad/maleza). El borde punteado distingue las
+ *  malezas de las enfermedades (mismo criterio de color por nivel de infestacion para ambas). */
+function MarcadorCirculo({
+  x,
+  y,
+  radius,
+  color,
+  dashed,
+  label,
+  onClick,
+}: {
+  x: number;
+  y: number;
+  radius: number;
+  color: string;
+  dashed: boolean;
+  label?: string | null;
+  onClick: () => void;
+}) {
+  const side = radius * Math.SQRT2;
+  const fontSize = Math.max(9, Math.min(14, radius / 2.5));
+  return (
+    <Group onClick={onClick} onTap={onClick}>
+      <Circle
+        x={x}
+        y={y}
+        radius={radius}
+        fill={color + "40"}
+        stroke={color}
+        strokeWidth={2}
+        dash={dashed ? [6, 4] : undefined}
+      />
+      {label && (
+        <Text
+          x={x - side / 2}
+          y={y - side / 2}
+          width={side}
+          height={side}
+          text={label}
+          align="center"
+          verticalAlign="middle"
+          fontSize={fontSize}
+          fontStyle="bold"
+          fill="#1f2a1f"
+          wrap="word"
+          ellipsis
+          listening={false}
+        />
+      )}
+    </Group>
   );
 }
 

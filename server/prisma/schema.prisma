@@ -329,8 +329,16 @@ model Maleza {
   createdAt            DateTime          @default(now())
   updatedAt            DateTime          @updatedAt
 
+  // Ubicacion opcional del circulo en el croquis de la finca: mismo esquema que Enfermedad.
+  croquisId   Int?
+  croquis     Croquis? @relation(fields: [croquisId], references: [id], onDelete: SetNull)
+  croquisX    Float?
+  croquisY    Float?
+  radioMetros Float?
+
   @@index([campanaId])
   @@index([especie])
+  @@index([croquisId])
 }
 
 model Enfermedad {
@@ -348,8 +356,17 @@ model Enfermedad {
   createdAt            DateTime          @default(now())
   updatedAt            DateTime          @updatedAt
 
+  // Ubicacion opcional del circulo en el croquis de la finca: coordenadas normalizadas 0-1
+  // (mismo sistema que CroquisPoligono.puntos) mas un radio real en metros.
+  croquisId   Int?
+  croquis     Croquis? @relation(fields: [croquisId], references: [id], onDelete: SetNull)
+  croquisX    Float?
+  croquisY    Float?
+  radioMetros Float?
+
   @@index([campanaId])
   @@index([nombre])
+  @@index([croquisId])
 }
 
 model Plaga {
@@ -501,7 +518,17 @@ model Croquis {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  poligonos CroquisPoligono[]
+  // Calibracion de escala real: puntoA/puntoB son coordenadas normalizadas 0-1 (igual que
+  // CroquisPoligono.puntos) sobre una cota conocida de la imagen; escalaDistanciaM es la
+  // distancia real en metros que el usuario indico entre esos dos puntos.
+  escalaMetrosPorPixel Float?
+  escalaPuntoA         Json?
+  escalaPuntoB         Json?
+  escalaDistanciaM     Float?
+
+  poligonos            CroquisPoligono[]
+  enfermedadesMarcadas Enfermedad[]
+  malezasMarcadas      Maleza[]
 
   @@index([fincaId])
 }

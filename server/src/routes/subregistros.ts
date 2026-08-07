@@ -68,11 +68,23 @@ export const eventosClimaticos = nestedCrudRouter(prisma.eventoClimatico, "campa
 export const malezas = nestedCrudRouter(prisma.maleza, "campanaId", {
   dateFields: ["fecha"],
   orderBy: { fecha: "desc" },
+  beforeCreate: conUbicacionCoercida,
+  beforeUpdate: conUbicacionCoercida,
 });
+
+function conUbicacionCoercida(data: any) {
+  if (data.croquisId !== undefined) data.croquisId = data.croquisId !== null && data.croquisId !== "" ? Number(data.croquisId) : null;
+  for (const f of ["croquisX", "croquisY", "radioMetros"]) {
+    if (data[f] !== undefined) data[f] = data[f] !== null && data[f] !== "" ? Number(data[f]) : null;
+  }
+  return data;
+}
 
 export const enfermedades = nestedCrudRouter(prisma.enfermedad, "campanaId", {
   dateFields: ["fecha"],
   orderBy: { fecha: "desc" },
+  beforeCreate: conUbicacionCoercida,
+  beforeUpdate: conUbicacionCoercida,
 });
 
 export const plagas = nestedCrudRouter(prisma.plaga, "campanaId", {

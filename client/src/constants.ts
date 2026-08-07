@@ -116,3 +116,18 @@ export function colorForCultivo(nombre?: string | null): string {
   for (let i = 0; i < nombre.length; i++) hash = nombre.charCodeAt(i) + ((hash << 5) - hash);
   return CULTIVO_COLOR_PALETTE[Math.abs(hash) % CULTIVO_COLOR_PALETTE.length];
 }
+
+/** Semáforo verde/amarillo/rojo para marcar enfermedades en el croquis según su nivel de
+ * incidencia (mismos valores que NIVEL_INFESTACION_OPTIONS). */
+export function colorForNivelInfestacion(nivel?: string | null): string {
+  switch (nivel) {
+    case "BAJO":
+      return "#5a9a4a";
+    case "MEDIO":
+      return "#c2a53d";
+    case "ALTO":
+      return "#b3413a";
+    default:
+      return "#8a5fc2";
+  }
+}

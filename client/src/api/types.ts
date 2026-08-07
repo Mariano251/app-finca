@@ -211,7 +211,13 @@ export interface Croquis {
   imagenAncho?: number | null;
   imagenAlto?: number | null;
   nombre?: string | null;
+  escalaMetrosPorPixel?: number | null;
+  escalaPuntoA?: { x: number; y: number } | null;
+  escalaPuntoB?: { x: number; y: number } | null;
+  escalaDistanciaM?: number | null;
   poligonos?: CroquisPoligono[];
+  enfermedadesMarcadas?: Enfermedad[];
+  malezasMarcadas?: Maleza[];
 }
 
 export interface CroquisPoligono {
@@ -222,4 +228,39 @@ export interface CroquisPoligono {
   color: string;
   puntos: { x: number; y: number }[];
   etiqueta?: string | null;
+}
+
+export interface Enfermedad {
+  id: number;
+  campanaId: number;
+  campana?: Campana | null;
+  fecha: string;
+  nombre: string;
+  nivelIncidencia?: NivelInfestacion | null;
+  sectorAfectado?: string | null;
+  diagnostico?: string | null;
+  tratamientoRealizado?: string | null;
+  responsable?: string | null;
+  notas?: string | null;
+  croquisId?: number | null;
+  croquisX?: number | null;
+  croquisY?: number | null;
+  radioMetros?: number | null;
+}
+
+export interface Maleza {
+  id: number;
+  campanaId: number;
+  campana?: Campana | null;
+  fecha: string;
+  especie: string;
+  nivelInfestacion?: NivelInfestacion | null;
+  ubicacion?: string | null;
+  tratamientoRealizado?: string | null;
+  responsable?: string | null;
+  notas?: string | null;
+  croquisId?: number | null;
+  croquisX?: number | null;
+  croquisY?: number | null;
+  radioMetros?: number | null;
 }

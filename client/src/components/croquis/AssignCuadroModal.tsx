@@ -23,7 +23,7 @@ export function AssignCuadroModal({
   function handleCuadroChange(value: string) {
     setCuadroId(value);
     const c = cuadros.find((c) => c.id === Number(value));
-    const activeCultivo = c?.campanas?.[0]?.cultivo?.nombre;
+    const activeCultivo = c?.campanas?.find((camp) => camp.estado === "ACTIVA")?.cultivo?.nombre;
     if (activeCultivo) setColor(colorForCultivo(activeCultivo));
   }
 

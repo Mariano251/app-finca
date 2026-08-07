@@ -8,7 +8,26 @@ export const croquisRouter = Router();
 export const poligonosRouter = Router();
 
 const poligonosInclude = {
-  poligonos: { include: { cuadro: { include: { campanas: { where: { estado: "ACTIVA" as const }, include: { cultivo: true } } } } } },
+  poligonos: {
+    include: {
+      cuadro: {
+        include: {
+          // Se traen todas las campanas (no solo la ACTIVA) para poder mostrar el historial de
+          // cultivos de la parcela en el croquis; el cliente filtra por estado donde necesita
+          // solo la vigente.
+          campanas: { orderBy: { fechaPlantacion: "desc" as const }, include: { cultivo: true, variedad: true } },
+        },
+      },
+    },
+  },
+  enfermedadesMarcadas: {
+    orderBy: { fecha: "desc" as const },
+    include: { campana: { include: { cultivo: true, cuadro: true } } },
+  },
+  malezasMarcadas: {
+    orderBy: { fecha: "desc" as const },
+    include: { campana: { include: { cultivo: true, cuadro: true } } },
+  },
 };
 
 croquisRouter.get("/", async (req, res, next) => {
@@ -54,10 +73,16 @@ croquisRouter.post("/", async (req, res, next) => {
 
 croquisRouter.put("/:id", async (req, res, next) => {
   try {
-    const { nombre } = req.body;
+    const { nombre, escalaMetrosPorPixel, escalaPuntoA, escalaPuntoB, escalaDistanciaM } = req.body;
+    const data: any = {};
+    if (nombre !== undefined) data.nombre = nombre;
+    if (escalaMetrosPorPixel !== undefined) data.escalaMetrosPorPixel = escalaMetrosPorPixel;
+    if (escalaPuntoA !== undefined) data.escalaPuntoA = escalaPuntoA;
+    if (escalaPuntoB !== undefined) data.escalaPuntoB = escalaPuntoB;
+    if (escalaDistanciaM !== undefined) data.escalaDistanciaM = escalaDistanciaM;
     const item = await prisma.croquis.update({
       where: { id: Number(req.params.id) },
-      data: { nombre },
+      data,
       include: poligonosInclude,
     });
     res.json(item);
