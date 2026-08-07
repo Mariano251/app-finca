@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useCreate, useDelete, useList, useOne, useUpdate } from "../../api/useCrud";
-import type { Insumo, MovimientoStock } from "../../api/types";
+import type { Compra, Insumo, MovimientoStock } from "../../api/types";
 import { Modal } from "../../components/Modal";
 import { RecordForm, type FieldSchema } from "../../components/RecordForm";
 import { RecordList } from "../../components/RecordList";
 import { CATEGORIA_INSUMO_OPTIONS, TIPO_MOVIMIENTO_OPTIONS } from "../../constants";
+
+const money = (n: number) => n.toLocaleString("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 2 });
 
 const insumoFields: FieldSchema[] = [
   { name: "nombre", label: "Nombre", type: "text", required: true },
@@ -20,7 +22,18 @@ const movimientoFields: FieldSchema[] = [
   { name: "tipo", label: "Tipo de movimiento", type: "select", options: TIPO_MOVIMIENTO_OPTIONS, required: true },
   { name: "cantidad", label: "Cantidad", type: "number", step: "0.01", required: true },
   { name: "fecha", label: "Fecha", type: "date", required: true },
-  { name: "motivo", label: "Motivo", type: "text", placeholder: "Compra, ajuste de inventario..." },
+  { name: "motivo", label: "Motivo", type: "text", placeholder: "Ajuste de inventario, donación..." },
+  { name: "notas", label: "Notas", type: "textarea", fullWidth: true },
+];
+
+const compraFields: FieldSchema[] = [
+  { name: "fecha", label: "Fecha", type: "date", required: true },
+  { name: "cantidad", label: "Cantidad", type: "number", step: "0.01", required: true },
+  { name: "precioUnitario", label: "Precio unitario", type: "number", step: "0.01", required: true },
+  { name: "proveedor", label: "Proveedor", type: "text" },
+  { name: "factura", label: "N° de factura", type: "text" },
+  { name: "lote", label: "Lote", type: "text" },
+  { name: "vencimiento", label: "Vencimiento", type: "date" },
   { name: "notas", label: "Notas", type: "textarea", fullWidth: true },
 ];
 
@@ -43,6 +56,11 @@ export default function InsumoDetalle() {
   const createMovimiento = useCreate<MovimientoStock>(movimientosPath, [movimientosPath, "/insumos"]);
   const [showMovimiento, setShowMovimiento] = useState(false);
 
+  const comprasPath = `/insumos/${insumoId}/compras`;
+  const { data: compras } = useList<Compra>(comprasPath);
+  const createCompra = useCreate<Compra>(comprasPath, [comprasPath, movimientosPath, "/insumos"]);
+  const [showCompra, setShowCompra] = useState(false);
+
   if (isLoading) return <p className="text-muted">Cargando…</p>;
   if (!insumo) return <div className="card empty-state">Insumo no encontrado.</div>;
 
@@ -59,6 +77,9 @@ export default function InsumoDetalle() {
           <h1>{insumo.nombre}</h1>
         </div>
         <div style={{ display: "flex", gap: "0.5rem" }}>
+          <button className="btn small" onClick={() => setShowCompra(true)}>
+            + Compra
+          </button>
           <button className="btn small" onClick={() => setShowMovimiento(true)}>
             + Movimiento
           </button>
@@ -105,6 +126,10 @@ export default function InsumoDetalle() {
             </div>
           )}
           <div>
+            <span className="text-muted">Costo unitario promedio: </span>
+            {insumo.costoUnitario != null ? `${money(insumo.costoUnitario)} / ${insumo.unidad}` : "— (sin compras cargadas)"}
+          </div>
+          <div>
             <span className="text-muted">Estado: </span>
             <span className="tag">{insumo.activo ? "Activo" : "Inactivo"}</span>
           </div>
@@ -126,6 +151,29 @@ export default function InsumoDetalle() {
         >
           Borrar insumo
         </button>
+      </div>
+
+      <div className="page-header" style={{ marginTop: "1.25rem" }}>
+        <h2>Historial de compras</h2>
+      </div>
+      <div className="card">
+        <RecordList<Compra>
+          items={compras}
+          emptyMessage="Todavía no hay compras cargadas. El costo unitario se calcula a partir de estas."
+          columns={[
+            { key: "fecha", label: "Fecha", render: (c) => new Date(c.fecha).toLocaleDateString() },
+            { key: "cantidad", label: "Cantidad", render: (c) => `${c.cantidad} ${insumo.unidad}` },
+            { key: "precioUnitario", label: "Precio unitario", render: (c) => money(c.precioUnitario) },
+            { key: "montoTotal", label: "Monto total", render: (c) => money(c.montoTotal) },
+            { key: "proveedor", label: "Proveedor" },
+            { key: "lote", label: "Lote" },
+            {
+              key: "vencimiento",
+              label: "Vencimiento",
+              render: (c) => (c.vencimiento ? new Date(c.vencimiento).toLocaleDateString() : "—"),
+            },
+          ]}
+        />
       </div>
 
       <div className="page-header" style={{ marginTop: "1.25rem" }}>
@@ -174,6 +222,21 @@ export default function InsumoDetalle() {
             onSubmit={(data) =>
               createMovimiento.mutate(data as Partial<MovimientoStock>, {
                 onSuccess: () => setShowMovimiento(false),
+              })
+            }
+          />
+        </Modal>
+      )}
+
+      {showCompra && (
+        <Modal title="Nueva compra" onClose={() => setShowCompra(false)}>
+          <RecordForm
+            fields={compraFields}
+            submitting={createCompra.isPending}
+            onCancel={() => setShowCompra(false)}
+            onSubmit={(data) =>
+              createCompra.mutate(data as Partial<Compra>, {
+                onSuccess: () => setShowCompra(false),
               })
             }
           />

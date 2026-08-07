@@ -55,7 +55,13 @@ export type CategoriaCosto =
 
 export type CategoriaInsumo = "FITOSANITARIO" | "FERTILIZANTE" | "SEMILLA" | "OTRO";
 export type TipoMovimientoStock = "ENTRADA" | "SALIDA" | "AJUSTE";
-export type OrigenMovimiento = "MANUAL" | "APLICACION" | "FERTILIZACION" | "LABOR";
+export type OrigenMovimiento = "MANUAL" | "APLICACION" | "FERTILIZACION" | "LABOR" | "COMPRA";
+export type MetodoDistribucionCosto =
+  | "POR_SUPERFICIE"
+  | "POR_PORCENTAJE_COSTOS_DIRECTOS"
+  | "POR_PRODUCCION"
+  | "POR_VALOR_PRODUCCION"
+  | "MANUAL";
 
 export interface Insumo {
   id: number;
@@ -64,6 +70,7 @@ export interface Insumo {
   unidad: string;
   stockActual: number;
   stockMinimo?: number | null;
+  costoUnitario?: number | null;
   notas?: string | null;
   activo: boolean;
 }
@@ -77,6 +84,20 @@ export interface MovimientoStock {
   origen: OrigenMovimiento;
   origenId?: number | null;
   motivo?: string | null;
+  notas?: string | null;
+}
+
+export interface Compra {
+  id: number;
+  insumoId: number;
+  fecha: string;
+  cantidad: number;
+  precioUnitario: number;
+  montoTotal: number;
+  proveedor?: string | null;
+  factura?: string | null;
+  lote?: string | null;
+  vencimiento?: string | null;
   notas?: string | null;
 }
 
@@ -152,6 +173,37 @@ export interface Costo {
   descripcion?: string | null;
   monto: number;
   fecha?: string | null;
+  insumoId?: number | null;
+  origen?: OrigenMovimiento | null;
+  origenId?: number | null;
+}
+
+export interface CostoIndirectoAsignacion {
+  id: number;
+  costoIndirectoId: number;
+  campanaId: number;
+  campana?: Campana;
+  monto: number;
+}
+
+export interface CostoIndirecto {
+  id: number;
+  fincaId?: number | null;
+  categoria: string;
+  descripcion?: string | null;
+  monto: number;
+  fecha: string;
+  metodoDistribucion: MetodoDistribucionCosto;
+  notas?: string | null;
+  asignaciones?: CostoIndirectoAsignacion[];
+}
+
+export interface Presupuesto {
+  id: number;
+  campanaId: number;
+  categoria?: CategoriaCosto | null;
+  montoPresupuestado: number;
+  notas?: string | null;
 }
 
 export interface Venta {

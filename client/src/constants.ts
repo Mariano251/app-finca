@@ -92,9 +92,17 @@ export const CATEGORIA_INSUMO_OPTIONS = [
 ];
 
 export const TIPO_MOVIMIENTO_OPTIONS = [
-  { value: "ENTRADA", label: "Entrada (compra)" },
+  { value: "ENTRADA", label: "Entrada manual" },
   { value: "SALIDA", label: "Salida (consumo)" },
   { value: "AJUSTE", label: "Ajuste de inventario" },
+];
+
+export const METODO_DISTRIBUCION_OPTIONS = [
+  { value: "POR_SUPERFICIE", label: "Por superficie implantada" },
+  { value: "POR_PORCENTAJE_COSTOS_DIRECTOS", label: "% de costos directos" },
+  { value: "POR_PRODUCCION", label: "Por producción (kg)" },
+  { value: "POR_VALOR_PRODUCCION", label: "Por valor de producción" },
+  { value: "MANUAL", label: "Manual (asignación por campaña)" },
 ];
 
 export const CULTIVO_COLOR_PALETTE = [

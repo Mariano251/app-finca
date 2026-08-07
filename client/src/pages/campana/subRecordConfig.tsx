@@ -17,6 +17,8 @@ export interface SubRecordConfig {
   entityType?: TipoEntidadImagen;
   fields: FieldSchema[] | ((insumos: Insumo[]) => FieldSchema[]);
   columns: ColumnSchema<any>[];
+  /** Ver RecordList.isReadOnly — usado por "costos" para los generados desde consumo de stock. */
+  isReadOnly?: (item: any) => boolean;
 }
 
 /** Appends the optional "insumo del stock" + "cantidad utilizada" fields, filtered by category
@@ -308,6 +310,9 @@ export const SUB_RECORD_CONFIGS: SubRecordConfig[] = [
       { key: "descripcion", label: "Descripción" },
       { key: "monto", label: "Monto", render: (r) => Number(r.monto).toLocaleString("es-AR", { style: "currency", currency: "ARS" }) },
     ],
+    // Costos con origen seteado vienen de un consumo de insumo (labor/aplicación/fertilización)
+    // y se recalculan solos — editarlos/borrarlos a mano duplicaría el gasto real.
+    isReadOnly: (r) => !!r.origen,
   },
   {
     path: "ventas",

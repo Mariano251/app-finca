@@ -2,6 +2,7 @@ import { Router, type RequestHandler } from "express";
 import type { Prisma, OrigenMovimiento } from "@prisma/client";
 import { prisma } from "./prisma";
 import { registrarMovimiento, revertirMovimientosDeOrigen } from "./stock";
+import { crearCostoAutomatico, eliminarCostoAutomatico } from "./costoAutomatico";
 
 interface StockLinkOptions {
   /** Which OrigenMovimiento this resource writes when it deducts stock. */
@@ -53,20 +54,35 @@ function coerceDates(body: any, dateFields: string[] = [], dropNullFields: strin
   return out;
 }
 
-/** After create/update of a stock-linked record, (re)registers its SALIDA movement if it has an insumo+cantidad. */
+/**
+ * After create/update of a stock-linked record, (re)registers its SALIDA movement if it has an
+ * insumo+cantidad, and — when the record belongs to a campaña — also creates the automatic Costo
+ * derived from that consumption (regla clave: consumo = costo real, sin cargarlo a mano).
+ */
 async function sincronizarMovimientoDeStock(tx: Prisma.TransactionClient, stock: StockLinkOptions, record: any) {
   const insumoId = record[stock.insumoIdField ?? "insumoId"];
   const cantidad = record[stock.cantidadField ?? "cantidadUtilizada"];
   if (!insumoId || !cantidad) return;
+  const fecha = record.fecha ?? new Date();
   await registrarMovimiento(tx, {
     insumoId,
     tipo: "SALIDA",
     cantidad,
-    fecha: record.fecha ?? new Date(),
+    fecha,
     origen: stock.origen,
     origenId: record.id,
     motivo: stock.motivo ? stock.motivo(record) : undefined,
   });
+  if (record.campanaId) {
+    await crearCostoAutomatico(tx, {
+      campanaId: record.campanaId,
+      insumoId,
+      cantidad,
+      fecha,
+      origen: stock.origen,
+      origenId: record.id,
+    });
+  }
 }
 
 /**
@@ -245,6 +261,7 @@ export function nestedCrudRouter(
       if (stock) {
         const item = await prisma.$transaction(async (tx) => {
           await revertirMovimientosDeOrigen(tx, stock.origen, id);
+          await eliminarCostoAutomatico(tx, stock.origen, id);
           const updated = await stock.getTxDelegate(tx).update({ where: { id }, data, include });
           await sincronizarMovimientoDeStock(tx, stock, updated);
           return updated;
@@ -266,6 +283,7 @@ export function nestedCrudRouter(
       if (stock) {
         await prisma.$transaction(async (tx) => {
           await revertirMovimientosDeOrigen(tx, stock.origen, id);
+          await eliminarCostoAutomatico(tx, stock.origen, id);
           await stock.getTxDelegate(tx).delete({ where: { id } });
         });
         res.status(204).end();

@@ -7,6 +7,7 @@ import { RecordForm } from "../../components/RecordForm";
 import { buildCampanaFields } from "./campanaFields";
 import { SUB_RECORD_CONFIGS } from "./subRecordConfig";
 import { SubRecordTab } from "./SubRecordTab";
+import { PresupuestoTab } from "./PresupuestoTab";
 
 export default function CampanaDetalle() {
   const { campanaId } = useParams();
@@ -84,9 +85,20 @@ export default function CampanaDetalle() {
             {cfg.label}
           </button>
         ))}
+        <button
+          className={"tab-btn" + (tab === SUB_RECORD_CONFIGS.length ? " active" : "")}
+          onClick={() => setTab(SUB_RECORD_CONFIGS.length)}
+          type="button"
+        >
+          Presupuesto
+        </button>
       </div>
 
-      <SubRecordTab campanaId={id} config={SUB_RECORD_CONFIGS[tab]} />
+      {tab === SUB_RECORD_CONFIGS.length ? (
+        <PresupuestoTab campanaId={id} />
+      ) : (
+        <SubRecordTab campanaId={id} config={SUB_RECORD_CONFIGS[tab]} />
+      )}
 
       {editing && (
         <Modal title="Editar campaña" onClose={() => setEditing(false)}>

@@ -12,6 +12,7 @@ const NAV_ITEMS = [
 
 const SECONDARY_NAV_ITEMS = [
   { to: "/stock", label: "Stock", icon: "📦", end: false },
+  { to: "/economia", label: "Economía", icon: "💰", end: false },
   { to: "/ajustes", label: "Ajustes", icon: "⚙️", end: false },
 ];
 

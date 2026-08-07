@@ -107,6 +107,17 @@ export const costos = nestedCrudRouter(prisma.costo, "campanaId", {
   orderBy: { fecha: "desc" },
 });
 
+function conCategoriaPresupuestoCoercida(data: any) {
+  if (data.categoria === "") data.categoria = null;
+  return data;
+}
+
+export const presupuestos = nestedCrudRouter(prisma.presupuesto, "campanaId", {
+  orderBy: { categoria: "asc" },
+  beforeCreate: conCategoriaPresupuestoCoercida,
+  beforeUpdate: conCategoriaPresupuestoCoercida,
+});
+
 function conIngresoCalculado(data: any) {
   if ((data.ingresoTotal === undefined || data.ingresoTotal === null) && data.cantidadKg != null && data.precioUnitario != null) {
     data.ingresoTotal = Number(data.cantidadKg) * Number(data.precioUnitario);

@@ -19,8 +19,9 @@ model Finca {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  sectores Sector[]
-  croquis  Croquis[]
+  sectores         Sector[]
+  croquis          Croquis[]
+  costosIndirectos CostoIndirecto[]
 }
 
 model Sector {
@@ -130,19 +131,21 @@ model Campana {
   createdAt            DateTime      @default(now())
   updatedAt            DateTime      @updatedAt
 
-  laboresCulturales LaborCultural[]
-  aplicaciones      AplicacionFitosanitaria[]
-  fertilizaciones   Fertilizacion[]
-  riegos            Riego[]
-  fenologias        Fenologia[]
-  eventosClimaticos EventoClimatico[]
-  malezas           Maleza[]
-  enfermedades      Enfermedad[]
-  plagas            Plaga[]
-  comentarios       Comentario[]
-  cosechas          Cosecha[]
-  costos            Costo[]
-  ventas            Venta[]
+  laboresCulturales         LaborCultural[]
+  aplicaciones              AplicacionFitosanitaria[]
+  fertilizaciones           Fertilizacion[]
+  riegos                    Riego[]
+  fenologias                Fenologia[]
+  eventosClimaticos         EventoClimatico[]
+  malezas                   Maleza[]
+  enfermedades              Enfermedad[]
+  plagas                    Plaga[]
+  comentarios               Comentario[]
+  cosechas                  Cosecha[]
+  costos                    Costo[]
+  ventas                    Venta[]
+  presupuestos              Presupuesto[]
+  costosIndirectosAsignados CostoIndirectoAsignacion[]
 
   @@index([cuadroId])
   @@index([cultivoId])
@@ -442,18 +445,83 @@ enum CategoriaCosto {
 }
 
 model Costo {
-  id          Int            @id @default(autoincrement())
+  id          Int               @id @default(autoincrement())
   campanaId   Int
-  campana     Campana        @relation(fields: [campanaId], references: [id], onDelete: Cascade)
+  campana     Campana           @relation(fields: [campanaId], references: [id], onDelete: Cascade)
   categoria   CategoriaCosto
   descripcion String?
   monto       Float
   fecha       DateTime?
   notas       String?
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  // Cuando insumoId/origen/origenId estan seteados, este Costo fue generado automaticamente a
+  // partir del consumo de un Insumo valorizado (labor/aplicacion/fertilizacion) y no debe
+  // editarse ni borrarse a mano — ver crearCostoAutomatico/eliminarCostoAutomatico en
+  // server/src/lib/costoAutomatico.ts. Con estos tres campos en null es un costo manual normal.
+  insumoId    Int?
+  insumo      Insumo?           @relation(fields: [insumoId], references: [id], onDelete: SetNull)
+  origen      OrigenMovimiento?
+  origenId    Int?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
 
   @@index([campanaId])
+  @@index([origen, origenId])
+}
+
+// ---------------------------------------------------------------------------
+// Costos indirectos y presupuesto
+// ---------------------------------------------------------------------------
+
+enum MetodoDistribucionCosto {
+  POR_SUPERFICIE
+  POR_PORCENTAJE_COSTOS_DIRECTOS
+  POR_PRODUCCION
+  POR_VALOR_PRODUCCION
+  MANUAL
+}
+
+model CostoIndirecto {
+  id                 Int                     @id @default(autoincrement())
+  fincaId            Int?
+  finca              Finca?                  @relation(fields: [fincaId], references: [id], onDelete: SetNull)
+  categoria          String
+  descripcion        String?
+  monto              Float
+  fecha              DateTime
+  metodoDistribucion MetodoDistribucionCosto
+  notas              String?
+  createdAt          DateTime                @default(now())
+  updatedAt          DateTime                @updatedAt
+
+  asignaciones CostoIndirectoAsignacion[]
+
+  @@index([fincaId])
+  @@index([fecha])
+}
+
+model CostoIndirectoAsignacion {
+  id               Int            @id @default(autoincrement())
+  costoIndirectoId Int
+  costoIndirecto   CostoIndirecto @relation(fields: [costoIndirectoId], references: [id], onDelete: Cascade)
+  campanaId        Int
+  campana          Campana        @relation(fields: [campanaId], references: [id], onDelete: Cascade)
+  monto            Float
+
+  @@unique([costoIndirectoId, campanaId])
+}
+
+model Presupuesto {
+  id                 Int             @id @default(autoincrement())
+  campanaId          Int
+  campana            Campana         @relation(fields: [campanaId], references: [id], onDelete: Cascade)
+  // null = linea "Total campana" (compara contra costos directos + indirectos asignados)
+  categoria          CategoriaCosto?
+  montoPresupuestado Float
+  notas              String?
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+
+  @@unique([campanaId, categoria])
 }
 
 model Venta {
@@ -571,26 +639,52 @@ enum OrigenMovimiento {
   APLICACION
   FERTILIZACION
   LABOR
+  COMPRA
 }
 
 model Insumo {
-  id          Int             @id @default(autoincrement())
-  nombre      String
-  categoria   CategoriaInsumo
-  unidad      String
-  stockActual Float           @default(0)
-  stockMinimo Float?
-  notas       String?
-  activo      Boolean         @default(true)
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
+  id            Int             @id @default(autoincrement())
+  nombre        String
+  categoria     CategoriaInsumo
+  unidad        String
+  stockActual   Float           @default(0)
+  stockMinimo   Float?
+  // Costo promedio ponderado vigente, recalculado desde el historial de Compra cada vez que se
+  // crea/edita/borra una — ver recalcularCostoUnitario en server/src/lib/costoUnitario.ts.
+  costoUnitario Float?
+  notas         String?
+  activo        Boolean         @default(true)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
 
   movimientos     MovimientoStock[]
+  compras         Compra[]
+  costos          Costo[]
   aplicaciones    AplicacionFitosanitaria[]
   fertilizaciones Fertilizacion[]
   labores         LaborCultural[]
 
   @@index([categoria])
+}
+
+model Compra {
+  id             Int       @id @default(autoincrement())
+  insumoId       Int
+  insumo         Insumo    @relation(fields: [insumoId], references: [id], onDelete: Cascade)
+  fecha          DateTime
+  cantidad       Float
+  precioUnitario Float
+  montoTotal     Float
+  proveedor      String?
+  factura        String?
+  lote           String?
+  vencimiento    DateTime?
+  notas          String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([insumoId])
+  @@index([fecha])
 }
 
 model MovimientoStock {

@@ -21,6 +21,7 @@ import {
   cosechas,
   costos,
   ventas,
+  presupuestos,
 } from "./subregistros";
 import { conocimientoRouter } from "./conocimiento";
 import { rendimientoRouter } from "./rendimiento";
@@ -28,6 +29,8 @@ import { economiaRouter } from "./economia";
 import { dashboardRouter } from "./dashboard";
 import { busquedaRouter } from "./busqueda";
 import { insumosRouter, movimientosRouter } from "./insumos";
+import { comprasNestedRouter, comprasStandaloneRouter } from "./compras";
+import { costosIndirectosRouter, asignacionesRouter } from "./costosIndirectos";
 
 export const apiRouter = Router();
 
@@ -56,6 +59,7 @@ const subrecursos: [string, { nested: Router; standalone: Router }][] = [
   ["cosechas", cosechas],
   ["costos", costos],
   ["ventas", ventas],
+  ["presupuestos", presupuestos],
 ];
 
 for (const [name, { nested, standalone }] of subrecursos) {
@@ -68,4 +72,8 @@ apiRouter.use("/rendimiento", rendimientoRouter);
 apiRouter.use("/economia", economiaRouter);
 apiRouter.use("/dashboard", dashboardRouter);
 apiRouter.use("/insumos/:insumoId/movimientos", movimientosRouter);
+apiRouter.use("/insumos/:insumoId/compras", comprasNestedRouter);
 apiRouter.use("/insumos", insumosRouter);
+apiRouter.use("/compras", comprasStandaloneRouter);
+apiRouter.use("/costos-indirectos/:costoIndirectoId/asignaciones", asignacionesRouter);
+apiRouter.use("/costos-indirectos", costosIndirectosRouter);

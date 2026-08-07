@@ -12,6 +12,7 @@ export function RecordList<T extends { id: number }>({
   onEdit,
   onDelete,
   onRowClick,
+  isReadOnly,
   emptyMessage = "No hay registros todavía.",
 }: {
   items: T[] | undefined;
@@ -19,6 +20,9 @@ export function RecordList<T extends { id: number }>({
   onEdit?: (item: T) => void;
   onDelete?: (item: T) => void;
   onRowClick?: (item: T) => void;
+  /** For rows where this returns true, hides Editar/Borrar and shows a read-only tag instead
+   *  (ej: costos generados automáticamente desde un consumo de stock, que no deben duplicarse). */
+  isReadOnly?: (item: T) => boolean;
   emptyMessage?: string;
 }) {
   if (!items || items.length === 0) {
@@ -49,20 +53,28 @@ export function RecordList<T extends { id: number }>({
               ))}
               {(onEdit || onDelete) && (
                 <td onClick={(e) => e.stopPropagation()}>
-                  {onEdit && (
-                    <button className="btn secondary small" onClick={() => onEdit(item)} type="button">
-                      Editar
-                    </button>
-                  )}
-                  {onDelete && (
-                    <button
-                      className="btn danger small"
-                      style={{ marginLeft: "0.3rem" }}
-                      onClick={() => onDelete(item)}
-                      type="button"
-                    >
-                      Borrar
-                    </button>
+                  {isReadOnly?.(item) ? (
+                    <span className="tag" title="Generado automáticamente a partir de un consumo de stock">
+                      Automático
+                    </span>
+                  ) : (
+                    <>
+                      {onEdit && (
+                        <button className="btn secondary small" onClick={() => onEdit(item)} type="button">
+                          Editar
+                        </button>
+                      )}
+                      {onDelete && (
+                        <button
+                          className="btn danger small"
+                          style={{ marginLeft: "0.3rem" }}
+                          onClick={() => onDelete(item)}
+                          type="button"
+                        >
+                          Borrar
+                        </button>
+                      )}
+                    </>
                   )}
                 </td>
               )}

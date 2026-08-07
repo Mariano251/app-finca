@@ -45,6 +45,7 @@ export function SubRecordTab({ campanaId, config }: { campanaId: number; config:
         <RecordList<Row>
           items={data}
           columns={config.columns}
+          isReadOnly={config.isReadOnly}
           onEdit={(r) => setModal({ mode: "edit", record: r })}
           onDelete={(r) => {
             if (confirm("¿Borrar este registro?")) del.mutate(r.id);
