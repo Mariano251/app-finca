@@ -6,12 +6,21 @@ import { RecordList } from "../../components/RecordList";
 import { ImageAttachments } from "../../components/ImageAttachments";
 import { ReplicarModal } from "./ReplicarModal";
 import type { Insumo } from "../../api/types";
-import type { SubRecordConfig } from "./subRecordConfig";
+import type { FieldsCtx, SubRecordConfig, TipoProblema } from "./subRecordConfig";
 
 interface Row {
   id: number;
   [key: string]: unknown;
 }
+
+interface ProblemaResumen {
+  tipo: TipoProblema;
+  nombre: string;
+}
+
+/** Paths cuyo formulario tiene un campo "nombre sugerido" (combobox) que necesita la lista de
+ *  problemas ya cargados — ver campoNombreSugerido en subRecordConfig.tsx. */
+const PATHS_CON_NOMBRE_SUGERIDO = new Set(["malezas", "enfermedades", "plagas"]);
 
 export function SubRecordTab({
   campanaId,
@@ -30,13 +39,21 @@ export function SubRecordTab({
 
   const { data, isLoading } = useList<Row>(nestedPath);
   const { data: insumos } = useList<Insumo>("/insumos", { activo: "true" });
+  const necesitaNombreSugerido = PATHS_CON_NOMBRE_SUGERIDO.has(config.path);
+  const { data: problemas } = useList<ProblemaResumen>("/conocimiento/problemas/lista", undefined, {
+    enabled: necesitaNombreSugerido,
+  });
   const create = useCreate<Row>(nestedPath, [nestedPath, "/insumos"]);
   const update = useUpdate<Row>(standalonePath, [nestedPath, "/insumos"], [nestedPath]);
   const del = useDelete(standalonePath, [nestedPath, "/insumos"], [nestedPath]);
   const [modal, setModal] = useState<{ mode: "create" | "edit"; record?: Row } | null>(null);
   const [replicando, setReplicando] = useState<Row | null>(null);
 
-  const fields = typeof config.fields === "function" ? config.fields(insumos ?? []) : config.fields;
+  const nombresExistentes: FieldsCtx["nombresExistentes"] = { enfermedad: [], plaga: [], maleza: [] };
+  for (const p of problemas ?? []) nombresExistentes[p.tipo].push(p.nombre);
+
+  const fields =
+    typeof config.fields === "function" ? config.fields({ insumos: insumos ?? [], nombresExistentes }) : config.fields;
 
   function withInsumoCoercido(formData: Record<string, unknown>) {
     if (!("insumoId" in formData)) return formData;

@@ -3,7 +3,9 @@ import { useState, type FormEvent } from "react";
 export interface FieldSchema {
   name: string;
   label: string;
-  type: "text" | "number" | "date" | "select" | "textarea" | "checkbox";
+  /** "combobox" = texto libre con sugerencias (datalist) de valores ya cargados: permite elegir
+   *  uno existente para no duplicar por error de tipeo, sin impedir escribir uno nuevo. */
+  type: "text" | "number" | "date" | "select" | "textarea" | "checkbox" | "combobox";
   options?: { value: string; label: string }[];
   required?: boolean;
   step?: string;
@@ -93,7 +95,30 @@ export function RecordForm({
                 value={(values[f.name] as string) ?? ""}
                 placeholder={f.placeholder}
                 onChange={(e) => handleChange(f.name, e.target.value)}
+                spellCheck={false}
+                autoCorrect="off"
+                autoCapitalize="off"
               />
+            ) : f.type === "combobox" ? (
+              <>
+                <input
+                  id={f.name}
+                  type="text"
+                  list={`${f.name}-datalist`}
+                  value={(values[f.name] as string) ?? ""}
+                  required={f.required}
+                  placeholder={f.placeholder}
+                  onChange={(e) => handleChange(f.name, e.target.value)}
+                  spellCheck={false}
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                />
+                <datalist id={`${f.name}-datalist`}>
+                  {f.options?.map((o) => (
+                    <option key={o.value} value={o.value} />
+                  ))}
+                </datalist>
+              </>
             ) : f.type === "checkbox" ? (
               <input
                 id={f.name}
@@ -110,6 +135,7 @@ export function RecordForm({
                 required={f.required}
                 placeholder={f.placeholder}
                 onChange={(e) => handleChange(f.name, e.target.value)}
+                {...(f.type === "text" ? { spellCheck: false, autoCorrect: "off", autoCapitalize: "off" } : {})}
               />
             )}
           </div>

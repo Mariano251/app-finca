@@ -12,11 +12,20 @@ import {
   TIPO_LABOR_OPTIONS,
 } from "../../constants";
 
+export type TipoProblema = "enfermedad" | "plaga" | "maleza";
+
+export interface FieldsCtx {
+  insumos: Insumo[];
+  /** Nombres ya cargados de cada tipo de problema sanitario, para sugerir en vez de re-tipear
+   *  (ver campoNombreSugerido) y así evitar duplicados por error de ortografía. */
+  nombresExistentes: Record<TipoProblema, string[]>;
+}
+
 export interface SubRecordConfig {
   path: string;
   label: string;
   entityType?: TipoEntidadImagen;
-  fields: FieldSchema[] | ((insumos: Insumo[]) => FieldSchema[]);
+  fields: FieldSchema[] | ((ctx: FieldsCtx) => FieldSchema[]);
   columns: ColumnSchema<any>[];
   /** Ver RecordList.isReadOnly — usado por "costos" para los generados desde consumo de stock. */
   isReadOnly?: (item: any) => boolean;
@@ -30,8 +39,8 @@ export interface SubRecordConfig {
  * makes the corresponding stock deduction automatic — leaving it unset keeps the old free-text
  * product field working exactly as before. */
 function conInsumoOpcional(base: FieldSchema[], categoria?: CategoriaInsumo, cantidadPlaceholder?: string) {
-  return (insumos: Insumo[]): FieldSchema[] => {
-    const opciones = insumos
+  return (ctx: FieldsCtx): FieldSchema[] => {
+    const opciones = ctx.insumos
       .filter((i) => !categoria || i.categoria === categoria)
       .map((i) => ({ value: String(i.id), label: `${i.nombre} (${i.stockActual} ${i.unidad})` }));
     return [
@@ -46,6 +55,16 @@ function conInsumoOpcional(base: FieldSchema[], categoria?: CategoriaInsumo, can
       },
     ];
   };
+}
+
+/** Campo de texto libre con sugerencias (datalist) de los nombres ya cargados para ese tipo de
+ *  problema — dejar elegir un existente evita duplicar la misma enfermedad/plaga/maleza con una
+ *  variante mal escrita, sin impedir cargar una nueva. */
+function campoNombreSugerido(name: string, label: string, tipo: TipoProblema, ctx: FieldsCtx): FieldSchema {
+  const opciones = [...ctx.nombresExistentes[tipo]]
+    .sort((a, b) => a.localeCompare(b, "es"))
+    .map((n) => ({ value: n, label: n }));
+  return { name, label, type: "combobox", required: true, options: opciones };
 }
 
 function fecha(label = "Fecha"): FieldSchema {
@@ -210,9 +229,9 @@ export const SUB_RECORD_CONFIGS: SubRecordConfig[] = [
     label: "Malezas",
     entityType: "MALEZA",
     replicable: true,
-    fields: [
+    fields: (ctx: FieldsCtx) => [
       fecha(),
-      { name: "especie", label: "Especie", type: "text", required: true },
+      campoNombreSugerido("especie", "Especie", "maleza", ctx),
       { name: "nivelInfestacion", label: "Nivel de infestación", type: "select", options: NIVEL_INFESTACION_OPTIONS },
       { name: "ubicacion", label: "Ubicación dentro del cuadro", type: "text" },
       { name: "tratamientoRealizado", label: "Tratamiento realizado", type: "textarea", fullWidth: true },
@@ -232,9 +251,9 @@ export const SUB_RECORD_CONFIGS: SubRecordConfig[] = [
     label: "Enfermedades",
     entityType: "ENFERMEDAD",
     replicable: true,
-    fields: [
+    fields: (ctx: FieldsCtx) => [
       fecha(),
-      { name: "nombre", label: "Enfermedad", type: "text", required: true },
+      campoNombreSugerido("nombre", "Enfermedad", "enfermedad", ctx),
       { name: "nivelIncidencia", label: "Nivel de incidencia", type: "select", options: NIVEL_INFESTACION_OPTIONS },
       { name: "sectorAfectado", label: "Sector afectado", type: "text" },
       { name: "diagnostico", label: "Diagnóstico", type: "textarea", fullWidth: true },
@@ -255,9 +274,9 @@ export const SUB_RECORD_CONFIGS: SubRecordConfig[] = [
     label: "Plagas",
     entityType: "PLAGA",
     replicable: true,
-    fields: [
+    fields: (ctx: FieldsCtx) => [
       fecha(),
-      { name: "nombre", label: "Plaga", type: "text", required: true },
+      campoNombreSugerido("nombre", "Plaga", "plaga", ctx),
       { name: "nivelPresencia", label: "Nivel de presencia", type: "select", options: NIVEL_INFESTACION_OPTIONS },
       { name: "danosObservados", label: "Daños observados", type: "textarea", fullWidth: true },
       { name: "tratamientoRealizado", label: "Tratamiento realizado", type: "textarea", fullWidth: true },
