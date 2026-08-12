@@ -20,6 +20,9 @@ export interface SubRecordConfig {
   columns: ColumnSchema<any>[];
   /** Ver RecordList.isReadOnly — usado por "costos" para los generados desde consumo de stock. */
   isReadOnly?: (item: any) => boolean;
+  /** Habilita el botón "Copiar a otros cuadros" (ver ReplicarModal) — problemas sanitarios que
+   *  suelen relevarse en varios cuadros el mismo recorrido, sin recargar todos los datos. */
+  replicable?: boolean;
 }
 
 /** Appends the optional "insumo del stock" + "cantidad utilizada" fields, filtered by category
@@ -206,6 +209,7 @@ export const SUB_RECORD_CONFIGS: SubRecordConfig[] = [
     path: "malezas",
     label: "Malezas",
     entityType: "MALEZA",
+    replicable: true,
     fields: [
       fecha(),
       { name: "especie", label: "Especie", type: "text", required: true },
@@ -227,6 +231,7 @@ export const SUB_RECORD_CONFIGS: SubRecordConfig[] = [
     path: "enfermedades",
     label: "Enfermedades",
     entityType: "ENFERMEDAD",
+    replicable: true,
     fields: [
       fecha(),
       { name: "nombre", label: "Enfermedad", type: "text", required: true },
@@ -249,6 +254,7 @@ export const SUB_RECORD_CONFIGS: SubRecordConfig[] = [
     path: "plagas",
     label: "Plagas",
     entityType: "PLAGA",
+    replicable: true,
     fields: [
       fecha(),
       { name: "nombre", label: "Plaga", type: "text", required: true },

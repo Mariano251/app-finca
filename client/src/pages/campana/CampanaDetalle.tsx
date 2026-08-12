@@ -97,7 +97,12 @@ export default function CampanaDetalle() {
       {tab === SUB_RECORD_CONFIGS.length ? (
         <PresupuestoTab campanaId={id} />
       ) : (
-        <SubRecordTab campanaId={id} config={SUB_RECORD_CONFIGS[tab]} />
+        <SubRecordTab
+          campanaId={id}
+          config={SUB_RECORD_CONFIGS[tab]}
+          fincaId={cuadro?.sector?.fincaId}
+          cuadroId={cuadro?.id}
+        />
       )}
 
       {editing && (

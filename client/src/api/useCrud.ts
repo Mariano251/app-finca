@@ -1,9 +1,10 @@
 import { useMutation, useQuery, useQueryClient, type UseQueryOptions } from "@tanstack/react-query";
 import { api } from "./client";
-import { applyOptimisticCreate, applyOptimisticDelete, applyOptimisticUpdate } from "../offline/cachePatch";
-import { enqueueCreate, enqueueDelete, enqueueUpdate } from "../offline/queue";
+import { applyOptimisticDelete, applyOptimisticUpdate } from "../offline/cachePatch";
+import { enqueueDelete, enqueueUpdate } from "../offline/queue";
 import { scheduleSync } from "../offline/sync";
 import { isConnectivityError } from "../offline/isConnectivityError";
+import { createOffline } from "../offline/offlinePost";
 
 /**
  * Generic REST hooks over a resource path (e.g. "/fincas", or a nested path like
@@ -41,19 +42,7 @@ export function useOne<T>(resource: string, id?: number | string | null) {
 export function useCreate<T = unknown>(resource: string, invalidate: string[] = [resource]) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (data: Partial<T>): Promise<T> => {
-      try {
-        return (await api.post(resource, data)).data;
-      } catch (error) {
-        if (!isConnectivityError(error)) throw error;
-        const { tempId } = await enqueueCreate(resource, invalidate, data as Record<string, unknown>);
-        return applyOptimisticCreate(qc, resource, tempId, data as Record<string, unknown>) as T;
-      }
-    },
-    onSuccess: () => {
-      invalidate.forEach((r) => qc.invalidateQueries({ queryKey: [r] }));
-      scheduleSync(qc);
-    },
+    mutationFn: (data: Partial<T>) => createOffline<T>(qc, resource, invalidate, data as Record<string, unknown>),
   });
 }
 

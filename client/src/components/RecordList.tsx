@@ -13,6 +13,7 @@ export function RecordList<T extends { id: number }>({
   onDelete,
   onRowClick,
   isReadOnly,
+  extraActions,
   emptyMessage = "No hay registros todavía.",
 }: {
   items: T[] | undefined;
@@ -23,6 +24,8 @@ export function RecordList<T extends { id: number }>({
   /** For rows where this returns true, hides Editar/Borrar and shows a read-only tag instead
    *  (ej: costos generados automáticamente desde un consumo de stock, que no deben duplicarse). */
   isReadOnly?: (item: T) => boolean;
+  /** Extra per-row action button(s) rendered before Editar/Borrar (ej: "Copiar a otros cuadros"). */
+  extraActions?: (item: T) => ReactNode;
   emptyMessage?: string;
 }) {
   if (!items || items.length === 0) {
@@ -36,7 +39,7 @@ export function RecordList<T extends { id: number }>({
             {columns.map((c) => (
               <th key={c.key}>{c.label}</th>
             ))}
-            {(onEdit || onDelete) && <th></th>}
+            {(onEdit || onDelete || extraActions) && <th></th>}
           </tr>
         </thead>
         <tbody>
@@ -51,7 +54,7 @@ export function RecordList<T extends { id: number }>({
                   {c.render ? c.render(item) : String((item as Record<string, unknown>)[c.key] ?? "—")}
                 </td>
               ))}
-              {(onEdit || onDelete) && (
+              {(onEdit || onDelete || extraActions) && (
                 <td onClick={(e) => e.stopPropagation()}>
                   {isReadOnly?.(item) ? (
                     <span className="tag" title="Generado automáticamente a partir de un consumo de stock">
@@ -59,6 +62,7 @@ export function RecordList<T extends { id: number }>({
                     </span>
                   ) : (
                     <>
+                      {extraActions?.(item)}
                       {onEdit && (
                         <button className="btn secondary small" onClick={() => onEdit(item)} type="button">
                           Editar

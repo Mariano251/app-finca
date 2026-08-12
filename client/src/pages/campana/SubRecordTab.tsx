@@ -4,6 +4,7 @@ import { Modal } from "../../components/Modal";
 import { RecordForm } from "../../components/RecordForm";
 import { RecordList } from "../../components/RecordList";
 import { ImageAttachments } from "../../components/ImageAttachments";
+import { ReplicarModal } from "./ReplicarModal";
 import type { Insumo } from "../../api/types";
 import type { SubRecordConfig } from "./subRecordConfig";
 
@@ -12,7 +13,18 @@ interface Row {
   [key: string]: unknown;
 }
 
-export function SubRecordTab({ campanaId, config }: { campanaId: number; config: SubRecordConfig }) {
+export function SubRecordTab({
+  campanaId,
+  config,
+  fincaId,
+  cuadroId,
+}: {
+  campanaId: number;
+  config: SubRecordConfig;
+  /** Necesarios sólo para el botón "Copiar a otros cuadros" (config.replicable). */
+  fincaId?: number;
+  cuadroId?: number;
+}) {
   const nestedPath = `/campanas/${campanaId}/${config.path}`;
   const standalonePath = `/${config.path}`;
 
@@ -22,6 +34,7 @@ export function SubRecordTab({ campanaId, config }: { campanaId: number; config:
   const update = useUpdate<Row>(standalonePath, [nestedPath, "/insumos"], [nestedPath]);
   const del = useDelete(standalonePath, [nestedPath, "/insumos"], [nestedPath]);
   const [modal, setModal] = useState<{ mode: "create" | "edit"; record?: Row } | null>(null);
+  const [replicando, setReplicando] = useState<Row | null>(null);
 
   const fields = typeof config.fields === "function" ? config.fields(insumos ?? []) : config.fields;
 
@@ -50,6 +63,30 @@ export function SubRecordTab({ campanaId, config }: { campanaId: number; config:
           onDelete={(r) => {
             if (confirm("¿Borrar este registro?")) del.mutate(r.id);
           }}
+          extraActions={
+            config.replicable
+              ? (r) => (
+                  <button
+                    className="btn secondary small"
+                    style={{ marginRight: "0.3rem" }}
+                    type="button"
+                    onClick={() => setReplicando(r)}
+                  >
+                    Copiar a otro cuadro
+                  </button>
+                )
+              : undefined
+          }
+        />
+      )}
+
+      {replicando && (
+        <ReplicarModal
+          record={replicando}
+          config={config}
+          fincaId={fincaId}
+          cuadroActualId={cuadroId}
+          onClose={() => setReplicando(null)}
         />
       )}
 
