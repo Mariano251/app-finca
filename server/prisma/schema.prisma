@@ -632,6 +632,7 @@ enum CategoriaInsumo {
   FITOSANITARIO
   FERTILIZANTE
   SEMILLA
+  COMBUSTIBLE
   OTRO
 }
 

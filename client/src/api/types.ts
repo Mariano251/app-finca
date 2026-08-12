@@ -53,7 +53,7 @@ export type CategoriaCosto =
   | "FLETE"
   | "OTRO";
 
-export type CategoriaInsumo = "FITOSANITARIO" | "FERTILIZANTE" | "SEMILLA" | "OTRO";
+export type CategoriaInsumo = "FITOSANITARIO" | "FERTILIZANTE" | "SEMILLA" | "COMBUSTIBLE" | "OTRO";
 export type TipoMovimientoStock = "ENTRADA" | "SALIDA" | "AJUSTE";
 export type OrigenMovimiento = "MANUAL" | "APLICACION" | "FERTILIZACION" | "LABOR" | "COMPRA";
 export type MetodoDistribucionCosto =

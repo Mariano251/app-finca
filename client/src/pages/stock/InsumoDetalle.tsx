@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useCreate, useDelete, useList, useOne, useUpdate } from "../../api/useCrud";
 import type { Compra, Finca, Insumo, MovimientoStock } from "../../api/types";
 import { Modal } from "../../components/Modal";
@@ -8,6 +9,38 @@ import { RecordList } from "../../components/RecordList";
 import { CATEGORIA_INSUMO_OPTIONS, TIPO_MOVIMIENTO_OPTIONS } from "../../constants";
 
 const money = (n: number) => n.toLocaleString("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 2 });
+
+const MESES_A_MOSTRAR = 12;
+
+/** Agrupa los movimientos de SALIDA (consumo real, sin importar si viene de una carga manual o de
+ *  una aplicación/labor) por mes calendario, para ver de un vistazo cuánto se está consumiendo
+ *  mes a mes — útil sobre todo para combustible, donde no hay un cuadro/campaña a la cual mirar. */
+function useConsumoMensual(movimientos: MovimientoStock[] | undefined, costoUnitario: number | null | undefined) {
+  return useMemo(() => {
+    const porMes = new Map<string, number>();
+    for (const m of movimientos ?? []) {
+      if (m.tipo !== "SALIDA") continue;
+      const d = new Date(m.fecha);
+      const clave = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+      porMes.set(clave, (porMes.get(clave) ?? 0) + m.cantidad);
+    }
+
+    const hoy = new Date();
+    const meses: { clave: string; label: string; cantidad: number; costo: number }[] = [];
+    for (let i = MESES_A_MOSTRAR - 1; i >= 0; i--) {
+      const d = new Date(hoy.getFullYear(), hoy.getMonth() - i, 1);
+      const clave = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+      const cantidad = porMes.get(clave) ?? 0;
+      meses.push({
+        clave,
+        label: d.toLocaleDateString("es-AR", { month: "short", year: "2-digit" }),
+        cantidad,
+        costo: costoUnitario != null ? cantidad * costoUnitario : 0,
+      });
+    }
+    return meses;
+  }, [movimientos, costoUnitario]);
+}
 
 function insumoFields(fincas: Finca[]): FieldSchema[] {
   return [
@@ -70,6 +103,9 @@ export default function InsumoDetalle() {
   const { data: compras } = useList<Compra>(comprasPath);
   const createCompra = useCreate<Compra>(comprasPath, [comprasPath, movimientosPath, "/insumos"]);
   const [showCompra, setShowCompra] = useState(false);
+
+  const consumoMensual = useConsumoMensual(movimientos, insumo?.costoUnitario);
+  const hayConsumo = consumoMensual.some((m) => m.cantidad > 0);
 
   if (isLoading) return <p className="text-muted">Cargando…</p>;
   if (!insumo) return <div className="card empty-state">Insumo no encontrado.</div>;
@@ -165,6 +201,62 @@ export default function InsumoDetalle() {
         >
           Borrar insumo
         </button>
+      </div>
+
+      <div className="page-header" style={{ marginTop: "1.25rem" }}>
+        <h2>Consumo mensual</h2>
+      </div>
+      <div className="card">
+        {!hayConsumo ? (
+          <p className="text-muted">
+            Todavía no hay salidas registradas para calcular el consumo mensual. Se suman los
+            movimientos de "Salida (consumo)", ya sea cargados a mano o generados por una
+            aplicación/labor.
+          </p>
+        ) : (
+          <>
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={consumoMensual} margin={{ top: 8, right: 12, left: 0, bottom: 8 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
+                <XAxis dataKey="label" tick={{ fontSize: 12 }} />
+                <YAxis tick={{ fontSize: 12 }} width={60} />
+                <Tooltip
+                  formatter={((value: number) => [`${Number(value ?? 0).toLocaleString("es-AR")} ${insumo.unidad}`, "Consumo"]) as (
+                    value: unknown
+                  ) => [string, string]}
+                  contentStyle={{ fontSize: "0.85rem" }}
+                />
+                <Bar dataKey="cantidad" fill="var(--color-primary)" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+            <div className="table-wrap" style={{ marginTop: "0.5rem" }}>
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Mes</th>
+                    <th>Consumo</th>
+                    {insumo.costoUnitario != null && <th>Costo estimado</th>}
+                  </tr>
+                </thead>
+                <tbody>
+                  {consumoMensual
+                    .filter((m) => m.cantidad > 0)
+                    .slice()
+                    .reverse()
+                    .map((m) => (
+                      <tr key={m.clave}>
+                        <td>{m.label}</td>
+                        <td>
+                          {m.cantidad.toLocaleString("es-AR")} {insumo.unidad}
+                        </td>
+                        {insumo.costoUnitario != null && <td>{money(m.costo)}</td>}
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
       </div>
 
       <div className="page-header" style={{ marginTop: "1.25rem" }}>

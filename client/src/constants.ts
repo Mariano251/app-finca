@@ -95,6 +95,7 @@ export const CATEGORIA_INSUMO_OPTIONS = [
   { value: "FITOSANITARIO", label: "Fitosanitario" },
   { value: "FERTILIZANTE", label: "Fertilizante" },
   { value: "SEMILLA", label: "Semilla" },
+  { value: "COMBUSTIBLE", label: "Combustible" },
   { value: "OTRO", label: "Otro" },
 ];
 
