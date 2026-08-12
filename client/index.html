@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
@@ -10,9 +10,12 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Finca" />
     <meta name="description" content="Gestión agrícola integral: fincas, cuadros, campañas, fitosanitarios, rendimiento y economía." />
+    <!-- Nombres de enfermedades/plagas (ej. "Trips") son términos técnicos, no palabras en
+         inglés a traducir — el lang="en" viejo hacía que Chrome los tradujera solo. -->
+    <meta name="google" content="notranslate" />
     <title>App Finca</title>
   </head>
-  <body>
+  <body translate="no" class="notranslate">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
