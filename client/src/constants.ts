@@ -61,6 +61,13 @@ export const TIPO_FITOSANITARIO_OPTIONS = [
   { value: "OTRO", label: "Otro" },
 ];
 
+/** Sobre qué base se expresa la dosis, para poder calcular la cantidad de producto realmente
+ * usada (y de ahí el costo real) en vez de tener que cargarla a mano. */
+export const BASE_DOSIS_OPTIONS = [
+  { value: "HECTAREA", label: "Por hectárea (ej: L/ha, kg/ha)" },
+  { value: "CALDO", label: "Por volumen de caldo (ej: cc/100L, g/100L)" },
+];
+
 export const TIPO_EVENTO_CLIMATICO_OPTIONS = [
   { value: "HELADA", label: "Helada" },
   { value: "GRANIZO", label: "Granizo" },

@@ -23,13 +23,30 @@ export const labores = nestedCrudRouter(prisma.laborCultural, "campanaId", {
   },
 });
 
+/** Si no se cargó la cantidad usada a mano, la deriva de la dosis: por hectárea (dosis × superficie
+ * tratada) o por volumen de caldo (dosis cada 100L × volumen de caldo aplicado). Así el costo real
+ * (cantidad × costoUnitario del insumo) sale de la dosis efectivamente aplicada en vez de un número
+ * suelto que el usuario podía olvidarse de cargar o cargar inconsistente con la dosis. */
+function conCantidadDesdeDosis(data: any) {
+  data = conInsumoCoercido(data);
+  if (data.baseDosis === "") data.baseDosis = null;
+  if ((data.cantidadUtilizada === null || data.cantidadUtilizada === undefined) && data.dosis != null) {
+    if (data.baseDosis === "HECTAREA" && data.superficieTratada != null) {
+      data.cantidadUtilizada = Number(data.dosis) * Number(data.superficieTratada);
+    } else if (data.baseDosis === "CALDO" && data.volumenCaldo != null) {
+      data.cantidadUtilizada = (Number(data.dosis) / 100) * Number(data.volumenCaldo);
+    }
+  }
+  return data;
+}
+
 export const aplicaciones = nestedCrudRouter(prisma.aplicacionFitosanitaria, "campanaId", {
   dateFields: ["fecha"],
   dropNullFields: ["estado"],
   orderBy: { fecha: "desc" },
   include: { insumo: true },
-  beforeCreate: conInsumoCoercido,
-  beforeUpdate: conInsumoCoercido,
+  beforeCreate: conCantidadDesdeDosis,
+  beforeUpdate: conCantidadDesdeDosis,
   stock: {
     origen: "APLICACION",
     getTxDelegate: (tx) => tx.aplicacionFitosanitaria,

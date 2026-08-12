@@ -2,6 +2,7 @@ import type { ColumnSchema } from "../../components/RecordList";
 import type { FieldSchema } from "../../components/RecordForm";
 import type { CategoriaInsumo, Insumo, TipoEntidadImagen } from "../../api/types";
 import {
+  BASE_DOSIS_OPTIONS,
   CATEGORIA_COSTO_OPTIONS,
   ESTADO_TAREA_OPTIONS,
   NIVEL_INFESTACION_OPTIONS,
@@ -25,7 +26,7 @@ export interface SubRecordConfig {
  * when one applies (e.g. only fitosanitarios for the Aplicaciones form). Linking an insumo here
  * makes the corresponding stock deduction automatic — leaving it unset keeps the old free-text
  * product field working exactly as before. */
-function conInsumoOpcional(base: FieldSchema[], categoria?: CategoriaInsumo) {
+function conInsumoOpcional(base: FieldSchema[], categoria?: CategoriaInsumo, cantidadPlaceholder?: string) {
   return (insumos: Insumo[]): FieldSchema[] => {
     const opciones = insumos
       .filter((i) => !categoria || i.categoria === categoria)
@@ -33,7 +34,13 @@ function conInsumoOpcional(base: FieldSchema[], categoria?: CategoriaInsumo) {
     return [
       ...base,
       { name: "insumoId", label: "Insumo del stock (opcional)", type: "select", options: opciones },
-      { name: "cantidadUtilizada", label: "Cantidad utilizada", type: "number", step: "0.01" },
+      {
+        name: "cantidadUtilizada",
+        label: "Cantidad utilizada",
+        type: "number",
+        step: "0.01",
+        placeholder: cantidadPlaceholder,
+      },
     ];
   };
 }
@@ -91,6 +98,7 @@ export const SUB_RECORD_CONFIGS: SubRecordConfig[] = [
         { name: "tipo", label: "Tipo", type: "select", options: TIPO_FITOSANITARIO_OPTIONS, required: true },
         { name: "dosis", label: "Dosis", type: "number", step: "0.01" },
         { name: "unidadDosis", label: "Unidad de dosis", type: "text", placeholder: "cc/100L" },
+        { name: "baseDosis", label: "Base de la dosis", type: "select", options: BASE_DOSIS_OPTIONS },
         { name: "volumenCaldo", label: "Volumen de caldo (L)", type: "number", step: "0.1" },
         { name: "superficieTratada", label: "Superficie tratada (ha)", type: "number", step: "0.01" },
         { name: "problemaObjetivo", label: "Problema objetivo", type: "text" },
@@ -99,13 +107,19 @@ export const SUB_RECORD_CONFIGS: SubRecordConfig[] = [
         { name: "estado", label: "Estado", type: "select", options: ESTADO_TAREA_OPTIONS },
         { name: "observaciones", label: "Observaciones", type: "textarea", fullWidth: true },
       ],
-      "FITOSANITARIO"
+      "FITOSANITARIO",
+      "se calcula solo a partir de la dosis + superficie/caldo si lo dejás vacío"
     ),
     columns: [
       fechaCol(),
       { key: "productoComercial", label: "Producto" },
       { key: "tipo", label: "Tipo", render: (r) => labelFor(TIPO_FITOSANITARIO_OPTIONS, r.tipo) },
       { key: "dosis", label: "Dosis", render: (r) => (r.dosis != null ? `${r.dosis} ${r.unidadDosis ?? ""}` : "—") },
+      {
+        key: "cantidadUtilizada",
+        label: "Cantidad usada",
+        render: (r) => (r.cantidadUtilizada != null && r.insumo ? `${r.cantidadUtilizada} ${r.insumo.unidad}` : "—"),
+      },
       { key: "problemaObjetivo", label: "Problema objetivo" },
       { key: "responsable", label: "Responsable" },
     ],

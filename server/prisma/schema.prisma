@@ -201,6 +201,11 @@ enum TipoFitosanitario {
   OTRO
 }
 
+enum BaseDosis {
+  HECTAREA
+  CALDO
+}
+
 model AplicacionFitosanitaria {
   id                Int               @id @default(autoincrement())
   campanaId         Int
@@ -211,6 +216,7 @@ model AplicacionFitosanitaria {
   tipo              TipoFitosanitario
   dosis             Float?
   unidadDosis       String?
+  baseDosis         BaseDosis?
   volumenCaldo      Float?
   superficieTratada Float?
   problemaObjetivo  String?

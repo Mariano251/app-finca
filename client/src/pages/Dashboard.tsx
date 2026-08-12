@@ -47,6 +47,13 @@ export default function Dashboard() {
         <h1>Dashboard</h1>
       </div>
 
+      <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.75rem" }}>
+        <Link to="/stock" className="quick-tile">
+          <span className="quick-tile-icon">📦</span>
+          <span className="quick-tile-label">Stock</span>
+        </Link>
+      </div>
+
       <div className="grid grid-stats">
         <div className="stat-card">
           <div className="value">{data.superficieTotal.toFixed(1)}</div>
