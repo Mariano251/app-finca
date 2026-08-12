@@ -42,7 +42,12 @@ function conInsumoOpcional(base: FieldSchema[], categoria?: CategoriaInsumo, can
   return (ctx: FieldsCtx): FieldSchema[] => {
     const opciones = ctx.insumos
       .filter((i) => !categoria || i.categoria === categoria)
-      .map((i) => ({ value: String(i.id), label: `${i.nombre} (${i.stockActual} ${i.unidad})` }));
+      .map((i) => ({
+        value: String(i.id),
+        label: `${i.nombre} (${i.stockActual} ${i.unidad}${
+          i.costoUnitario != null ? ` · $${i.costoUnitario.toLocaleString("es-AR")}/${i.unidad}` : ""
+        })`,
+      }));
     return [
       ...base,
       { name: "insumoId", label: "Insumo del stock (opcional)", type: "select", options: opciones },
@@ -87,11 +92,26 @@ function labelFor(options: { value: string; label: string }[], value?: string | 
   return options.find((o) => o.value === value)?.label ?? value ?? "—";
 }
 
+/** Costo real del insumo consumido (cantidadUtilizada × costoUnitario vigente del insumo), el
+ *  mismo monto que crearCostoAutomatico vuelca a "Costos" — se muestra acá para que el costo
+ *  quede visible al lado del registro, sin tener que ir a revisar la pestaña de Costos. */
+function costoCol(): ColumnSchema<any> {
+  return {
+    key: "costo",
+    label: "Costo",
+    render: (r) =>
+      r.cantidadUtilizada != null && r.insumo?.costoUnitario != null
+        ? (r.cantidadUtilizada * r.insumo.costoUnitario).toLocaleString("es-AR", { style: "currency", currency: "ARS" })
+        : "—",
+  };
+}
+
 export const SUB_RECORD_CONFIGS: SubRecordConfig[] = [
   {
     path: "labores",
     label: "Labores culturales",
     entityType: "LABOR",
+    replicable: true,
     fields: conInsumoOpcional([
       fecha(),
       { name: "tipo", label: "Tipo", type: "select", options: TIPO_LABOR_OPTIONS, required: true },
@@ -106,12 +126,19 @@ export const SUB_RECORD_CONFIGS: SubRecordConfig[] = [
       { key: "descripcion", label: "Descripción" },
       { key: "responsable", label: "Responsable" },
       { key: "estado", label: "Estado", render: (r) => labelFor(ESTADO_TAREA_OPTIONS, r.estado) },
+      {
+        key: "cantidadUtilizada",
+        label: "Cantidad usada",
+        render: (r) => (r.cantidadUtilizada != null && r.insumo ? `${r.cantidadUtilizada} ${r.insumo.unidad}` : "—"),
+      },
+      costoCol(),
     ],
   },
   {
     path: "aplicaciones",
     label: "Fitosanitarios",
     entityType: "APLICACION",
+    replicable: true,
     fields: conInsumoOpcional(
       [
         fecha(),
@@ -142,6 +169,7 @@ export const SUB_RECORD_CONFIGS: SubRecordConfig[] = [
         label: "Cantidad usada",
         render: (r) => (r.cantidadUtilizada != null && r.insumo ? `${r.cantidadUtilizada} ${r.insumo.unidad}` : "—"),
       },
+      costoCol(),
       { key: "problemaObjetivo", label: "Problema objetivo" },
       { key: "responsable", label: "Responsable" },
     ],
@@ -150,6 +178,7 @@ export const SUB_RECORD_CONFIGS: SubRecordConfig[] = [
     path: "fertilizaciones",
     label: "Fertilización",
     entityType: "FERTILIZACION",
+    replicable: true,
     fields: conInsumoOpcional(
       [
         fecha(),
@@ -175,6 +204,12 @@ export const SUB_RECORD_CONFIGS: SubRecordConfig[] = [
         label: "N-P-K",
         render: (r) => `${r.nUnidades ?? "—"} / ${r.pUnidades ?? "—"} / ${r.kUnidades ?? "—"}`,
       },
+      {
+        key: "cantidadUtilizada",
+        label: "Cantidad usada",
+        render: (r) => (r.cantidadUtilizada != null && r.insumo ? `${r.cantidadUtilizada} ${r.insumo.unidad}` : "—"),
+      },
+      costoCol(),
       { key: "responsable", label: "Responsable" },
     ],
   },
