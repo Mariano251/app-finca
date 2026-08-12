@@ -65,6 +65,9 @@ export type MetodoDistribucionCosto =
 
 export interface Insumo {
   id: number;
+  /** null = insumo compartido/sin asignar a una finca en particular. */
+  fincaId?: number | null;
+  finca?: Finca | null;
   nombre: string;
   categoria: CategoriaInsumo;
   unidad: string;

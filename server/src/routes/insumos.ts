@@ -3,10 +3,19 @@ import { prisma } from "../lib/prisma";
 import { crudRouter } from "../lib/crudRouter";
 import { registrarMovimiento } from "../lib/stock";
 
+function conFincaCoercida(data: any) {
+  if (data.fincaId !== undefined) data.fincaId = data.fincaId ? Number(data.fincaId) : null;
+  return data;
+}
+
 export const insumosRouter = crudRouter(prisma.insumo, {
-  filterFields: ["categoria", "activo"],
+  filterFields: ["categoria", "activo", "fincaId"],
   boolFilterFields: ["activo"],
+  intFilterFields: ["fincaId"],
+  include: { finca: true },
   orderBy: { nombre: "asc" },
+  beforeCreate: conFincaCoercida,
+  beforeUpdate: conFincaCoercida,
 });
 
 export const movimientosRouter = Router({ mergeParams: true });

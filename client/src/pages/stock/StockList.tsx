@@ -1,18 +1,27 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCreate, useList } from "../../api/useCrud";
-import type { Insumo } from "../../api/types";
+import type { Finca, Insumo } from "../../api/types";
 import { Modal } from "../../components/Modal";
 import { RecordForm, type FieldSchema } from "../../components/RecordForm";
 import { CATEGORIA_INSUMO_OPTIONS } from "../../constants";
 
-const insumoFields: FieldSchema[] = [
-  { name: "nombre", label: "Nombre", type: "text", required: true },
-  { name: "categoria", label: "Categoría", type: "select", options: CATEGORIA_INSUMO_OPTIONS, required: true },
-  { name: "unidad", label: "Unidad", type: "text", required: true, placeholder: "L, kg, bolsa..." },
-  { name: "stockMinimo", label: "Stock mínimo (alerta)", type: "number", step: "0.01" },
-  { name: "notas", label: "Notas", type: "textarea", fullWidth: true },
-];
+function insumoFields(fincas: Finca[]): FieldSchema[] {
+  return [
+    { name: "nombre", label: "Nombre", type: "text", required: true },
+    { name: "categoria", label: "Categoría", type: "select", options: CATEGORIA_INSUMO_OPTIONS, required: true },
+    {
+      name: "fincaId",
+      label: "Finca",
+      type: "select",
+      options: fincas.map((f) => ({ value: String(f.id), label: f.nombre })),
+      placeholder: "Compartido entre fincas",
+    },
+    { name: "unidad", label: "Unidad", type: "text", required: true, placeholder: "L, kg, bolsa..." },
+    { name: "stockMinimo", label: "Stock mínimo (alerta)", type: "number", step: "0.01" },
+    { name: "notas", label: "Notas", type: "textarea", fullWidth: true },
+  ];
+}
 
 function labelFor(categoria: string) {
   return CATEGORIA_INSUMO_OPTIONS.find((o) => o.value === categoria)?.label ?? categoria;
@@ -20,7 +29,14 @@ function labelFor(categoria: string) {
 
 export default function StockList() {
   const [categoria, setCategoria] = useState("");
-  const { data: insumos, isLoading } = useList<Insumo>("/insumos", { activo: "true" });
+  const [fincaId, setFincaId] = useState("");
+  const { data: fincas } = useList<Finca>("/fincas");
+  const params = useMemo(() => {
+    const p: Record<string, string> = { activo: "true" };
+    if (fincaId) p.fincaId = fincaId;
+    return p;
+  }, [fincaId]);
+  const { data: insumos, isLoading } = useList<Insumo>("/insumos", params);
   const create = useCreate<Insumo>("/insumos");
   const [showCreate, setShowCreate] = useState(false);
   const navigate = useNavigate();
@@ -35,6 +51,20 @@ export default function StockList() {
           + Nuevo insumo
         </button>
       </div>
+
+      {fincas && fincas.length > 1 && (
+        <div className="field" style={{ maxWidth: "280px", marginBottom: "0.75rem" }}>
+          <label htmlFor="fincaFiltro">Finca</label>
+          <select id="fincaFiltro" value={fincaId} onChange={(e) => setFincaId(e.target.value)}>
+            <option value="">Todas las fincas</option>
+            {fincas.map((f) => (
+              <option key={f.id} value={f.id}>
+                {f.nombre}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       <div className="tabs">
         <button className={"tab-btn" + (categoria === "" ? " active" : "")} onClick={() => setCategoria("")}>
@@ -67,7 +97,10 @@ export default function StockList() {
                 {negativo && <span className="tag" style={{ background: "#fbe9e7", color: "var(--color-danger)" }}>Stock negativo</span>}
                 {bajo && <span className="tag" style={{ background: "#fbe9e7", color: "var(--color-danger)" }}>Stock bajo</span>}
               </div>
-              <p className="text-muted" style={{ fontSize: "0.8rem" }}>{labelFor(i.categoria)}</p>
+              <p className="text-muted" style={{ fontSize: "0.8rem" }}>
+                {labelFor(i.categoria)}
+                {i.finca ? ` · ${i.finca.nombre}` : fincas && fincas.length > 1 ? " · Compartido" : ""}
+              </p>
               <p style={{ fontSize: "1.1rem", fontWeight: 700, color: negativo ? "var(--color-danger)" : undefined }}>
                 {i.stockActual.toLocaleString("es-AR")} <span style={{ fontSize: "0.8rem", fontWeight: 400 }}>{i.unidad}</span>
               </p>
@@ -82,7 +115,8 @@ export default function StockList() {
       {showCreate && (
         <Modal title="Nuevo insumo" onClose={() => setShowCreate(false)}>
           <RecordForm
-            fields={insumoFields}
+            fields={insumoFields(fincas ?? [])}
+            initial={fincaId ? { fincaId } : undefined}
             submitting={create.isPending}
             onCancel={() => setShowCreate(false)}
             onSubmit={(data) =>

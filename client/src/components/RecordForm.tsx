@@ -82,7 +82,7 @@ export function RecordForm({
                 required={f.required}
                 onChange={(e) => handleChange(f.name, e.target.value)}
               >
-                <option value="">—</option>
+                <option value="">{f.placeholder ?? "—"}</option>
                 {f.options?.map((o) => (
                   <option key={o.value} value={o.value}>
                     {o.label}

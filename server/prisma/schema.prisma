@@ -22,6 +22,7 @@ model Finca {
   sectores         Sector[]
   croquis          Croquis[]
   costosIndirectos CostoIndirecto[]
+  insumos          Insumo[]
 }
 
 model Sector {
@@ -650,6 +651,9 @@ enum OrigenMovimiento {
 
 model Insumo {
   id            Int             @id @default(autoincrement())
+  // null = insumo compartido/sin asignar a una finca en particular (comportamiento previo).
+  fincaId       Int?
+  finca         Finca?          @relation(fields: [fincaId], references: [id], onDelete: SetNull)
   nombre        String
   categoria     CategoriaInsumo
   unidad        String
@@ -671,6 +675,7 @@ model Insumo {
   labores         LaborCultural[]
 
   @@index([categoria])
+  @@index([fincaId])
 }
 
 model Compra {

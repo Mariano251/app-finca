@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useCreate, useDelete, useList, useOne, useUpdate } from "../../api/useCrud";
-import type { Compra, Insumo, MovimientoStock } from "../../api/types";
+import type { Compra, Finca, Insumo, MovimientoStock } from "../../api/types";
 import { Modal } from "../../components/Modal";
 import { RecordForm, type FieldSchema } from "../../components/RecordForm";
 import { RecordList } from "../../components/RecordList";
@@ -9,14 +9,23 @@ import { CATEGORIA_INSUMO_OPTIONS, TIPO_MOVIMIENTO_OPTIONS } from "../../constan
 
 const money = (n: number) => n.toLocaleString("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 2 });
 
-const insumoFields: FieldSchema[] = [
-  { name: "nombre", label: "Nombre", type: "text", required: true },
-  { name: "categoria", label: "Categoría", type: "select", options: CATEGORIA_INSUMO_OPTIONS, required: true },
-  { name: "unidad", label: "Unidad", type: "text", required: true },
-  { name: "stockMinimo", label: "Stock mínimo (alerta)", type: "number", step: "0.01" },
-  { name: "activo", label: "Activo", type: "checkbox" },
-  { name: "notas", label: "Notas", type: "textarea", fullWidth: true },
-];
+function insumoFields(fincas: Finca[]): FieldSchema[] {
+  return [
+    { name: "nombre", label: "Nombre", type: "text", required: true },
+    { name: "categoria", label: "Categoría", type: "select", options: CATEGORIA_INSUMO_OPTIONS, required: true },
+    {
+      name: "fincaId",
+      label: "Finca",
+      type: "select",
+      options: fincas.map((f) => ({ value: String(f.id), label: f.nombre })),
+      placeholder: "Compartido entre fincas",
+    },
+    { name: "unidad", label: "Unidad", type: "text", required: true },
+    { name: "stockMinimo", label: "Stock mínimo (alerta)", type: "number", step: "0.01" },
+    { name: "activo", label: "Activo", type: "checkbox" },
+    { name: "notas", label: "Notas", type: "textarea", fullWidth: true },
+  ];
+}
 
 const movimientoFields: FieldSchema[] = [
   { name: "tipo", label: "Tipo de movimiento", type: "select", options: TIPO_MOVIMIENTO_OPTIONS, required: true },
@@ -47,6 +56,7 @@ export default function InsumoDetalle() {
   const navigate = useNavigate();
 
   const { data: insumo, isLoading } = useOne<Insumo>("/insumos", insumoId);
+  const { data: fincas } = useList<Finca>("/fincas");
   const update = useUpdate<Insumo>("/insumos");
   const del = useDelete("/insumos");
   const [editing, setEditing] = useState(false);
@@ -94,6 +104,10 @@ export default function InsumoDetalle() {
           <div>
             <span className="text-muted">Categoría: </span>
             {labelFor(CATEGORIA_INSUMO_OPTIONS, insumo.categoria)}
+          </div>
+          <div>
+            <span className="text-muted">Finca: </span>
+            {insumo.finca?.nombre ?? "Compartido entre fincas"}
           </div>
           <div>
             <span className="text-muted">Stock actual: </span>
@@ -204,8 +218,8 @@ export default function InsumoDetalle() {
       {editing && (
         <Modal title="Editar insumo" onClose={() => setEditing(false)}>
           <RecordForm
-            fields={insumoFields}
-            initial={insumo}
+            fields={insumoFields(fincas ?? [])}
+            initial={{ ...insumo, fincaId: insumo.fincaId != null ? String(insumo.fincaId) : "" }}
             submitting={update.isPending}
             onCancel={() => setEditing(false)}
             onSubmit={(data) => update.mutate({ id: insumo.id, data }, { onSuccess: () => setEditing(false) })}
