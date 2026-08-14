@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { fincasRouter } from "./fincas";
+import { climaRouter } from "./clima";
 import { sectoresRouter } from "./sectores";
 import { cuadrosRouter } from "./cuadros";
 import { cultivosRouter } from "./cultivos";
@@ -34,6 +35,7 @@ import { costosIndirectosRouter, asignacionesRouter } from "./costosIndirectos";
 
 export const apiRouter = Router();
 
+apiRouter.use("/fincas/:id/clima", climaRouter);
 apiRouter.use("/fincas", fincasRouter);
 apiRouter.use("/sectores", sectoresRouter);
 apiRouter.use("/cuadros", cuadrosRouter);

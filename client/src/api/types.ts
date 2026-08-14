@@ -123,8 +123,27 @@ export interface Finca {
   nombre: string;
   ubicacion?: string | null;
   superficieTotal?: number | null;
+  latitud?: number | null;
+  longitud?: number | null;
   notas?: string | null;
   sectores?: Sector[];
+}
+
+export interface ClimaDia {
+  fecha: string;
+  tempMin: number;
+  tempMax: number;
+  precipitacionMm: number;
+  probabilidadLluvia: number | null;
+  vientoMaxKmh: number;
+  riesgoHelada: boolean;
+  vientoFuerte: boolean;
+  lluviaProbable: boolean;
+}
+
+export interface Clima {
+  actualizado: string;
+  dias: ClimaDia[];
 }
 
 export interface Sector {

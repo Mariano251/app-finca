@@ -15,6 +15,10 @@ model Finca {
   nombre          String
   ubicacion       String?
   superficieTotal Float?
+  /// Coordenadas para el widget de clima (pronóstico automático vía Open-Meteo). Nulas hasta que
+  /// el usuario las configura (a mano o con "Usar mi ubicación actual" desde el celular).
+  latitud         Float?
+  longitud        Float?
   notas           String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt

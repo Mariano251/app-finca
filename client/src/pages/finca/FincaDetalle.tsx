@@ -6,11 +6,20 @@ import { Modal } from "../../components/Modal";
 import { RecordForm, type FieldSchema } from "../../components/RecordForm";
 import { RecordList } from "../../components/RecordList";
 import { RIEGO_OPTIONS } from "../../constants";
+import { ClimaCard } from "./ClimaCard";
 
 const fincaFields: FieldSchema[] = [
   { name: "nombre", label: "Nombre", type: "text", required: true },
   { name: "ubicacion", label: "Ubicación", type: "text" },
   { name: "superficieTotal", label: "Superficie total (ha)", type: "number", step: "0.01" },
+  {
+    name: "latitud",
+    label: "Latitud",
+    type: "number",
+    step: "0.000001",
+    placeholder: "Para el clima — o usá el botón de ubicación en la ficha",
+  },
+  { name: "longitud", label: "Longitud", type: "number", step: "0.000001" },
   { name: "notas", label: "Notas", type: "textarea", fullWidth: true },
 ];
 
@@ -89,6 +98,8 @@ export default function FincaDetalle() {
           Borrar finca
         </button>
       </div>
+
+      <ClimaCard finca={finca} />
 
       <div className="page-header" style={{ marginTop: "1.25rem" }}>
         <h2>Sectores</h2>
