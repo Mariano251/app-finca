@@ -7,6 +7,13 @@ import { recalcularCostoUnitario } from "../lib/costoUnitario";
  * Compra alimenta el stock (ENTRADA con origen=COMPRA) y la valorizacion del Insumo (promedio
  * ponderado, recalculado en recalcularCostoUnitario) en la misma transaccion. No usa crudRouter
  * generico porque necesita ese paso extra de recalculo en cada alta/edicion/baja.
+ *
+ * Caso especial — Combustible: se carga y se consume el mismo dia (no queda como stock de
+ * deposito), asi que la compra registra tambien su propia SALIDA del mismo dia y cantidad, con el
+ * mismo origen/origenId que la ENTRADA. Asi el consumo mensual (que solo suma SALIDA) se llena
+ * solo con la carga, sin pedirle al usuario un movimiento manual aparte. revertirMovimientosDeOrigen
+ * ya revierte todos los movimientos de un origen/origenId (no solo uno), asi que editar/borrar la
+ * compra revierte la ENTRADA y la SALIDA por igual sin cambios ahi.
  */
 
 function montoTotal(cantidad: number, precioUnitario: number) {
@@ -37,6 +44,7 @@ comprasNestedRouter.post("/", async (req, res, next) => {
     const precioNum = Number(precioUnitario);
 
     const compra = await prisma.$transaction(async (tx) => {
+      const insumo = await tx.insumo.findUniqueOrThrow({ where: { id: insumoId } });
       const created = await tx.compra.create({
         data: {
           insumoId,
@@ -60,6 +68,17 @@ comprasNestedRouter.post("/", async (req, res, next) => {
         origenId: created.id,
         motivo: `Compra${proveedor ? ` a ${proveedor}` : ""}`,
       });
+      if (insumo.categoria === "COMBUSTIBLE") {
+        await registrarMovimiento(tx, {
+          insumoId,
+          tipo: "SALIDA",
+          cantidad: cantidadNum,
+          fecha: created.fecha,
+          origen: "COMPRA",
+          origenId: created.id,
+          motivo: "Consumo de combustible (mismo día de la carga)",
+        });
+      }
       await recalcularCostoUnitario(tx, insumoId);
       return created;
     });
@@ -94,6 +113,7 @@ comprasStandaloneRouter.put("/:id", async (req, res, next) => {
 
     const compra = await prisma.$transaction(async (tx) => {
       const existing = await tx.compra.findUniqueOrThrow({ where: { id } });
+      const insumo = await tx.insumo.findUniqueOrThrow({ where: { id: existing.insumoId } });
       await revertirMovimientosDeOrigen(tx, "COMPRA", id);
       const updated = await tx.compra.update({
         where: { id },
@@ -118,6 +138,17 @@ comprasStandaloneRouter.put("/:id", async (req, res, next) => {
         origenId: id,
         motivo: `Compra${proveedor ? ` a ${proveedor}` : ""}`,
       });
+      if (insumo.categoria === "COMBUSTIBLE") {
+        await registrarMovimiento(tx, {
+          insumoId: existing.insumoId,
+          tipo: "SALIDA",
+          cantidad: cantidadNum,
+          fecha: updated.fecha,
+          origen: "COMPRA",
+          origenId: id,
+          motivo: "Consumo de combustible (mismo día de la carga)",
+        });
+      }
       await recalcularCostoUnitario(tx, existing.insumoId);
       return updated;
     });
