@@ -188,7 +188,7 @@ function CostosIndirectosTab() {
             submitting={create.isPending || update.isPending}
             onCancel={() => setModal(null)}
             onSubmit={(formData) => {
-              const payload = { ...formData, fincaId: formData.fincaId || null };
+              const payload = { ...formData, fincaId: formData.fincaId ? Number(formData.fincaId) : null };
               if (modal.mode === "create") {
                 create.mutate(payload as Partial<CostoIndirecto>, { onSuccess: () => setModal(null) });
               } else if (modal.record) {

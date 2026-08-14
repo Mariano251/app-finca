@@ -5,7 +5,7 @@ import { useCreate, useDelete, useList, useUpdate } from "../../api/useCrud";
 import { Modal } from "../../components/Modal";
 import { RecordForm, type FieldSchema } from "../../components/RecordForm";
 import { RecordList } from "../../components/RecordList";
-import type { Presupuesto } from "../../api/types";
+import type { CategoriaCosto, Presupuesto } from "../../api/types";
 import { CATEGORIA_COSTO_OPTIONS } from "../../constants";
 
 const money = (n: number) => n.toLocaleString("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 });
@@ -98,7 +98,7 @@ export function PresupuestoTab({ campanaId }: { campanaId: number }) {
             submitting={create.isPending || update.isPending}
             onCancel={() => setModal(null)}
             onSubmit={(formData) => {
-              const payload = { ...formData, categoria: formData.categoria || null };
+              const payload = { ...formData, categoria: formData.categoria ? (formData.categoria as CategoriaCosto) : null };
               if (modal.mode === "create") {
                 create.mutate(payload as Partial<Presupuesto>, { onSuccess: () => setModal(null) });
               } else if (modal.record) {
