@@ -106,6 +106,8 @@ export default function InsumoDetalle() {
 
   const consumoMensual = useConsumoMensual(movimientos, insumo?.costoUnitario);
   const hayConsumo = consumoMensual.some((m) => m.cantidad > 0);
+  const totalAnual = consumoMensual.reduce((acc, m) => acc + m.cantidad, 0);
+  const costoAnual = consumoMensual.reduce((acc, m) => acc + m.costo, 0);
 
   if (isLoading) return <p className="text-muted">Cargando…</p>;
   if (!insumo) return <div className="card empty-state">Insumo no encontrado.</div>;
@@ -255,6 +257,10 @@ export default function InsumoDetalle() {
                 </tbody>
               </table>
             </div>
+            <p className="text-muted" style={{ fontSize: "0.8rem", marginTop: "0.5rem" }}>
+              Total últimos 12 meses: {totalAnual.toLocaleString("es-AR")} {insumo.unidad}
+              {insumo.costoUnitario != null && ` (${money(costoAnual)})`}
+            </p>
           </>
         )}
       </div>
