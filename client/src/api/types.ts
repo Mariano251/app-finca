@@ -27,6 +27,7 @@ export type TipoFitosanitario =
   | "HERBICIDA"
   | "ACARICIDA"
   | "NEMATICIDA"
+  | "BACTERICIDA"
   | "OTRO";
 
 export type NivelInfestacion = "BAJO" | "MEDIO" | "ALTO";
@@ -116,7 +117,8 @@ export type TipoEntidadImagen =
   | "EVENTO_CLIMATICO"
   | "COSECHA"
   | "CROQUIS"
-  | "CUADRO";
+  | "CUADRO"
+  | "PRODUCTO_COMERCIAL";
 
 export interface Finca {
   id: number;
@@ -337,4 +339,87 @@ export interface Maleza {
   croquisX?: number | null;
   croquisY?: number | null;
   radioMetros?: number | null;
+}
+
+// ---------------------------------------------------------------------------
+// Biblioteca de Productos y Principios Activos
+// ---------------------------------------------------------------------------
+
+export type TipoOrganismo = "PLAGA" | "ACARO" | "ENFERMEDAD" | "BACTERIA" | "MALEZA" | "NEMATODO";
+export type Movilidad = "CONTACTO" | "SISTEMICO" | "TRANSLAMINAR" | "ASCENDENTE" | "DESCENDENTE" | "OTRO";
+export type RegistroArgentina = "VERIFICADO" | "NO_VERIFICADO" | "NO_REGISTRADO" | "INTERNACIONAL" | "PENDIENTE";
+export type EficaciaProducto = "EFECTIVO" | "EFECTIVO_PARCIAL" | "NO_EFECTIVO" | "SIN_EXPERIENCIA";
+export type BaseDosis = "HECTAREA" | "CALDO";
+
+export interface Organismo {
+  id: number;
+  tipo: TipoOrganismo;
+  nombre: string;
+  nombreCientifico?: string | null;
+  notas?: string | null;
+}
+
+export interface ProductoPrincipioActivo {
+  id: number;
+  productoComercialId: number;
+  principioActivoId: number;
+  principioActivo?: PrincipioActivo;
+  productoComercial?: ProductoComercial;
+  concentracion?: number | null;
+  unidadConcentracion?: string | null;
+}
+
+/** Fila editable por el usuario con SU dosis y SU experiencia de campo para un producto contra
+ *  un organismo puntual -- no es solo "lo controla o no" según la ficha técnica. */
+export interface ProductoOrganismo {
+  id: number;
+  productoComercialId: number;
+  organismoId: number;
+  organismo?: Organismo;
+  eficacia: EficaciaProducto;
+  dosisRecomendada?: number | null;
+  dosisMax?: number | null;
+  unidadDosis?: string | null;
+  baseDosis?: BaseDosis | null;
+  notas?: string | null;
+}
+
+export interface PrincipioActivo {
+  id: number;
+  nombre: string;
+  tipo: TipoFitosanitario;
+  grupoAccion?: string | null;
+  movilidad?: Movilidad | null;
+  observaciones?: string | null;
+  riesgoResistencia?: string | null;
+  recomendacionRotacion?: string | null;
+  registroArgentina: RegistroArgentina;
+  fuenteInformacion?: string | null;
+  fechaVerificacion?: string | null;
+  favorito: boolean;
+  cultivos?: Cultivo[];
+  organismos?: Organismo[];
+  productos?: ProductoPrincipioActivo[];
+}
+
+export interface ProductoComercial {
+  id: number;
+  nombreComercial: string;
+  tipo: TipoFitosanitario;
+  formulacion?: string | null;
+  movilidad?: Movilidad | null;
+  observaciones?: string | null;
+  disponible: boolean;
+  proveedor?: string | null;
+  precio?: number | null;
+  presentacion?: string | null;
+  fechaActualizacionPrecio?: string | null;
+  notasPersonales?: string | null;
+  registroArgentina: RegistroArgentina;
+  fuenteInformacion?: string | null;
+  fechaVerificacion?: string | null;
+  favorito: boolean;
+  cultivos?: Cultivo[];
+  organismos?: ProductoOrganismo[];
+  principiosActivos?: ProductoPrincipioActivo[];
 }

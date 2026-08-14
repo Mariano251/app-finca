@@ -89,6 +89,9 @@ model Cultivo {
 
   variedades Variedad[]
   campanas   Campana[]
+
+  principiosActivos    PrincipioActivo[]
+  productosComerciales ProductoComercial[]
 }
 
 model Variedad {
@@ -203,6 +206,7 @@ enum TipoFitosanitario {
   HERBICIDA
   ACARICIDA
   NEMATICIDA
+  BACTERICIDA
   OTRO
 }
 
@@ -212,31 +216,37 @@ enum BaseDosis {
 }
 
 model AplicacionFitosanitaria {
-  id                Int               @id @default(autoincrement())
-  campanaId         Int
-  campana           Campana           @relation(fields: [campanaId], references: [id], onDelete: Cascade)
-  fecha             DateTime
-  productoComercial String
-  principioActivo   String?
-  tipo              TipoFitosanitario
-  dosis             Float?
-  unidadDosis       String?
-  baseDosis         BaseDosis?
-  volumenCaldo      Float?
-  superficieTratada Float?
-  problemaObjetivo  String?
-  estadoCultivo     String?
-  responsable       String?
-  estado            EstadoTarea       @default(REALIZADA)
-  insumoId          Int?
-  insumo            Insumo?           @relation(fields: [insumoId], references: [id], onDelete: SetNull)
-  cantidadUtilizada Float?
-  observaciones     String?
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
+  id                     Int                @id @default(autoincrement())
+  campanaId              Int
+  campana                Campana            @relation(fields: [campanaId], references: [id], onDelete: Cascade)
+  fecha                  DateTime
+  productoComercial      String
+  principioActivo        String?
+  tipo                   TipoFitosanitario
+  dosis                  Float?
+  unidadDosis            String?
+  baseDosis              BaseDosis?
+  volumenCaldo           Float?
+  superficieTratada      Float?
+  problemaObjetivo       String?
+  estadoCultivo          String?
+  responsable            String?
+  estado                 EstadoTarea        @default(REALIZADA)
+  insumoId               Int?
+  insumo                 Insumo?            @relation(fields: [insumoId], references: [id], onDelete: SetNull)
+  cantidadUtilizada      Float?
+  observaciones          String?
+  // Link opcional al producto elegido desde la Biblioteca de Productos y Principios Activos:
+  // cuando está seteado, productoComercial/principioActivo (texto libre arriba) se autocompletaron
+  // desde ahí y este id habilita el historial/alerta de rotación de grupos de acción por lote.
+  productoComercialLibId Int?
+  productoComercialLib   ProductoComercial? @relation(fields: [productoComercialLibId], references: [id], onDelete: SetNull)
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
 
   @@index([campanaId])
   @@index([insumoId])
+  @@index([productoComercialLibId])
 }
 
 model Fertilizacion {
@@ -568,6 +578,7 @@ enum TipoEntidadImagen {
   COSECHA
   CROQUIS
   CUADRO
+  PRODUCTO_COMERCIAL
 }
 
 model Imagen {
@@ -718,4 +729,155 @@ model MovimientoStock {
 
   @@index([insumoId])
   @@index([origen, origenId])
+}
+
+// ---------------------------------------------------------------------------
+// Biblioteca de Productos y Principios Activos: catalogo de referencia tecnica
+// (que existe, que controla que), independiente de la bitacora real de campo
+// (Plaga/Enfermedad/Maleza arriba, que registra lo que efectivamente paso en
+// una campana). Se enlazan de forma opcional via AplicacionFitosanitaria.
+// ---------------------------------------------------------------------------
+
+enum TipoOrganismo {
+  PLAGA
+  ACARO
+  ENFERMEDAD
+  BACTERIA
+  MALEZA
+  NEMATODO
+}
+
+enum Movilidad {
+  CONTACTO
+  SISTEMICO
+  TRANSLAMINAR
+  ASCENDENTE
+  DESCENDENTE
+  OTRO
+}
+
+/// Estado de verificacion del uso/registro en Argentina: separa la info tecnica general
+/// (bibliografia, uso internacional) de lo efectivamente autorizado localmente, para no
+/// asumir que un principio activo esta habilitado para un cultivo/plaga solo porque funciona
+/// tecnicamente contra ella.
+enum RegistroArgentina {
+  VERIFICADO
+  NO_VERIFICADO
+  NO_REGISTRADO
+  INTERNACIONAL
+  PENDIENTE
+}
+
+/// Eficacia observada en el campo por el usuario para un producto contra un organismo puntual
+/// -- distinto de "lo controla segun la ficha": esto es experiencia propia, editable, no un dato
+/// de fabricante. SIN_EXPERIENCIA es el default (todavia no lo probo / solo referencia tecnica).
+enum EficaciaProducto {
+  EFECTIVO
+  EFECTIVO_PARCIAL
+  NO_EFECTIVO
+  SIN_EXPERIENCIA
+}
+
+/// Catalogo unificado de organismos objetivo (plagas, acaros, enfermedades, bacterias, malezas,
+/// nematodos) que un principio activo o producto puede controlar. Es una tabla de referencia,
+/// separada de Plaga/Enfermedad/Maleza (que son bitacora real por campana).
+model Organismo {
+  id               Int           @id @default(autoincrement())
+  tipo             TipoOrganismo
+  nombre           String
+  nombreCientifico String?
+  notas            String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  principiosActivos PrincipioActivo[]
+  productos         ProductoOrganismo[]
+
+  @@unique([tipo, nombre])
+  @@index([tipo])
+}
+
+model PrincipioActivo {
+  id                    Int               @id @default(autoincrement())
+  nombre                String            @unique
+  tipo                  TipoFitosanitario
+  grupoAccion           String?
+  movilidad             Movilidad?
+  observaciones         String?
+  riesgoResistencia     String?
+  recomendacionRotacion String?
+  registroArgentina     RegistroArgentina @default(PENDIENTE)
+  fuenteInformacion     String?
+  fechaVerificacion     DateTime?
+  favorito              Boolean           @default(false)
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+
+  cultivos   Cultivo[]
+  organismos Organismo[]
+  productos  ProductoPrincipioActivo[]
+
+  @@index([tipo])
+  @@index([grupoAccion])
+}
+
+model ProductoComercial {
+  id                       Int               @id @default(autoincrement())
+  nombreComercial          String
+  tipo                     TipoFitosanitario
+  formulacion              String?
+  movilidad                Movilidad?
+  observaciones            String?
+  disponible               Boolean           @default(true)
+  proveedor                String?
+  precio                   Float?
+  presentacion             String?
+  fechaActualizacionPrecio DateTime?
+  notasPersonales          String?
+  registroArgentina        RegistroArgentina @default(PENDIENTE)
+  fuenteInformacion        String?
+  fechaVerificacion        DateTime?
+  favorito                 Boolean           @default(false)
+  createdAt                DateTime          @default(now())
+  updatedAt                DateTime          @updatedAt
+
+  cultivos          Cultivo[]
+  organismos        ProductoOrganismo[]
+  principiosActivos ProductoPrincipioActivo[]
+  aplicaciones      AplicacionFitosanitaria[]
+
+  @@index([tipo])
+}
+
+model ProductoPrincipioActivo {
+  id                  Int               @id @default(autoincrement())
+  productoComercialId Int
+  productoComercial   ProductoComercial @relation(fields: [productoComercialId], references: [id], onDelete: Cascade)
+  principioActivoId   Int
+  principioActivo     PrincipioActivo   @relation(fields: [principioActivoId], references: [id], onDelete: Cascade)
+  concentracion       Float?
+  unidadConcentracion String?
+
+  @@unique([productoComercialId, principioActivoId])
+  @@index([principioActivoId])
+}
+
+/// Reemplaza lo que en un catalogo simple seria un m2m Producto<->Organismo: cada fila la puede
+/// editar el usuario con SU dosis recomendada y SU experiencia de campo (eficacia/notas), no solo
+/// "lo controla o no" segun la ficha tecnica.
+model ProductoOrganismo {
+  id                  Int               @id @default(autoincrement())
+  productoComercialId Int
+  productoComercial   ProductoComercial @relation(fields: [productoComercialId], references: [id], onDelete: Cascade)
+  organismoId         Int
+  organismo           Organismo         @relation(fields: [organismoId], references: [id], onDelete: Cascade)
+  eficacia            EficaciaProducto  @default(SIN_EXPERIENCIA)
+  dosisRecomendada    Float?
+  dosisMax            Float?
+  unidadDosis         String?
+  baseDosis           BaseDosis?
+  notas               String?
+
+  @@unique([productoComercialId, organismoId])
+  @@index([organismoId])
 }

@@ -7,6 +7,7 @@ const NAV_ITEMS = [
   { to: "/finca", label: "Finca", icon: "🌱", end: false },
   { to: "/cultivos", label: "Cultivos", icon: "🌾", end: false },
   { to: "/conocimiento", label: "Conocimiento", icon: "📘", end: false },
+  { to: "/biblioteca", label: "Biblioteca", icon: "📗", end: false },
   { to: "/busqueda", label: "Búsqueda", icon: "🔍", end: false },
 ];
 

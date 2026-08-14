@@ -44,7 +44,10 @@ export const aplicaciones = nestedCrudRouter(prisma.aplicacionFitosanitaria, "ca
   dateFields: ["fecha"],
   dropNullFields: ["estado"],
   orderBy: { fecha: "desc" },
-  include: { insumo: true },
+  include: {
+    insumo: true,
+    productoComercialLib: { include: { principiosActivos: { include: { principioActivo: true } } } },
+  },
   beforeCreate: conCantidadDesdeDosis,
   beforeUpdate: conCantidadDesdeDosis,
   stock: {

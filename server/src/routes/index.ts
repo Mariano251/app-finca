@@ -32,6 +32,8 @@ import { busquedaRouter } from "./busqueda";
 import { insumosRouter, movimientosRouter } from "./insumos";
 import { comprasNestedRouter, comprasStandaloneRouter } from "./compras";
 import { costosIndirectosRouter, asignacionesRouter } from "./costosIndirectos";
+import { organismosRouter, principiosActivosRouter, productosComercialesRouter, bibliotecaExtraRouter } from "./biblioteca";
+import { adjuntosRouter } from "./adjuntos";
 
 export const apiRouter = Router();
 
@@ -79,3 +81,9 @@ apiRouter.use("/insumos", insumosRouter);
 apiRouter.use("/compras", comprasStandaloneRouter);
 apiRouter.use("/costos-indirectos/:costoIndirectoId/asignaciones", asignacionesRouter);
 apiRouter.use("/costos-indirectos", costosIndirectosRouter);
+
+apiRouter.use("/organismos", organismosRouter);
+apiRouter.use("/principios-activos", principiosActivosRouter);
+apiRouter.use("/productos-comerciales", productosComercialesRouter);
+apiRouter.use("/biblioteca", bibliotecaExtraRouter);
+apiRouter.use("/adjuntos", adjuntosRouter);

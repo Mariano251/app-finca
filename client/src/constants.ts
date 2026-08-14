@@ -58,7 +58,53 @@ export const TIPO_FITOSANITARIO_OPTIONS = [
   { value: "HERBICIDA", label: "Herbicida" },
   { value: "ACARICIDA", label: "Acaricida" },
   { value: "NEMATICIDA", label: "Nematicida" },
+  { value: "BACTERICIDA", label: "Bactericida" },
   { value: "OTRO", label: "Otro" },
+];
+
+/** Color fijo por tipo (no hasheado como colorForCultivo) para que las etiquetas de
+ *  insecticida/acaricida/fungicida/etc. sean siempre las mismas en toda la Biblioteca. */
+export const TIPO_FITOSANITARIO_COLOR: Record<string, string> = {
+  FUNGICIDA: "#3d9ba8",
+  INSECTICIDA: "#b3413a",
+  HERBICIDA: "#8a5fc2",
+  ACARICIDA: "#c2703d",
+  NEMATICIDA: "#6b8f3d",
+  BACTERICIDA: "#c23d8f",
+  OTRO: "#8f6b3d",
+};
+
+export const TIPO_ORGANISMO_OPTIONS = [
+  { value: "PLAGA", label: "Plaga" },
+  { value: "ACARO", label: "Ácaro" },
+  { value: "ENFERMEDAD", label: "Enfermedad" },
+  { value: "BACTERIA", label: "Bacteria" },
+  { value: "MALEZA", label: "Maleza" },
+  { value: "NEMATODO", label: "Nematodo" },
+];
+
+export const MOVILIDAD_OPTIONS = [
+  { value: "CONTACTO", label: "Contacto" },
+  { value: "SISTEMICO", label: "Sistémico" },
+  { value: "TRANSLAMINAR", label: "Translaminar" },
+  { value: "ASCENDENTE", label: "Ascendente" },
+  { value: "DESCENDENTE", label: "Descendente" },
+  { value: "OTRO", label: "Otro" },
+];
+
+export const REGISTRO_ARGENTINA_OPTIONS = [
+  { value: "VERIFICADO", label: "Verificado para Argentina" },
+  { value: "NO_VERIFICADO", label: "No verificado" },
+  { value: "NO_REGISTRADO", label: "No registrado en Argentina" },
+  { value: "INTERNACIONAL", label: "Información internacional" },
+  { value: "PENDIENTE", label: "Pendiente de verificar" },
+];
+
+export const EFICACIA_PRODUCTO_OPTIONS = [
+  { value: "SIN_EXPERIENCIA", label: "Sin experiencia (solo ficha/bibliografía)" },
+  { value: "EFECTIVO", label: "Efectivo" },
+  { value: "EFECTIVO_PARCIAL", label: "Efectivo parcial" },
+  { value: "NO_EFECTIVO", label: "No efectivo" },
 ];
 
 /** Sobre qué base se expresa la dosis, para poder calcular la cantidad de producto realmente

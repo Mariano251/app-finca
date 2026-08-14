@@ -20,6 +20,18 @@ const CroquisPage = lazy(() => import("./pages/finca/Croquis"));
 const CultivoDetalle = lazy(() => import("./pages/cultivo/CultivoDetalle"));
 const Economia = lazy(() => import("./pages/Economia"));
 
+// La Biblioteca es un módulo grande (fichas, formularios con filas repetibles, comparador) que
+// la mayoría de las visitas no toca — se separa del bundle inicial igual que Economía/Croquis.
+const BibliotecaIndex = lazy(() => import("./pages/biblioteca/BibliotecaIndex"));
+const BibliotecaBuscar = lazy(() => import("./pages/biblioteca/BibliotecaBuscar"));
+const PrincipiosActivosList = lazy(() => import("./pages/biblioteca/PrincipiosActivosList"));
+const PrincipioActivoFicha = lazy(() => import("./pages/biblioteca/PrincipioActivoFicha"));
+const PrincipioActivoForm = lazy(() => import("./pages/biblioteca/PrincipioActivoForm"));
+const ProductosComercialesList = lazy(() => import("./pages/biblioteca/ProductosComercialesList"));
+const ProductoComercialFicha = lazy(() => import("./pages/biblioteca/ProductoComercialFicha"));
+const ProductoComercialForm = lazy(() => import("./pages/biblioteca/ProductoComercialForm"));
+const Comparador = lazy(() => import("./pages/biblioteca/Comparador"));
+
 function PageFallback() {
   return <p className="text-muted">Cargando…</p>;
 }
@@ -39,6 +51,17 @@ function App() {
           <Route path="/cultivos/:id" element={<CultivoDetalle />} />
           <Route path="/conocimiento" element={<ConocimientoIndex />} />
           <Route path="/conocimiento/:tipo/:nombre" element={<ConocimientoDetalle />} />
+          <Route path="/biblioteca" element={<BibliotecaIndex />} />
+          <Route path="/biblioteca/buscar" element={<BibliotecaBuscar />} />
+          <Route path="/biblioteca/comparar" element={<Comparador />} />
+          <Route path="/biblioteca/principios-activos" element={<PrincipiosActivosList />} />
+          <Route path="/biblioteca/principios-activos/nuevo" element={<PrincipioActivoForm />} />
+          <Route path="/biblioteca/principios-activos/:id" element={<PrincipioActivoFicha />} />
+          <Route path="/biblioteca/principios-activos/:id/editar" element={<PrincipioActivoForm />} />
+          <Route path="/biblioteca/productos" element={<ProductosComercialesList />} />
+          <Route path="/biblioteca/productos/nuevo" element={<ProductoComercialForm />} />
+          <Route path="/biblioteca/productos/:id" element={<ProductoComercialFicha />} />
+          <Route path="/biblioteca/productos/:id/editar" element={<ProductoComercialForm />} />
           <Route path="/busqueda" element={<Busqueda />} />
           <Route path="/economia" element={<Economia />} />
           <Route path="/ajustes" element={<Ajustes />} />

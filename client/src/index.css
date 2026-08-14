@@ -141,17 +141,30 @@ h1, h2, h3 {
   display: flex;
   z-index: 20;
   padding-bottom: env(safe-area-inset-bottom);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
+  /* El extra fijo (no solo la safe-area) es para que el último ícono al deslizar no quede
+     pegado al borde de la pantalla, donde se ve cortado/tapado por el borde del celular. */
+  padding-left: calc(0.5rem + env(safe-area-inset-left));
+  padding-right: calc(0.5rem + env(safe-area-inset-right));
+  /* Con 9 accesos ya no entran todos cómodos en el ancho de un celular — en vez de achicarlos
+     hasta que se pisen, se desliza horizontalmente y cada uno mantiene un tamaño tocable. */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.tabbar::-webkit-scrollbar {
+  display: none;
 }
 
 .tabbar .nav-link {
-  flex: 1;
+  flex: 0 0 auto;
+  min-width: 64px;
   flex-direction: column;
   gap: 0.15rem;
   border-radius: 0;
   font-size: 0.68rem;
   padding: 0.4rem 0.25rem;
+  white-space: nowrap;
 }
 
 @media (min-width: 768px) {
