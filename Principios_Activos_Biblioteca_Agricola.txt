@@ -1,0 +1,2286 @@
+BIBLIOTECA AGRONÓMICA
+LISTADO DE PRINCIPIOS ACTIVOS – CONTROL, USOS, DOSIS, INCOMPATIBILIDADES Y DATOS TÉCNICOS
+FUENTE EXCLUSIVA: ARCHIVOS PROPORCIONADOS POR EL USUARIO
+
+IMPORTANTE
+Este documento fue elaborado únicamente a partir de la información encontrada en los archivos:
+1) “Biblia Tera(1).pdf” – Enzo Celentano.
+2) “Resumen Terapeutica.pdf”.
+
+No se completaron dosis, registros, mezclas ni autorizaciones con información externa.
+
+Cuando el archivo no especifica una dosis, se indica:
+“NO ESPECIFICADA EN LOS ARCHIVOS”.
+
+Las incompatibilidades que aparecen son únicamente las mencionadas expresamente en los archivos. La ausencia de una incompatibilidad NO significa que una mezcla sea compatible.
+
+La información de “uso” y “control” es información técnica contenida en los apuntes y NO debe interpretarse automáticamente como registro vigente en Argentina.
+
+Para la biblioteca de la aplicación se recomienda guardar además:
+- Fuente.
+- Página.
+- Fecha de verificación.
+- Estado de registro en Argentina.
+- Formulación.
+- Cultivo.
+- Problemática.
+- Grupo IRAC/FRAC.
+- Movilidad.
+- Dosis y unidad.
+- Tiempo de carencia.
+- Incompatibilidades.
+- Observaciones.
+- Nivel de confianza/verificación.
+
+============================================================
+A. INSECTICIDAS / ACARICIDAS / NEMATICIDAS
+============================================================
+
+1. CLORPIRIFOS
+Tipo: Insecticida.
+Grupo: Organofosforado, IRAC 1B.
+Acción: Contacto, ingestión e inhalación; amplio espectro.
+Control mencionado:
+- Cochinillas y taladrillo en olivo.
+- Cochinillas y Grapholita en frutales de carozo.
+- Trips en ajo y cebolla.
+- Phyrdenus, gusanos cortadores, gusanos alambre y gusanos blancos en papa.
+- Hormigas.
+Observaciones:
+- Altamente tóxico para abejas y peces.
+Incompatibilidades expresamente indicadas:
+- DDVP.
+- Fertilizantes foliares.
+- Caldo Bordelés.
+- Polisulfuro de calcio.
+Dosis:
+- No especificada en los archivos.
+Fuente: Biblia Tera(1), p. 15; Resumen Terapeutica, sección de organofosforados.
+
+2. DDVP / DICLORVOS
+Tipo: Insecticida fumigante.
+Acción: Contacto, ingestión, inhalación y fumigante.
+Uso indicado:
+- Únicamente saneamiento ambiental.
+- No se usa en agricultura según el archivo.
+Concentración indicada:
+- 0,2–0,6 % para saneamiento ambiental bajo condiciones específicas.
+Observación crítica:
+- No cargar como insecticida agrícola de uso normal.
+Fuente: Biblia Tera(1), p. 15.
+
+3. FENITROTION / FENITRITION
+Tipo: Insecticida organofosforado.
+Acción: Contacto e ingestión.
+Control:
+- Grapholita y Myzus en duraznero.
+- Carpocapsa.
+- Psílido del peral.
+- Trips en cebolla y tomate.
+- Ectoparásitos de animales y aves.
+Observaciones:
+- Alto riesgo para abejas.
+- También aparece asociado con mezclas con permetrina/deltametrina en granos almacenados, instalaciones y vehículos.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 15.
+
+4. FOSMET
+Tipo: Insecticida y acaricida organofosforado.
+Acción: Contacto e ingestión.
+Control:
+- Carpocapsa.
+- Grapholita.
+- Bicho del cesto.
+- Tetraníquidos en frutales de carozo y pepita.
+Observaciones:
+- Cierta acción acaricida.
+- Altamente tóxico para abejas y peces.
+Carencia citada:
+- Carpocapsa en frutales de pepita: 7 días.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 16 y p. 53.
+
+5. MERCAPTOTIÓN / MALATIÓN
+Tipo: Insecticida y acaricida organofosforado.
+Acción: Contacto, ingestión y en profundidad.
+Control:
+- Cochinillas, pulgones y Ceratitis en frutales de carozo.
+- Cochinillas, Carpocapsa, psílido y pulgón lanígero en frutales de pepita.
+- Tetranychus, bichos moros y pulgones en hortalizas y ornamentales.
+- Pulgones en papa y repollo.
+- Trips en cebolla y tomate.
+- Gorgojos, carcomas y palomillas en granos almacenados.
+- Como cebo tóxico con proteína hidrolizada para mosca del Mediterráneo.
+Observaciones:
+- Alto riesgo para abejas; muy tóxico para peces.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 16; p. 45.
+
+6. METIDATIÓN
+Tipo: Insecticida organofosforado.
+Acción: Contacto, ingestión y en profundidad.
+Control:
+- Cochinilla H en olivo.
+- Carpocapsa, Grapholita, bicho del cesto y cochinillas en frutales.
+- Trips en hortalizas y ornamentales.
+- Vaquita en cucurbitáceas.
+Observaciones:
+- No utilizar formulación líquida en peral ni duraznero por fitotoxicidad.
+- En duraznero usar solamente polvo mojable; las formulaciones emulsionables pueden ser fitotóxicas.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 16.
+
+7. METIL PIRIMIFOS
+Tipo: Insecticida/gorgojicida/acaricida.
+Acción: Contacto y fumigante.
+Control:
+- Cochinilla harinosa en vid.
+- Ácaros, gorgojos y palomillas en camiones, depósitos y silos.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 16; p. 61.
+
+8. DIMETOATO
+Tipo: Insecticida y acaricida organofosforado sistémico.
+Control:
+- Cochinillas en olivo.
+- Tetranychus, Bryobia, Carpocapsa, piojo de San José, pulgón lanígero, psílido y trips en manzano y peral.
+- Piojo de San José, Grapholita, Ceratitis y Myzus en ciruelo.
+- Pulgones en papa, crucíferas y alcaucil.
+- Trips en ajo, cebolla y tomate.
+- Mosca blanca en poroto.
+- Cochinilla en vid mediante riego por goteo.
+Observaciones:
+- Puede resultar fitotóxico en damasco, duraznero, citrus y algunos aromáticos/ornamentales.
+- Altamente tóxico para abejas y peces.
+Carencias mencionadas:
+- 7 días para Carpocapsa en frutales de pepita.
+- 20 días en tomate.
+Dosis:
+- No especificada.
+Incompatibilidad relevante:
+- El grupo de organofosforados es incompatible con caldo Bordelés por hidrólisis alcalina.
+Fuente: Biblia Tera(1), p. 17; p. 53; Resumen Terapeutica.
+
+9. FENAMIFOS
+Tipo: Nematicida organofosforado.
+Control:
+- Nematodos en vid.
+- Nematodos en ajo, cebolla, tomate, papa, melón, pepino y poroto.
+- Meloidogyne en zapallo.
+- Nematodos en florales y ornamentales.
+Formulaciones:
+- Granulado.
+- Microencapsulado.
+Aplicación:
+- Tratamiento de suelo.
+- Semillas, bulbos y tubérculos previo a plantación.
+Carencia citada:
+- Vid: 60 días.
+- Tomate: 90 días.
+Dosis:
+- No especificada.
+Observación:
+- En suelos muy pedregosos con poca arcilla se indica dividir la dosis recomendada en 3 aplicaciones para simular liberación lenta.
+Fuente: Biblia Tera(1), p. 17; p. 67–68.
+
+10. ACEFATO
+Tipo: Insecticida organofosforado sistémico, también con acción de contacto.
+Control:
+- Bemisia tabaci en poroto.
+- Pulgones, trips e isocas en arveja, papa y poroto.
+- Polilla del tomate.
+- Vaquita del olmo.
+- Uso en forestales y arbolado.
+Dosis:
+- No especificada.
+Observaciones:
+- Se menciona aplicación mediante cápsulas, perforaciones en tronco o incorporación al suelo con riego en usos específicos.
+Fuente: Biblia Tera(1), p. 17.
+
+11. CARBARYL
+Tipo: Insecticida carbamato.
+Acción: Contacto e ingestión.
+Control:
+- Carpocapsa.
+- Grapholita.
+- Bicho del cesto.
+- Bichos moros y chinches en hortalizas.
+- Platypus sulcatus en forestales.
+- Bicho bolita mediante cebo granulado.
+Estado indicado:
+- El archivo señala que no se encontraba en agroquímicas y que no estaba ingresando.
+Observación:
+- En vid se menciona como “re prohibido”; no usar como recomendación vigente.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 18 y p. 63.
+
+12. CARTAP
+Tipo: Insecticida carbamato.
+Acción: Contacto e ingestión.
+Control:
+- Polilla del tomate.
+- Moscas blancas.
+- Liriomícidos.
+- Diaphania en zapallo.
+Cultivos:
+- Cucurbitáceas, papa y ornamentales.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 18.
+
+13. FORMETANATO
+Tipo: Insecticida-acaricida carbamato.
+Acción: Contacto e ingestión.
+Control:
+- Frankliniella occidentalis en frutales de carozo, frutales de pepita, tomate, pimiento y ornamentales.
+- Tetranychus en florales y ornamentales.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 18.
+
+14. METOMIL
+Tipo: Insecticida carbamato.
+Acción: Contacto e ingestión; acción ovicida.
+Control:
+- Larvas de lepidópteros.
+- Pulgones.
+- Carpocapsa.
+- Pulgón lanígero.
+- Piojo de San José.
+- Grapholita.
+- Pulgón verde.
+- Pulgones, lepidópteros y gusanos de suelo en tomate.
+Carencias citadas:
+- Carpocapsa: 14 días.
+- Uso general en pepita: 14 días en el cuadro de carencias.
+Observaciones:
+- Altamente tóxico para abejas.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 18; p. 53.
+
+15. PIRIMICARB
+Tipo: Insecticida/aficida carbamato.
+Acción: Contacto, translaminar y fumigante.
+Control:
+- Pulgón verde del duraznero.
+- Pulgón lanígero en manzano.
+- Pulgones en lechuga, solanáceas, cucurbitáceas y ornamentales.
+Observación:
+- Es específico para pulgones.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 18.
+
+16. CARBOFURAN
+Tipo: Insecticida y nematicida sistémico.
+Formulación indicada:
+- Granulado 10%; otras formulaciones señaladas como prohibidas.
+Control:
+- Nematodos en ajo, tomate y papa.
+- Phyrdenus en tomate y papa.
+- Gusanos de suelo.
+- Bichos moros.
+- Pulgones.
+- Eriofidos en ajo: el archivo indica que NO está registrado para ese uso.
+Observación:
+- Extremadamente tóxico para peces y aves.
+- En otra sección se advierte: no usar carbofuran en el hoyo ni hacer inmersión de plantas a raíz desnuda.
+Carencia citada:
+- Tomate: 60 días.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 18; p. 49; p. 67–68.
+
+17. BIFENTRIN
+Tipo: Piretroide; insecticida con acción acaricida complementaria.
+Acción: Contacto e ingestión.
+Control:
+- Pulgones en duraznero.
+- Carpocapsa y tetraníquidos en frutales de pepita.
+- Psílido del peral.
+- Pulgones en papa.
+- Bemisia tabaci en poroto.
+- Mulita y taladrillo en vid.
+Dosis:
+- No especificada.
+Observación:
+- Los piretroides pueden favorecer resurgencia de ácaros por eliminación de enemigos naturales.
+Fuente: Biblia Tera(1), p. 19; p. 62.
+
+18. CIPERMETRINA
+Tipo: Piretroide.
+Acción: Contacto e ingestión.
+Control:
+- Carpocapsa.
+- Pulgón lanígero.
+- Grapholita.
+- Trips en ajo y cebolla.
+- Polilla del tomate.
+- Isocas y orugas.
+- Uso sanitario/doméstico para varios insectos.
+Carencia citada:
+- Tuta/polilla del tomate: 21 días en el esquema de tomate.
+Dosis:
+- No especificada.
+Observación:
+- Amplio espectro; puede afectar fauna benéfica.
+Fuente: Biblia Tera(1), p. 19; p. 38.
+
+19. DELTAMETRINA
+Tipo: Piretroide.
+Control:
+- Carpocapsa y pulgón verde en duraznero.
+- Polillas de papa, pimiento y tomate.
+- Palomita de las coles.
+- Bicho moro.
+- Vaquita de los melones.
+- Chinche verde.
+- Uso sanitario/doméstico.
+Dosis:
+- No especificada.
+Observación:
+- Los piretroides son de amplio espectro y pueden afectar organismos no blanco.
+Fuente: Biblia Tera(1), p. 19.
+
+20. FENPROPATRINA
+Tipo: Piretroide con acción acaricida.
+Control:
+- Carpocapsa.
+- Tetranychus en frutales de pepita.
+- Psílido del peral.
+- Polilla del tomate.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 19.
+
+21. GAMMACIALOTRINA
+Tipo: Piretroide.
+Control:
+- Grapholita en duraznero.
+- Carpocapsa en manzano y peral.
+- Polilla del tomate.
+Carencia citada:
+- 1 día en los usos mencionados.
+Observación:
+- El archivo indica que no tiene acción sobre poblaciones de ácaros y por ello no produciría incremento de poblaciones de los mismos.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 19; p. 53.
+
+22. LAMBDACIALOTRINA
+Tipo: Piretroide.
+Control:
+- Carpocapsa.
+- Grapholita.
+- Bicho del cesto.
+- Psílido del peral.
+- Polilla del tomate.
+- Moscas, mosquitos, cucarachas, arañas y pulgas en saneamiento.
+Carencia citada:
+- 1 día en algunos usos.
+Dosis:
+- No especificada.
+Observación:
+- El archivo menciona muchas resistencias a piretroides en trips de ajo/cebolla.
+Fuente: Biblia Tera(1), p. 20; p. 49; p. 53.
+
+23. PERMETRINA
+Tipo: Piretroide.
+Control:
+- Carpocapsa.
+- Grapholita.
+- Polilla del pimiento.
+- Polilla del tomate.
+- Isoca del maíz.
+- Uso doméstico/sanitario.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 20.
+
+24. BUPROFEZIN
+Tipo: Regulador del crecimiento; inhibidor de síntesis de quitina.
+Control:
+- Moscas blancas.
+- Cochinillas harinosas en tomate, ornamentales y florales.
+- Mosca blanca en forestales.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 21; p. 34.
+
+25. PYRIPROXYFEN
+Tipo: Regulador de crecimiento; juvenil.
+Acción: Contacto, ingestión y translaminar.
+Control:
+- Mosca blanca en tomate.
+- Carpocapsa en manzano.
+- Huevos de mosca blanca en mezcla con dinotefuran.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 21–23.
+
+26. TEBUFENOZIDE
+Tipo: Regulador del crecimiento; antagonista de receptores de ecdisona.
+Acción: Contacto e ingestión; ovicida y larvicida.
+Control:
+- Lepidópteros.
+- Carpocapsa.
+Carencia:
+- 9 días en el esquema de Carpocapsa.
+- 48 h como ventana de aplicación para reguladores según el manejo descrito.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 21; p. 53.
+
+27. METOXIFENOZIDE
+Tipo: Regulador del crecimiento; antagonista de receptores de ecdisona.
+Acción: Contacto e ingestión; ovicida y larvicida.
+Control:
+- Lobesia botrana.
+- Carpocapsa.
+- Lepidópteros.
+Carencia:
+- 14 días en Carpocapsa.
+- 1 día en el esquema de Lobesia de un producto específico.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 21; p. 53; p. 60.
+
+28. SPIROTETRAMAT
+Tipo: Insecticida.
+Grupo: Inhibidores de acetil-CoA carboxilasa; IRAC 23.
+Acción:
+- Sistémica.
+- Doble traslocación.
+- Ascendente por xilema.
+- Descendente por floema.
+Control:
+- Cochinillas.
+- Piojo de San José.
+- Moscas blancas.
+- Psílidos.
+- Pulgones.
+- Trips.
+Usos destacados:
+- Cochinilla harinosa en vid.
+- Piojo de San José.
+- Pulgón lanígero.
+Observación:
+- El archivo indica NO recomendar uso por goteo.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 26; p. 53–61.
+
+29. IMIDACLOPRID
+Tipo: Neonicotinoide.
+Acción: Sistémica, complementaria por contacto e ingestión; traslocación principalmente por xilema.
+Control:
+- Pulgones en frutales de carozo, hortalizas y ornamentales.
+- Liriomícidos.
+- Moscas blancas.
+- Frankliniella occidentalis en solanáceas y cucurbitáceas.
+- Phyrdenus y gusanos blancos en papa.
+- Cochinilla harinosa en vid.
+- Pulgones en lechuga y papa como curasemilla.
+- Moscas blancas en lechuga y poroto.
+- Trips en vid según el apunte.
+Carencia citada:
+- 3 días en tomate.
+Observaciones:
+- Muy tóxico para aves y abejas según el archivo.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 22; p. 39; p. 61.
+
+30. ACETAMIPRID
+Tipo: Neonicotinoide.
+Control:
+- Pulgón verde del duraznero.
+- Carpocapsa.
+- Moscas blancas en tomate y poroto.
+Carencia:
+- 7 días en Carpocapsa.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 22; p. 53.
+
+31. TIAMETOXAM
+Tipo: Neonicotinoide.
+Acción: Sistémica.
+Control:
+- Moscas blancas en tomate y papa.
+- Pulgones en duraznero, papa y tomate.
+- Phyrdenus en tomate.
+- En mezcla con lambdacialotrina: trips en cebolla, Saissetia en olivo, moscas blancas en papa/poroto/tomate, Grapholita y Myzus en duraznero.
+- En mezcla con clorantraniliprole: Carpocapsa, Grapholita y pulgones.
+Dosis:
+- No especificada.
+Carencia:
+- 3 días en tomate en el esquema citado.
+Fuente: Biblia Tera(1), p. 22; p. 39.
+
+32. TIACLOPRID
+Tipo: Neonicotinoide.
+Control:
+- Pulgones en papa, duraznero y peral.
+- Carpocapsa.
+- Grapholita.
+- En mezcla con deltametrina: mosca blanca en tomate.
+Carencia:
+- 14 días en Carpocapsa.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 22; p. 53.
+
+33. CLOTIANIDIN
+Tipo: Neonicotinoide.
+Uso:
+- Principalmente como terápico de semillas.
+Control:
+- Gusanos blancos.
+- Rosquillas.
+- Hormigas.
+Cultivos citados:
+- Girasol, colza, gramíneas forrajeras, maíz, alfalfa y tréboles.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 23.
+
+34. DINOTEfurAN / DINOTEFURAN
+Tipo: Neonicotinoide.
+Acción:
+- Contacto, ingestión y sistémica.
+Control:
+- Mosca blanca, adultos y ninfas.
+Observaciones:
+- Poder residual citado: 21 días.
+- Una formulación mezclada con pyriproxyfen se utiliza para huevos.
+- El archivo indica “registrado solo en tomate”.
+Carencia:
+- 1 día en tomate según el esquema.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 23; p. 39.
+
+35. SULFOXAFLOR
+Tipo: Insecticida sulfoximina.
+Acción:
+- Contacto.
+- Sistémica.
+- Translaminar.
+Control:
+- Succionadores.
+- Pulgón verde.
+- Pulgón lanígero.
+- Piojo de San José.
+Cultivos:
+- Manzano, peral, ciruelo y duraznero.
+Observaciones:
+- Poder de volteo citado: 6 h.
+- Residual superior a 21 días.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 23.
+
+36. ABAMECTINA
+Tipo: Insecticida, acaricida y nematicida.
+Grupo: Avermectinas.
+Acción:
+- Contacto.
+- Ingestión.
+- Translaminar.
+Control:
+- Polilla del tomate.
+- Liriomícidos.
+- Psílido del peral.
+- Ácaros tetraníquidos.
+- Tenuipálpidos.
+- Eriófidos.
+- Nacobbus en tomate en mezcla con tiametoxam.
+- Nematodos.
+Cultivos:
+- Cucurbitáceas, citrus, ornamentales, frutilla, frutales de pepita, pimiento y tomate.
+Observaciones:
+- Mortalidad máxima 3–7 días.
+- El cese de alimentación ocurre rápidamente.
+- Se indica mezclar con aceite para aumentar residualidad.
+- Tóxica para peces, fauna silvestre, abejas y aves.
+Carencia:
+- 3 días en Tuta según el esquema citado.
+Incompatibilidad:
+- Fluazinam: el archivo indica que la mezcla produce fitotoxicidad.
+Fuente: Biblia Tera(1), p. 24; p. 38; p. 55.
+
+37. BENZOATO DE EMAMECTINA
+Tipo: Insecticida.
+Acción:
+- Contacto.
+- Ingestión.
+- Translaminar.
+Control:
+- Carpocapsa.
+- Grapholita.
+- Lobesia.
+- Tuta absoluta.
+- Acción secundaria sobre trips, liriomícidos y tetraníquidos.
+Observaciones:
+- Debe mezclarse con aceite mineral refinado.
+- Se incluye en MIP.
+- No afecta fauna benéfica según el archivo.
+- Extremadamente tóxico para microcrustáceos.
+Carencia:
+- 2 días.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 24; p. 53–60.
+
+38. CLORANTRANILIPROLE
+Tipo: Diamida antranílica.
+Grupo: IRAC 28.
+Acción: Contacto e ingestión.
+Control:
+- Huevos y larvas de Carpocapsa.
+- Grapholita.
+- Lobesia.
+- Tuta.
+- Pulgones en tomate.
+Observaciones:
+- Residual superior a 20 días.
+- Mezcla con abamectina: ácaros tetraníquidos en frutales de pepita.
+- Mezcla con tiametoxam: pulgones.
+Carencia:
+- 14 días manzano y 7 días peral en el esquema de Carpocapsa.
+- 7 días en algunos usos de frutales.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 24; p. 53.
+
+39. CLORFENAPIR
+Tipo: Insecticida y acaricida.
+Grupo: IRAC 13.
+Acción:
+- Contacto.
+- Ingestión.
+- Translaminar.
+Control:
+- Polilla del tomate.
+- Amplio espectro.
+Observación:
+- Debe mezclarse con aceite al 0,3 % para mejorar efectividad.
+- Altamente tóxico para abejas.
+- Muy tóxico para aves.
+- Extremadamente tóxico para fauna acuática.
+Carencia:
+- 7 días en Tuta según el esquema.
+Dosis del principio/producto:
+- No especificada; el 0,3 % corresponde al aceite de mezcla.
+Fuente: Biblia Tera(1), p. 24; p. 38.
+
+40. CYANTRANILIPROLE
+Tipo: Diamida antranílica.
+Grupo: IRAC 28.
+Acción: Translaminar.
+Control:
+- Pulgones.
+- Chicharritas.
+- Psílidos.
+- Moscas blancas.
+- Moscas de la fruta.
+- Dípteros minadores.
+- Lepidópteros.
+- Mosca blanca y Tuta en tomate.
+Observaciones:
+- Formulación 10 % como dispersión oleosa.
+- Formulación 20 % SC para suelo por goteo, drench o inmersión de bandejas en tomate.
+- Moderadamente tóxico para abejas.
+- Muy tóxico para crustáceos acuáticos.
+Carencia:
+- 1 día en el esquema de Tuta.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 25; p. 38; p. 53.
+
+41. FIPRONIL
+Tipo: Fenilpirazol.
+Grupo: IRAC 2B.
+Acción: Contacto e ingestión.
+Control:
+- Hormigas.
+- Grillotopos.
+- Tucuras.
+- Bichos bolita.
+- Cucarachas en saneamiento.
+Observaciones:
+- Extremadamente tóxico para organismos acuáticos.
+- Altamente tóxico para abejas.
+- Moderadamente tóxico para aves.
+- Clase II para el hombre según el archivo.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 25.
+
+42. FLONICAMID
+Tipo: Insecticida.
+Acción: Sistémica y translaminar.
+Control:
+- Pulgones en duraznero y papa.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 25.
+
+43. FLUBENDIAMIDA
+Tipo: Diamida.
+Grupo: IRAC 28.
+Acción: Ingestión.
+Control:
+- Carpocapsa en frutales de pepita.
+- Tuta en tomate.
+- Diaphania en zapallo.
+Observaciones:
+- Los insectos dejan de alimentarse a las 2–3 h.
+- Altamente tóxico para peces y crustáceos acuáticos.
+- Poco tóxico para abejas.
+Carencia:
+- 14 días manzano.
+- 7 días peral.
+- 5 días en Tuta según esquema de tomate.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 25; p. 38; p. 53.
+
+44. INDOXACARB
+Tipo: Oxadiazina.
+Acción: Contacto e ingestión.
+Control:
+- Lepidópteros en maíz, repollo y tomate.
+- Tuta.
+- Lobesia.
+Observaciones:
+- Acción ovicida y larvicida.
+- El insecto deja de alimentarse 4–8 h después de ingerirlo.
+- Alta toxicidad para abejas por contacto antes del secado.
+Carencia:
+- 1 día en Tuta.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 25; p. 38; p. 60.
+
+45. PYMETROZINE
+Tipo: Insecticida.
+Acción: Sistémica; antialimentaria.
+Control:
+- Pulgones en papa y tomate.
+- Moscas blancas en tomate.
+Observaciones:
+- El insecto deja de alimentarse rápidamente y muere aproximadamente a los 4 días.
+- No tóxico para abejas, aves ni peces según el archivo.
+Carencia:
+- 3 días en tomate.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 26; p. 39.
+
+46. SPINETORAM
+Tipo: Spinosina.
+Acción:
+- Contacto.
+- Ingestión.
+- Translaminar.
+Control:
+- Carpocapsa.
+- Grapholita.
+- Trips.
+- Psílidos.
+Observaciones:
+- Mayor acción derribante que spinosad.
+- Disminuye fertilidad de la plaga.
+Carencia:
+- 1 día en frutales de carozo y pepita.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 26; p. 60–62.
+
+47. SPINOSAD
+Tipo: Spinosina.
+Acción:
+- Contacto.
+- Ingestión.
+- Translaminar.
+Control:
+- Carpocapsa.
+- Grapholita.
+- Polilla del tomate.
+- Trips.
+- Mosca del Mediterráneo mediante cebo tóxico.
+Observaciones:
+- Muy tóxico para abejas.
+- Selectivo para enemigos naturales según el archivo.
+- Existe formulación orgánica.
+Carencia:
+- 3 días en Tuta.
+- 7 días en Grapholita/Lobesia según esquema.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 26; p. 38; p. 53.
+
+48. SULFLURAMIDA
+Tipo: Insecticida-cebo.
+Acción: Ingestión.
+Control:
+- Hormigas cortadoras Atta y Acromyrmex.
+Observaciones:
+- Acción lenta: 3–5 días.
+- Ligeramente tóxica para abejas.
+- No tóxica para aves ni peces según el archivo.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 26.
+
+49. SPIRODICLOFEN
+Tipo: Acaricida.
+Acción:
+- Contacto.
+- Regulador del crecimiento.
+- Actúa sobre la respiración.
+Control:
+- Arañuela roja europea.
+- Erinosis.
+- Eriófidos del olivo.
+- En ajo aparece como alternativa técnica, pero el archivo indica que no estaría registrado para ajo.
+Observaciones:
+- En Aceria tulipae: el apunte indica “no está registrado para ajo, pero pronto puede llegar a estarlo”.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 49; p. 55–58.
+
+50. ACEQUINOCYL
+Tipo: Acaricida.
+Control:
+- Arañuela roja europea.
+Observaciones:
+- Sólo formas móviles.
+- MIP.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 55.
+
+51. AMITRAZ
+Tipo: Acaricida.
+Control:
+- Arañuela roja europea.
+- Erinosis del peral.
+Observaciones:
+- Controla huevos y formas móviles de Panonychus según el archivo.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 55–56.
+
+52. CLOFENTEZINE
+Tipo: Acaricida/regulador de crecimiento.
+Control:
+- Arañuela roja europea.
+- Erinosis del peral.
+Observaciones:
+- MIP.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 55.
+
+53. FENPIROXIMATO
+Tipo: Acaricida.
+Control:
+- Arañuela roja europea.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 55.
+
+54. HEXITIAZOX
+Tipo: Acaricida/regulador de crecimiento.
+Control:
+- Arañuela roja europea.
+Observación:
+- MIP.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 55.
+
+55. PROPARGITE
+Tipo: Acaricida.
+Control:
+- Arañuela roja europea.
+- Brevipalpus en vid.
+Observación:
+- Controla principalmente formas móviles en Panonychus.
+- En el archivo de aceite de soja se menciona incompatibilidad con propargite.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 55 y Resumen Terapeutica.
+
+56. ISOCYCLOCERAM
+Tipo: Insecticida/acaricida.
+Control:
+- Piojo de San José.
+- Arañuela roja europea.
+- Tuta en tomate.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 53–55; p. 38.
+
+57. CYCLOBUTRIFLURAM
+Tipo: Nematicida.
+Control:
+- Nematodos, especialmente en vid y tomate.
+Aplicación:
+- Vid: brotación, drench sobre zona de mayor concentración radicular.
+- Tomate: 1–3 días después del trasplante según el apunte.
+Carencia:
+- Vid: 70 días.
+- Tomate: NC en la referencia del apunte.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 67–68.
+
+58. ABAMECTINA + TIAMETOXAM
+Tipo: Mezcla insecticida/nematicida.
+Uso:
+- Nacobbus y mosca blanca en tomate.
+- Tratamiento de bandejas antes del trasplante y drench postrasplante.
+Observación:
+- En tomate se menciona como alternativa para nematodos.
+- Se menciona aplicación postrasplante tipo drench cada 15 días.
+Carencia:
+- 2 días en el esquema de tomate.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 24; p. 68.
+
+59. EXTRACTO DE QUILLAJA
+Tipo: Bionematicida/biológico.
+Acción:
+- Contacto.
+- Asociado a saponinas, taninos y polifenoles.
+Control:
+- Nematodos.
+Observaciones:
+- Banda verde.
+- Registro para orgánico según el apunte.
+- Puede figurar como coadyuvante.
+Carencia:
+- NC en el esquema citado.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 11; p. 67–68.
+
+============================================================
+B. FUNGICIDAS / BACTERICIDAS
+============================================================
+
+60. METALAXIL
+Grupo: FRAC 4 – Acilalaninas.
+Tipo: Fungicida.
+Acción:
+- Sistémica/curativa según el uso citado.
+Control:
+- Peronóspora de vid.
+- Peronóspora de ajo y cebolla.
+- Mildiu de cucurbitáceas.
+- Tizón tardío de papa.
+Observaciones:
+- Se formula mezclado con mancozeb.
+- El archivo lo identifica como curativo en vid.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 27; p. 63.
+
+61. BENALAXYL
+Grupo: FRAC 4.
+Tipo: Fungicida.
+Control:
+- Peronóspora en vid.
+- Phytophthora en tomate, pimiento y papa.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 27.
+
+62. CARBENDAZIM
+Grupo: FRAC 1 – Bencimidazoles.
+Tipo: Fungicida.
+Control:
+- Penicillium.
+- Botrytis.
+- Sclerotium cepivorum en ajo y cebolla.
+- Monilia.
+- Botrytis cinerea en frutilla y lechuga.
+- Sarna del manzano.
+- Oídio en cucurbitáceas.
+- Repilo en olivo.
+- Penicillium/Fusarium en bulbillos de ajo.
+- Cercosporiosis y otras enfermedades en olivo según el apunte.
+Uso:
+- Tratamientos de semillas/bulbillos.
+- Poscosecha.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 27; p. 50–58.
+
+63. TIABENDAZOL
+Grupo: FRAC 1.
+Tipo: Fungicida.
+Control:
+- Sarna en frutales de pepita.
+- Rhizoctonia solani en papa.
+- Sclerotium cepivorum en liliáceas.
+- Fusarium y Penicillium en bulbos ornamentales.
+- Botrytis en uva de mesa.
+Uso:
+- Inmersión de bulbillos de ajo.
+- Aplicación en cultivo para Sclerotium.
+- Poscosecha.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 27; p. 50; p. 64.
+
+64. TIOFANATO METIL
+Grupo: FRAC 1.
+Tipo: Fungicida.
+Control:
+- Podredumbre morena.
+- Sarna del manzano.
+- Fusarium y Rhizoctonia en solanáceas.
+- Oídio en cucurbitáceas.
+- Botrytis en vid.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 27; p. 64.
+
+65. METRAFENONE
+Tipo: Fungicida.
+Acción:
+- Translaminar.
+- Mesostémica.
+Control:
+- Oídio de la vid.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 27; p. 64.
+
+66. ISOPYRAZAM
+Grupo: FRAC 7 – Carboxamidas.
+Tipo: Fungicida.
+Acción:
+- Contacto.
+- Translaminar.
+Control:
+- Oídios y oidiopsis en pimiento, tomate y zapallito.
+- Oídio de la vid.
+Dosis:
+- No especificada.
+Observación:
+- Se menciona formulado/mezclado con estrobilurinas.
+Fuente: Biblia Tera(1), p. 27; p. 64.
+
+67. CARBOXIN
+Grupo: FRAC 7.
+Tipo: Fungicida.
+Uso:
+- Tratamiento de semillas.
+Control:
+- Ustilaginales.
+- En mezcla con tiram: Helminthosporium, Penicillium y Fusarium en ajo.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 27; p. 50.
+
+68. BOSCALID
+Grupo: FRAC 7.
+Tipo: Fungicida sistémico.
+Control:
+- Podredumbre de racimos en vid.
+- En mezcla con pyraclostrobin: oídio, tizón temprano en papa y tomate, oidiopsis y Alternaria en tomate, Cercospora en pimiento.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 27–28; p. 64.
+
+69. AZOXISTROBINA
+Grupo: FRAC 11 – Estrobilurinas.
+Tipo: Fungicida.
+Acción:
+- Contacto y sistémica.
+Control:
+- Cercospora en acelga, apio y zanahoria.
+- Tizón temprano de papa.
+- Oidiopsis en tomate y pimiento.
+- Oídio en cucurbitáceas.
+- Phytophthora capsici en tomate y pimiento.
+- Peronóspora y oídio de vid.
+- Mildiu de lechuga.
+- Stemphylium en cebolla.
+- Botrytis.
+- Roya/Stemphylium en ajo según apunte.
+Observaciones:
+- Puede llevar polietilenglicol como coadyuvante, irritante dermal/ocular.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 28; p. 51; p. 64.
+
+70. KRESOXIM METIL
+Grupo: FRAC 11.
+Tipo: Fungicida.
+Acción:
+- Preventiva.
+- Translaminar.
+- Postinfección/retroactiva hasta 72 h.
+- Acción fumigante por tensión de vapor.
+Control:
+- Sarna del manzano.
+- Oídio de vid.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 28; p. 56.
+
+71. TRIFLOXYSTROBIN
+Grupo: FRAC 11.
+Tipo: Fungicida.
+Acción:
+- Mesostémica.
+- Contacto.
+- Translaminar.
+Control:
+- Sarna de manzano y peral.
+- Oídio de vid.
+- Alternaria solani en papa.
+- Roya del ajo en mezcla con tebuconazole.
+Observación:
+- No aplicar bajo estrés por sequía, baja fertilidad, bajas temperaturas o heladas.
+- Extremadamente tóxico para peces.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 28; p. 51; p. 56.
+
+72. PYRACLOSTROBIN
+Grupo: FRAC 11.
+Tipo: Fungicida.
+Acción:
+- Contacto.
+Control:
+- Oídio de vid.
+- En mezcla con boscalid: tizón temprano en papa/tomate, oidiopsis y Alternaria en tomate, Cercospora en pimiento.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 28; p. 64.
+
+73. FLUAZINAM
+Grupo: FRAC 29.
+Tipo: Fungicida de contacto.
+Control:
+- Tizón tardío de papa.
+- Podredumbre de racimos en vid.
+Incompatibilidad:
+- Abamectina: el archivo indica que produce fitotoxicidad.
+Observación:
+- Muy tóxico para peces.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 28.
+
+74. MEPTYLDINOCAP
+Grupo: FRAC 29.
+Tipo: Fungicida.
+Acción:
+- Contacto.
+- Translaminar.
+Control:
+- Oídio de vid.
+- Acción secundaria sobre ácaros.
+Carencia:
+- 21 días.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 28.
+
+75. AMETOCTRADIN
+Grupo: FRAC 45.
+Tipo: Fungicida.
+Acción:
+- Contacto.
+Control:
+- Phytophthora infestans en papa.
+- Plasmopara viticola en vid.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 28; p. 63.
+
+76. CYPRODINIL
+Grupo: FRAC 9.
+Tipo: Fungicida.
+Acción:
+- Sistémica.
+- Translaminar.
+Control:
+- Botrytis cinerea en tomate.
+- Podredumbre de racimos en vid.
+Observación:
+- Comercializado con fludioxonil.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 28–29; p. 64.
+
+77. KASUGAMICINA
+Grupo: FRAC 24.
+Tipo: Fungicida y bactericida.
+Control bacteriano:
+- Erwinia.
+- Clavibacter.
+- Pseudomonas.
+- Xanthomonas.
+Control fúngico:
+- Cercospora en apio, acelga y remolacha.
+- Alternaria solani en pimiento y papa.
+- Viruela en tomate.
+- En ajo/cebolla: podredumbre blanda bacteriana aparece como uso mencionado, aunque el apunte aclara que el control químico “parece no servir” y cita kasugamicina.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 28–29; p. 51.
+
+78. SULFATO DE ESTREPTOMICINA
+Grupo: FRAC 25.
+Tipo: Bactericida.
+Control:
+- Pseudomonas.
+- Erwinia.
+- Xanthomonas.
+- Agrobacterium.
+- Cancrosis de ciruelo y duraznero.
+- Agalla de corona.
+- Tizón bacteriano del nogal.
+- Podredumbre blanda de hortalizas.
+- Mancha bacteriana en tomate y pimiento.
+- Cancrosis bacteriana del tomate.
+Observación:
+- Puede causar reacción alérgica cutánea.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 29.
+
+79. OXITETRACICLINA + ESTREPTOMICINA
+Tipo: Bactericida.
+Control:
+- Espectro similar al sulfato de estreptomicina.
+- Agrobacterium, especialmente.
+Observación:
+- Acción potenciada respecto a estreptomicina sola según el archivo.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 29.
+
+80. GENTAMICINA
+Tipo: Bactericida con acción fungicida complementaria.
+Control:
+- Bacterias Gram negativas.
+- Cancrosis bacteriana del tomate.
+Observación:
+- Se comercializa mezclada con oxitetraciclina.
+- El archivo indica inscripción en el país para cancrosis bacteriana del tomate.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 29.
+
+81. QUINOXYFEN
+Grupo: FRAC 13.
+Tipo: Fungicida.
+Acción:
+- Preventiva.
+- Mesostémica.
+Control:
+- Oídio de la vid.
+Incompatibilidad:
+- Fosetil aluminio.
+Observación:
+- Muy tóxico para microcrustáceos y algas.
+- Puede formularse solo o con fenarimol.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 29.
+
+82. IPRODIONE
+Grupo: FRAC 2 – Dicarboximidas.
+Tipo: Fungicida de contacto.
+Acción:
+- Preventiva.
+- Curativa.
+- No sistémica.
+Control:
+- Botrytis.
+- Monilia.
+- Sclerotinia.
+- Helminthosporium.
+- Alternaria.
+- Penicillium.
+- Phoma.
+- Rhizoctonia.
+Usos:
+- Poscosecha.
+- Enfermedades de frutales y hortalizas según el apunte.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 29.
+
+83. PROCIMIDONE
+Grupo: FRAC 2.
+Tipo: Fungicida sistémico.
+Acción:
+- Preventiva.
+- Curativa.
+Control:
+- Botrytis.
+- Sclerotinia.
+- Podredumbre morena.
+- Podredumbre de racimos.
+- Viruela de frutales de carozo.
+- Curasemillas de ajo.
+- Botrytis en frutilla y lechuga.
+Carencia:
+- No especificada.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 29; p. 51.
+
+84. FLUDIOXONIL
+Grupo: FRAC 12 – Fenilpirrol.
+Tipo: Fungicida de contacto.
+Control:
+- Rhizoctonia y Fusarium en papa semilla.
+- Poscosecha de cítricos, manzanas y peras.
+- En mezcla con cyprodinil: podredumbre de racimos en vid.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 29; p. 64.
+
+85. PROPAMOCARB
+Grupo: FRAC 28.
+Tipo: Fungicida sistémico/fungistático.
+Acción:
+- Sistémica.
+- Absorción por raíces y traslocación aérea.
+Control:
+- Pythium.
+- Bremia.
+- Phytophthora.
+- Phoma.
+- Phytophthora infestans en papa.
+Uso:
+- Suelo y foliar.
+- Semilleros.
+- Protección de siembras y trasplantes.
+- Riego por goteo.
+- Desinfección de semillas.
+- Inmersión de bulbos y tubérculos.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 29.
+
+86. BACILLUS SUBTILIS
+Tipo: Biológico.
+Acción:
+- Protectiva.
+- Contacto.
+Control:
+- Botrytis cinerea en vid y frutilla.
+- Acción preventiva en oídio de cucurbitáceas según otro apartado.
+Observaciones:
+- La cepa QST 713 aparece como fungicida.
+- Se indica sensibilidad a pH 5,5 y rápida degradación por el sol.
+- Poco residual.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 29; p. 37; p. 64.
+
+87. MELALEUCA ALTERNIFOLIA
+Tipo: Fungicida de origen natural.
+Acción:
+- Preventiva.
+Control:
+- Oídio.
+- Podredumbre de vid.
+- Botrytis en hortícolas y arándanos.
+Observación:
+- Asociado a manejo orgánico.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 30; p. 64.
+
+88. TRIADIMEFON
+Grupo: FRAC 3.
+Tipo: Fungicida triazol.
+Acción:
+- Sistémica.
+Control:
+- Oídio en cucurbitáceas, vid, manzano y duraznero.
+- Oidiopsis.
+- Oídio del manzano/peral.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 30; p. 56.
+
+89. HEXACONAZOLE
+Grupo: FRAC 3.
+Tipo: Fungicida triazol.
+Acción:
+- Sistémica.
+- Translaminar.
+Control:
+- Oídios en vid, manzano y peral.
+- Sarna de manzano y peral.
+Observación:
+- Tóxico para peces.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 30; p. 56.
+
+90. PENCONAZOLE
+Grupo: FRAC 3.
+Tipo: Fungicida triazol.
+Control:
+- Oídios en duraznero, peral, manzano, vid y cucurbitáceas.
+- Sarna de manzano y peral.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 30; p. 56.
+
+91. MICLOBUTANIL
+Grupo: FRAC 3.
+Tipo: Fungicida triazol.
+Control:
+- Oídio en vid, manzano, duraznero, cucurbitáceas y rosales.
+- Venturia.
+- Rhizoctonia.
+- Sclerotinia.
+- Dreschlera.
+- Roya del clavel.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 30; p. 56; p. 64.
+
+92. TEBUCONAZOLE
+Grupo: FRAC 3.
+Tipo: Fungicida triazol.
+Control:
+- Oídio de vid.
+- Roya del ajo.
+- En mezcla con trifloxystrobin: roya del ajo y Stemphylium.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 30; p. 51; p. 64.
+
+93. FLUSILAZOLE
+Grupo: FRAC 3.
+Tipo: Fungicida triazol.
+Acción:
+- Sistémica.
+- En fase vapor.
+Control:
+- Oídio.
+- Sarna del manzano.
+Observaciones:
+- Tóxico para peces.
+Carencia:
+- Manzano: 21 días.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 30; p. 56.
+
+94. DIFENOCONAZOLE
+Grupo: FRAC 3.
+Tipo: Fungicida triazol.
+Control:
+- Alternaria en papa y tomate.
+Observación:
+- Muy tóxico para peces.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 30.
+
+95. PROCLORAZ
+Grupo: FRAC 3.
+Tipo: Fungicida imidazol.
+Acción:
+- Preventiva.
+- Translaminar.
+Control:
+- Aspergillus.
+- Helminthosporium.
+- Alternaria.
+- Fusarium.
+- Penicillium en ajo.
+Uso:
+- Inmersión de dientes/bulbillos al momento de plantación.
+- Poscosecha de cítricos.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 30; p. 50.
+
+96. IMAZALIL
+Grupo: FRAC 3.
+Tipo: Fungicida imidazol.
+Control:
+- Penicillium.
+- Botrytis cinerea en manzano y peral.
+Uso:
+- Pre y poscosecha.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 30.
+
+97. FENARIMOL
+Grupo: FRAC 3.
+Tipo: Fungicida.
+Control:
+- Oídio en vid.
+- Oídio en frutales de carozo y pepita.
+- Oídio en cucurbitáceas.
+- Venturia.
+- Oidiopsis.
+Incompatibilidades:
+- Dimetoato.
+- Azufre.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 30; p. 56.
+
+98. TRIFORINE
+Tipo: Fungicida.
+Acción:
+- Sistémica acrópeta y basípeta.
+Control:
+- Oídio en vid.
+- Oídio en frutales de pepita y carozo.
+- Oidiopsis.
+- Royas.
+- Venturia.
+Observaciones:
+- Puede ser fitotóxico en peral y manzano.
+Incompatibilidades:
+- Formulaciones WP.
+- Suspensiones concentradas.
+- El archivo indica que solo puede mezclarse con bencimidazoles.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 30; p. 56.
+
+99. FENHEXAMIDA
+Grupo: FRAC 17.
+Tipo: Fungicida de contacto.
+Control:
+- Botrytis cinerea en vid y frutilla.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 30; p. 64.
+
+100. DIMETOMORF
+Grupo: FRAC 40.
+Tipo: Fungicida.
+Acción:
+- Contacto.
+- Translaminar.
+Control:
+- Plasmopara.
+- Phytophthora.
+- No controla Pythium.
+Observaciones:
+- Puede actuar durante distintas etapas del ciclo mientras la planta esté verde.
+- Se formula mezclado con mancozeb.
+- Penetración aproximadamente 1 h después de aplicado.
+- Muy tóxico para peces.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 31.
+
+101. IPROVALICARB
+Grupo: FRAC 40.
+Tipo: Fungicida.
+Acción:
+- Sistémica.
+- Contacto.
+Control:
+- Peronóspora de vid.
+- Tizón tardío de papa.
+Observación:
+- Se formula con propineb.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 31; p. 63.
+
+102. FOSETIL ALUMINIO
+Grupo: FRAC P07.
+Tipo: Fungicida.
+Acción:
+- Sistémica acrópeta.
+- Sistémica basípeta.
+Control:
+- Peronóspora en vid.
+- Phytophthora capsici en almácigos y pimiento.
+- P. cactorum en cerezo, manzano y peral.
+- P. parasitica en frutilla.
+- Plasmopara y Phytophthora en mezclas.
+Observaciones:
+- Soluble en agua.
+- Puede utilizarse solo o mezclado con folpet según el archivo.
+Incompatibilidad:
+- Quinoxyfen.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 31.
+
+103. FOSFITO DE POTASIO
+Tipo: Producto fosfonado/bioestimulante.
+Control/acción:
+- Acción sobre peronóspora de vid.
+Mecanismo:
+- Desconocido según el archivo.
+Observación:
+- Comercializado como bioestimulante.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 31.
+
+104. CIMOXANIL
+Tipo: Fungicida.
+Acción:
+- Sistémica.
+- Penetra por hojas y se mueve internamente.
+Control:
+- Oomicetes.
+- Registrado en vid y papa según el archivo.
+Observación:
+- Tiende a acumularse en extremos de hojas.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 31.
+
+105. AZUFRE
+Grupo: FRAC M02.
+Tipo: Fungicida y acaricida.
+Acción:
+- Contacto.
+- Preventiva.
+- Curativa.
+- Acción acaricida secundaria.
+Control:
+- Oídio.
+- Oidiopsis.
+- Sarna de manzano y peral.
+- Eriófidos.
+- Ácaros tetraníquidos.
+- Tenuipálpidos.
+- Erinosis de vid.
+- Eriófidos del olivo.
+Observaciones:
+- Menor eficacia por debajo de 15 °C.
+- Riesgo de fitotoxicidad por encima de 30 °C.
+- Melón, pepino, sandía, alcaucil, ciertos damascos y durazneros son sensibles.
+- En frutales de carozo no aplicar entre floración y cuaje.
+Incompatibilidad:
+- Aceites.
+- Fenarimol.
+- Ditianon.
+- En algunos apartados también se indica incompatibilidad con derivados orgánicos/aceites en relación con polisulfuro.
+Dosis:
+- No especificada; para algunos cultivos sensibles se indica usar dosis mínimas.
+Fuente: Biblia Tera(1), p. 31; p. 55–64.
+
+106. POLISULFURO DE CALCIO
+Tipo: Fungicida/insecticida/acaricida.
+Control:
+- Torque.
+- Viruela de frutales.
+- Podredumbre morena.
+- Sarna de manzano y peral.
+- Cochinillas.
+- Pulgón lanígero.
+- Taladrillo.
+- Eriófidos.
+- Ácaros.
+- Oídios.
+- Cochinilla H en olivo.
+Observaciones:
+- Fitotóxico por encima de 20 °C.
+- Uso principalmente invernal.
+- Control de cochinillas mediante ablandamiento del escudete y asfixia.
+Incompatibilidades:
+- Aceites.
+- Productos cúpricos.
+- Derivados orgánicos por su alcalinidad.
+- Clorpirifos.
+- También se indica que aceite y polisulfuro deben separarse 30 días.
+Dosis explícita encontrada:
+- 3 % para taladrillo de forestales en una situación específica.
+Dosis general:
+- No especificada.
+Fuente: Biblia Tera(1), p. 31; p. 34; p. 55–56.
+
+107. HIDRÓXIDO DE COBRE
+Grupo: FRAC M01.
+Tipo: Fungicida/bactericida.
+Control:
+- Enfermedades bacterianas y fúngicas según el uso general de cúpricos.
+Observación:
+- Contiene 50 % de Cu metálico.
+- Formulaciones WP y WG.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 31.
+
+108. OXICLORURO DE COBRE
+Grupo: FRAC M01.
+Tipo: Fungicida/bactericida.
+Control mencionado:
+- Viruela.
+- Torque.
+- Cercosporiosis.
+- Ojo de pavo.
+- Fumagina.
+- Antracnosis.
+- Tuberculosis del olivo.
+- Peronóspora en vid.
+- Enfermedades bacterianas asociadas a heridas.
+Dosis:
+- No especificada.
+Observaciones:
+- En olivo aparece como preventivo.
+- En frutales puede utilizarse en determinados momentos de caída de hojas/poscosecha.
+Fuente: Biblia Tera(1), p. 48; p. 58–59; p. 63.
+
+109. DITIANON
+Grupo: FRAC M09.
+Tipo: Fungicida.
+Control:
+- Venturia/sarna de manzano y peral.
+- Torque del duraznero.
+- Antracnosis en vid.
+Observaciones:
+- Acción erradicante si se aplica dentro de las 48 h de ocurrida la infección.
+Incompatibilidades:
+- Azufre.
+- Aceites.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 32.
+
+110. CAPTAN
+Grupo: FRAC M04.
+Tipo: Fungicida.
+Control:
+- Venturia.
+- Antracnosis de cucurbitáceas.
+- Peronóspora de vid y ajo.
+- Viruela y enfermedades de frutales de carozo.
+Observaciones:
+- El uso continuado en frutales de carozo puede producir fitotoxicidad.
+- Retrasa inicio de fermentación vínica; debe utilizarse 4 semanas antes de cosecha según el apunte.
+- En el manejo de ácaros se menciona como producto que puede favorecer resurgencia de ácaros.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 32; p. 48; p. 55.
+
+111. FOLPET
+Grupo: FRAC M04.
+Tipo: Fungicida.
+Control:
+- Similar a captan.
+- Peronóspora.
+- Oídio frenante.
+- Podredumbres.
+Uso:
+- Poscosecha.
+Incompatibilidad:
+- Aceites.
+Observaciones:
+- Puede producir resurgencia de ácaros.
+- Retrasa inicio de fermentación vínica; 4 semanas antes de cosecha.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 32.
+
+112. ZINEB
+Tipo: Fungicida de contacto.
+Control:
+- Peronóspora.
+- Roya.
+- Viruela de frutales.
+- Mancha/roya en ajo y cebolla.
+- Otras enfermedades según el apunte.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 48–51; p. 63.
+
+113. ZIRAM
+Tipo: Fungicida de contacto.
+Control:
+- Viruela.
+- Torque.
+- Roya de ajo y cebolla.
+- Enfermedades de frutales.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 48; p. 51; p. 63.
+
+114. PROPINEB
+Tipo: Fungicida.
+Control:
+- Peronóspora.
+- Se formula con iprovalicarb.
+- Se menciona para manchas foliares.
+Observación:
+- En forestales aparece para manchas foliares con aplicación cada 14 días durante brotación.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 31; p. 35; p. 63.
+
+115. CLOROTALONIL
+Tipo: Fungicida de amplio espectro.
+Control:
+- Mildius.
+- Peronóspora de ajo y cebolla.
+- Viruela del apio.
+- Torque del duraznero.
+- Viruela de frutales de carozo.
+- Monilia.
+- Oídios.
+- Alternaria.
+- Phytophthora.
+- Cladosporium.
+- Septoria.
+- Botrytis.
+Observación:
+- Altamente tóxico para peces.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 32; p. 48; p. 51.
+
+116. EXTRACTO DE SEMILLAS/PULPA DE CÍTRICOS
+Tipo: Fungicida y bactericida vegetal.
+Acción:
+- Preventiva.
+Control:
+- Amplio espectro fúngico y bacteriano.
+Observación:
+- Inscripto para agricultura orgánica según el archivo.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 32; p. 64.
+
+117. CARBOXIM + TIRAM
+Tipo: Tratamiento de semillas.
+Control:
+- Helminthosporium.
+- Penicillium.
+- Fusarium en ajo.
+- También utilizado preventivamente en problemas de semilla.
+Uso:
+- Slurry/embarrado.
+- Inmersión de bulbillos.
+Dosis:
+- El archivo indica que la dosis para inmersión se calcula por 100 L de agua, pero NO proporciona el valor numérico.
+Observación:
+- No todos los productos formulados para embarrado sirven para inmersión.
+Fuente: Biblia Tera(1), p. 50.
+
+118. TIRAM
+Tipo: Fungicida de contacto/terápico de semillas.
+Uso:
+- En mezcla con carboxim para ajo.
+- Aparece también combinado con azufre para roya de ciruelo.
+Dosis:
+- No especificada.
+Fuente: Biblia Tera(1), p. 48–50.
+
+============================================================
+C. PROBLEMÁTICAS ESPECÍFICAS DE AJO Y CEBOLLA
+============================================================
+
+TRIPS
+Principios activos mencionados:
+- Cipermetrina.
+- Dimetoato.
+- Tiametoxam + lambdacialotrina.
+- Clorpirifos.
+- Fenitrotion.
+- Mercaptotion.
+- Metidation.
+- Formetanato.
+- Imidacloprid.
+- Spinetoram.
+Observación de manejo:
+- El archivo señala muchas resistencias a piretroides en trips.
+- Se recomienda no utilizar productos de amplio espectro cuando no sean necesarios.
+Fuente: Biblia Tera(1), p. 49; p. 15–22; p. 61.
+
+ACERIA TULIPAE
+Principios activos mencionados:
+- Azufre.
+- Fosfuro de aluminio.
+- Carbofuran.
+- Spirodiclofen.
+Observación crítica:
+- El archivo indica que NO hay acaricidas específicos “que revientan al eriófido” registrados para ajo.
+- Fosfuro de aluminio se indica para fumigar el galpón y actuar sobre el eriófido en almacenamiento.
+- Carbofuran figura registrado para nematodos en ajo, pero el apunte señala que funciona sobre el eriófido.
+- Spirodiclofen aparece como alternativa técnica pero el apunte dice que no estaría registrado para ajo.
+Fuente: Biblia Tera(1), p. 49.
+
+PODREDUMBRE VERDE / PENICILLIUM
+Principios activos:
+- Carboxim + tiram.
+- Procloraz.
+- Carbendazim.
+Fuente: Biblia Tera(1), p. 50.
+
+FUSARIUM
+Principios activos:
+- Carboxim + tiram.
+- Procloraz.
+- Carbendazim.
+Fuente: Biblia Tera(1), p. 50.
+
+HELMINTHOSPORIUM
+Principios activos:
+- Carboxim + tiram.
+- Procloraz.
+- Azoxistrobina.
+- Tebuconazole + trifloxystrobin.
+Fuente: Biblia Tera(1), p. 50–51.
+
+SCLEROTIUM CEPIVORUM
+Principios activos:
+- Tebuconazole.
+- Carbendazim.
+- Tiabendazol.
+Fuente: Biblia Tera(1), p. 50.
+
+STEMPHYLIUM VESICARIUM
+Principios activos:
+- Azoxistrobina.
+- Tebuconazole + trifloxystrobin.
+Fuente: Biblia Tera(1), p. 51.
+
+BOTRYTIS ALLII
+Principios activos:
+- Carbendazim.
+- Procimidone.
+Fuente: Biblia Tera(1), p. 51.
+
+PERONOSPORA DE AJO/CEBOLLA
+Principios activos:
+- Mancozeb.
+- Clorotalonil.
+- Captan.
+- Folpet.
+- Metalaxil + mancozeb.
+- Zineb.
+- Ziram.
+Fuente: Biblia Tera(1), p. 51.
+
+ROYA DEL AJO/CEBOLLA
+Principios activos:
+- Tebuconazole + trifloxystrobin.
+- Zineb.
+- Ziram.
+Fuente: Biblia Tera(1), p. 51.
+
+PODREDUMBRE BLANDA BACTERIANA
+Principio activo mencionado:
+- Kasugamicina.
+Observación:
+- El apunte indica que el control químico “parece no servir”.
+Fuente: Biblia Tera(1), p. 51.
+
+============================================================
+D. INCOMPATIBILIDADES EXPRESAMENTE MENCIONADAS EN LOS ARCHIVOS
+============================================================
+
+1. CLORPIRIFOS
+NO compatible con:
+- DDVP.
+- Fertilizantes foliares.
+- Caldo Bordelés.
+- Polisulfuro de calcio.
+
+2. ORGANOFOSFORADOS EN GENERAL
+El archivo explica que se hidrolizan rápidamente en medio alcalino.
+NO compatibles con:
+- Caldo Bordelés.
+Motivo:
+- El medio alcalino acelera la hidrólisis y reduce la vida residual.
+
+3. FENARIMOL
+NO compatible con:
+- Dimetoato.
+- Azufre.
+
+4. TRIFORINE
+NO compatible con:
+- Polvos mojables.
+- Suspensiones concentradas.
+Puede mezclarse, según el archivo, solamente con:
+- Bencimidazoles.
+
+5. FLUAZINAM
+NO compatible con:
+- Abamectina.
+Motivo:
+- El archivo indica que produce fitotoxicidad.
+
+6. QUINOXYFEN
+NO compatible con:
+- Fosetil aluminio.
+
+7. POLISULFURO DE CALCIO
+NO compatible con:
+- Aceites.
+- Productos cúpricos.
+- Derivados orgánicos.
+- Clorpirifos.
+Además:
+- Aceite y polisulfuro deben separarse 30 días según el manejo de arañuelas.
+
+8. AZUFRE
+NO compatible con:
+- Aceites.
+- Fenarimol.
+- Ditianon.
+Además:
+- La mezcla de azufre con aceites vegetales sólo se indica para tratamientos invernales en una sección específica.
+
+9. DITIANON
+NO compatible con:
+- Azufre.
+- Aceites.
+
+10. FOLPET
+NO compatible con:
+- Aceites.
+
+11. ACEITE DE SOJA REFINADO
+NO compatible con:
+- Azufre y derivados.
+- Fungicidas derivados del cobre.
+- Captan.
+- Propargite.
+Observación:
+- La mezcla con azufre puede producir fitotoxicidad grave, caída de hojas, flores y frutos.
+- Debe existir un intervalo de 30 días entre aceite y azufre según el archivo.
+Fuente: Resumen Terapeutica.
+
+============================================================
+E. DOSIS NUMÉRICAS ENCONTRADAS EXPLÍCITAMENTE
+============================================================
+
+IMPORTANTE:
+Este apartado NO reemplaza una etiqueta.
+
+1. DDVP:
+0,2–0,6 %
+Uso indicado exclusivamente para saneamiento ambiental y no agricultura.
+
+2. CLORFENAPIR:
+Aceite de mezcla:
+0,3 %
+La referencia corresponde al aceite utilizado para mejorar la eficacia, NO a la dosis del clorfenapir.
+
+3. POLISULFURO DE CALCIO:
+3 %
+Uso específico citado para taladrillo de forestales.
+
+4. CALDO BORDELÉS:
+1 %
+Uso específico citado en control de enfermedades de frutales en invierno.
+
+5. ACEITE DE SOJA REFINADO:
+0,5 L/hl para Panonychus ulmi en manzano y Aonidiella aurantii en mandarino.
+Como coadyuvante:
+0,5–1 L/ha.
+
+6. ABAMECTINA + TIAMETOXAM:
+El archivo indica 2 días de carencia en un esquema de tomate, pero NO proporciona dosis numérica.
+
+7. CYCLOBUTRIFLURAM:
+Se indica aplicación 1–3 días después del trasplante en tomate, pero NO se proporciona dosis numérica.
+
+8. NEMATICIDAS EN VID:
+Fenamifos:
+TC 60 días.
+Cyclobutrifluram:
+TC 70 días.
+No se proporciona dosis numérica.
+
+============================================================
+F. INFORMACIÓN QUE CONVIENE AGREGAR A LA BIBLIOTECA
+============================================================
+
+Para cada principio activo conviene que la aplicación tenga estos campos:
+
+1. Nombre del principio activo.
+2. Sinónimos.
+3. Tipo:
+   - Insecticida.
+   - Acaricida.
+   - Fungicida.
+   - Bactericida.
+   - Nematicida.
+   - Regulador de crecimiento.
+   - Biológico.
+4. Grupo IRAC/FRAC.
+5. Mecanismo de acción.
+6. Acción:
+   - Contacto.
+   - Ingestión.
+   - Sistémica.
+   - Translaminar.
+   - Fumigante.
+   - Preventiva.
+   - Curativa.
+   - Mesostémica.
+7. Movimiento dentro de la planta:
+   - Xilemático/ascendente.
+   - Floemático/descendente.
+   - Bidireccional.
+8. Plagas objetivo.
+9. Enfermedades objetivo.
+10. Bacterias objetivo.
+11. Malezas objetivo.
+12. Nematodos objetivo.
+13. Cultivos.
+14. Formulaciones.
+15. Dosis.
+16. Unidad de dosis:
+   - g/ha.
+   - kg/ha.
+   - L/ha.
+   - mL/100 L.
+   - g/100 L.
+   - %.
+   - g/m3.
+   - Otra.
+17. Momento de aplicación.
+18. Tiempo de carencia.
+19. Número máximo de aplicaciones, si está disponible.
+20. Incompatibilidades.
+21. Mezclas mencionadas como posibles en la fuente.
+22. Riesgo de resistencia.
+23. Grupo de resistencia.
+24. Toxicidad para abejas.
+25. Toxicidad para peces.
+26. Toxicidad para fauna acuática.
+27. Fitotoxicidad.
+28. Sensibilidad a temperatura.
+29. Observaciones técnicas.
+30. Estado de registro en Argentina:
+   - Verificado.
+   - No verificado.
+   - No registrado.
+   - Información internacional.
+   - Pendiente de verificar.
+31. Fuente.
+32. Página.
+33. Fecha de última verificación.
+
+============================================================
+G. REGLA PARA EL DESARROLLO DE LA APP
+============================================================
+
+La aplicación debe tratar las dosis y las incompatibilidades como DATOS DE FUENTE, no como reglas inventadas por el sistema.
+
+Si una dosis no está en la biblioteca:
+“Dosis no disponible en la fuente cargada”.
+
+Si una incompatibilidad no está documentada:
+“No se encontraron incompatibilidades en la fuente cargada”.
+
+No mostrar:
+“Compatible”
+simplemente porque no exista una incompatibilidad registrada.
+
+La ausencia de información significa:
+“Dato no verificado”.
+
+Cuando una dosis o uso provenga de un apunte de clase, debe aparecer como:
+“Dato técnico proveniente de material de estudio – verificar etiqueta vigente”.
+
+Cuando se confirme un registro argentino mediante documentación oficial, cambiar el estado a:
+“Verificado en Argentina”
+y guardar la fuente y fecha de verificación.
+
+============================================================
+H. PRINCIPALES ALERTAS QUE DEBERÍA GENERAR LA APP
+============================================================
+
+ALERTA 1 – REPETICIÓN DE GRUPO
+“Este principio activo pertenece al mismo grupo de acción utilizado recientemente en este lote. Revisar el programa de manejo de resistencia.”
+
+ALERTA 2 – INCOMPATIBILIDAD DOCUMENTADA
+“ATENCIÓN: la fuente cargada indica incompatibilidad con el producto seleccionado.”
+
+ALERTA 3 – DATO NO VERIFICADO
+“Este uso está documentado técnicamente en la biblioteca, pero no se encuentra verificado como registro vigente en Argentina.”
+
+ALERTA 4 – FITOTOXICIDAD
+“Consultar sensibilidad del cultivo y condiciones ambientales antes de utilizar.”
+
+ALERTA 5 – DOSIS AUSENTE
+“No hay dosis registrada en la fuente. Consultar etiqueta vigente.”
+
+ALERTA 6 – CARBARYL/PRODUCTOS PROHIBIDOS
+“No utilizar como recomendación vigente sin verificar estado regulatorio actual.”
+
+ALERTA 7 – ACERIA TULIPAE EN AJO
+“Fuente de estudio indica que determinados acaricidas no estaban registrados para ajo. Verificar registro argentino vigente antes de considerar cualquier uso.”
+
+============================================================
+I. FUENTES
+============================================================
+
+Fuente principal:
+“Biblia Tera(1).pdf”
+Autor indicado: Enzo Celentano.
+Año indicado: 2023.
+Páginas utilizadas principalmente:
+14–31, 48–68.
+
+Fuente complementaria:
+“Resumen Terapeutica.pdf”.
+Utilizada especialmente para:
+- Compatibilidades.
+- Formulación.
+- Información general de toxicidad.
+- Aceites.
+- Fungicidas.
+- Manejo de acaricidas.
+
+NOTA FINAL
+
+Este archivo es una BASE DE DATOS TÉCNICA DERIVADA DE LOS MATERIALES DE ESTUDIO PROPORCIONADOS.
+
+No debe utilizarse para afirmar automáticamente que un producto está registrado en Argentina para un cultivo/problemática concreta.
+
+Antes de que la aplicación muestre una información como “uso autorizado”, debe existir una verificación independiente y actualizada del registro/etiqueta correspondiente.
+
+La estructura está pensada para poder incorporar posteriormente:
+- Registro SENASA.
+- Etiqueta oficial.
+- Dosis de cada formulación comercial.
+- LMR.
+- Tiempo de carencia.
+- Reingreso.
+- Número máximo de aplicaciones.
+- Formulación.
+- Concentración.
+- Proveedor.
+- Precio.
+- Disponibilidad.
+- Fecha de actualización.

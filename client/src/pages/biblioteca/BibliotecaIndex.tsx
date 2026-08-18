@@ -74,9 +74,15 @@ export default function BibliotecaIndex() {
         ))}
       </div>
 
-      <div style={{ marginTop: "1.25rem" }}>
+      <div style={{ marginTop: "1.25rem", display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+        <Link to="/biblioteca/carga-rapida" className="btn small">
+          ⚡ Carga rápida
+        </Link>
         <Link to="/biblioteca/comparar" className="btn secondary small">
           ⚖️ Comparar principios activos
+        </Link>
+        <Link to="/biblioteca/chequeo-mezcla" className="btn secondary small">
+          ⚠️ Chequeo de mezcla
         </Link>
       </div>
 

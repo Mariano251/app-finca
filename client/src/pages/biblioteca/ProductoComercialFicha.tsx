@@ -50,8 +50,8 @@ export default function ProductoComercialFicha() {
       <div className="card">
         <div className="form-grid" style={{ rowGap: "0.4rem" }}>
           <div>
-            <span className="text-muted">Tipo: </span>
-            {labelFor(TIPO_FITOSANITARIO_OPTIONS, p.tipo)}
+            <span className="text-muted">Categorías: </span>
+            {p.tipos.map((t) => labelFor(TIPO_FITOSANITARIO_OPTIONS, t)).join(", ") || "—"}
           </div>
           <div>
             <span className="text-muted">Formulación: </span>

@@ -400,12 +400,25 @@ export interface PrincipioActivo {
   cultivos?: Cultivo[];
   organismos?: Organismo[];
   productos?: ProductoPrincipioActivo[];
+  incompatibilidadesA?: Incompatibilidad[];
+  incompatibilidadesB?: Incompatibilidad[];
+}
+
+export interface Incompatibilidad {
+  id: number;
+  principioActivoAId: number;
+  principioActivoA?: PrincipioActivo;
+  principioActivoBId: number;
+  principioActivoB?: PrincipioActivo;
+  tipo?: string | null;
+  fuente?: string | null;
+  observacion?: string | null;
 }
 
 export interface ProductoComercial {
   id: number;
   nombreComercial: string;
-  tipo: TipoFitosanitario;
+  tipos: TipoFitosanitario[];
   formulacion?: string | null;
   movilidad?: Movilidad | null;
   observaciones?: string | null;

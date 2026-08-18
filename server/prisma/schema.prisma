@@ -813,40 +813,66 @@ model PrincipioActivo {
   createdAt             DateTime          @default(now())
   updatedAt             DateTime          @updatedAt
 
-  cultivos   Cultivo[]
-  organismos Organismo[]
-  productos  ProductoPrincipioActivo[]
+  cultivos            Cultivo[]
+  organismos          Organismo[]
+  productos           ProductoPrincipioActivo[]
+  /// Incompatibilidades documentadas con este principio activo como "lado A" o "lado B" del par
+  /// (ver Incompatibilidad — el orden A/B es solo una convención interna para no duplicar el par,
+  /// no implica direccionalidad; las consultas siempre miran ambos lados).
+  incompatibilidadesA Incompatibilidad[]        @relation("IncompatibilidadA")
+  incompatibilidadesB Incompatibilidad[]        @relation("IncompatibilidadB")
 
   @@index([tipo])
   @@index([grupoAccion])
 }
 
+/// Incompatibilidad documentada entre dos principios activos (mezcla, fitotoxicidad, etc.). Es un
+/// dato de fuente, no una regla inventada por el sistema: la ausencia de una fila acá NO significa
+/// que dos principios sean compatibles, solo que no hay incompatibilidad documentada todavía.
+model Incompatibilidad {
+  id                 Int             @id @default(autoincrement())
+  principioActivoAId Int
+  principioActivoA   PrincipioActivo @relation("IncompatibilidadA", fields: [principioActivoAId], references: [id], onDelete: Cascade)
+  principioActivoBId Int
+  principioActivoB   PrincipioActivo @relation("IncompatibilidadB", fields: [principioActivoBId], references: [id], onDelete: Cascade)
+  tipo               String?
+  fuente             String?
+  observacion        String?
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+
+  @@unique([principioActivoAId, principioActivoBId])
+  @@index([principioActivoBId])
+}
+
 model ProductoComercial {
-  id                       Int               @id @default(autoincrement())
+  id                       Int                 @id @default(autoincrement())
   nombreComercial          String
-  tipo                     TipoFitosanitario
+  /// Un producto comercial puede tener más de una categoría (ej. insecticida + acaricida); antes
+  /// era un solo TipoFitosanitario, ver migración producto_tipos_array.
+  tipos                    TipoFitosanitario[]
   formulacion              String?
   movilidad                Movilidad?
   observaciones            String?
-  disponible               Boolean           @default(true)
+  disponible               Boolean             @default(true)
   proveedor                String?
   precio                   Float?
   presentacion             String?
   fechaActualizacionPrecio DateTime?
   notasPersonales          String?
-  registroArgentina        RegistroArgentina @default(PENDIENTE)
+  registroArgentina        RegistroArgentina   @default(PENDIENTE)
   fuenteInformacion        String?
   fechaVerificacion        DateTime?
-  favorito                 Boolean           @default(false)
-  createdAt                DateTime          @default(now())
-  updatedAt                DateTime          @updatedAt
+  favorito                 Boolean             @default(false)
+  createdAt                DateTime            @default(now())
+  updatedAt                DateTime            @updatedAt
 
   cultivos          Cultivo[]
   organismos        ProductoOrganismo[]
   principiosActivos ProductoPrincipioActivo[]
   aplicaciones      AplicacionFitosanitaria[]
 
-  @@index([tipo])
+  @@index([tipos], type: Gin)
 }
 
 model ProductoPrincipioActivo {

@@ -4,6 +4,7 @@ import { parse } from "csv-parse/sync";
 import { prisma } from "../lib/prisma";
 import { crudRouter } from "../lib/crudRouter";
 import type { Prisma, TipoOrganismo } from "@prisma/client";
+import { extraerDatosProductoDesdePdf } from "../lib/extraccionPdfProducto";
 
 /**
  * Biblioteca de Productos y Principios Activos: catálogo de referencia técnica (qué existe, qué
@@ -13,6 +14,18 @@ import type { Prisma, TipoOrganismo } from "@prisma/client";
  */
 
 const uploadCsv = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 } });
+
+const uploadPdf = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 15 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    if (file.mimetype !== "application/pdf") {
+      cb(new Error("Solo se permiten archivos PDF"));
+      return;
+    }
+    cb(null, true);
+  },
+});
 
 // ---------------------------------------------------------------------------
 // Organismos objetivo (plagas/ácaros/enfermedades/bacterias/malezas/nematodos)
@@ -55,6 +68,8 @@ const fichaPrincipioActivoInclude = {
   cultivos: true,
   organismos: true,
   productos: { include: { productoComercial: true } },
+  incompatibilidadesA: { include: { principioActivoB: true } },
+  incompatibilidadesB: { include: { principioActivoA: true } },
 } as const;
 
 export const principiosActivosRouter = Router();
@@ -141,7 +156,7 @@ productosComercialesRouter.get("/", async (req, res, next) => {
     } = req.query as Record<string, string | undefined>;
 
     const where: Prisma.ProductoComercialWhereInput = {};
-    if (tipo) where.tipo = tipo as any;
+    if (tipo) where.tipos = { has: tipo as any };
     if (disponible !== undefined) where.disponible = disponible === "true";
     if (favorito !== undefined) where.favorito = favorito === "true";
     if (registroArgentina) where.registroArgentina = registroArgentina as any;
@@ -262,7 +277,12 @@ async function findOrCreatePrincipioActivo(tx: Prisma.TransactionClient, nombre:
 async function importarFilaProducto(row: Record<string, string>) {
   const nombreComercial = (row.nombreComercial || "").trim();
   if (!nombreComercial) throw new Error("nombreComercial es obligatorio");
-  const tipo = (row.tipo || "OTRO").trim().toUpperCase();
+  // Un producto puede tener más de una categoría: columna "tipo" acepta varios valores separados
+  // por "+" (ej. "INSECTICIDA+ACARICIDA").
+  const tipos = (row.tipo || "OTRO")
+    .split("+")
+    .map((t) => t.trim().toUpperCase())
+    .filter(Boolean);
 
   return prisma.$transaction(async (tx) => {
     const cultivos = (await Promise.all(splitLista(row.cultivos).map((n) => findOrCreateCultivo(tx, n)))).filter(
@@ -294,7 +314,7 @@ async function importarFilaProducto(row: Record<string, string>) {
 
     const base = {
       nombreComercial,
-      tipo: tipo as any,
+      tipos: tipos as any,
       formulacion: row.formulacion || null,
       movilidad: (row.movilidad ? row.movilidad.trim().toUpperCase() : null) as any,
       disponible: row.disponible ? row.disponible.trim().toLowerCase() !== "false" : true,
@@ -378,7 +398,7 @@ productosComercialesRouter.get("/export", async (_req, res, next) => {
           .join("; ");
       const fila = [
         p.nombreComercial,
-        p.tipo,
+        p.tipos.join("+"),
         p.formulacion ?? "",
         p.movilidad ?? "",
         String(p.disponible),
@@ -405,6 +425,44 @@ productosComercialesRouter.get("/export", async (_req, res, next) => {
     res.setHeader("Content-Type", "text/csv; charset=utf-8");
     res.setHeader("Content-Disposition", 'attachment; filename="productos-comerciales.csv"');
     res.send(lineas.join("\n"));
+  } catch (e) {
+    next(e);
+  }
+});
+
+/** Lee un PDF (etiqueta o ficha técnica) y arma un borrador de producto para precargar el
+ *  formulario de alta — por reglas, sin IA, así que es "best effort": nunca crea el producto
+ *  solo, siempre queda a revisión del usuario antes de guardar (ver ProductoComercialForm). Los
+ *  principios activos detectados sí se resuelven contra la tabla (find-or-create, igual que el
+ *  import CSV) para poder precargar el <select> con un id real en vez de sólo un nombre suelto. */
+productosComercialesRouter.post("/extraer-pdf", uploadPdf.single("file"), async (req, res, next) => {
+  try {
+    if (!req.file) {
+      res.status(400).json({ error: "Falta el archivo PDF" });
+      return;
+    }
+    const extraccion = await extraerDatosProductoDesdePdf(req.file.buffer);
+
+    const principiosActivos = await prisma.$transaction((tx) =>
+      Promise.all(
+        extraccion.principiosActivos.map(async (pa) => {
+          const principioActivo = await findOrCreatePrincipioActivo(tx, pa.nombre);
+          return principioActivo
+            ? { principioActivoId: principioActivo.id, nombre: pa.nombre, concentracion: pa.concentracion, unidad: pa.unidad }
+            : null;
+        })
+      )
+    );
+
+    res.json({
+      nombreComercial: extraccion.nombreComercial,
+      tipos: extraccion.tipos,
+      formulacion: extraccion.formulacion,
+      registroArgentina: extraccion.registroSenasa ? "VERIFICADO" : null,
+      fuenteInformacion: extraccion.registroSenasa ? `SENASA ${extraccion.registroSenasa}` : null,
+      principiosActivos: principiosActivos.filter(Boolean),
+      textoInsuficiente: extraccion.textoInsuficiente,
+    });
   } catch (e) {
     next(e);
   }

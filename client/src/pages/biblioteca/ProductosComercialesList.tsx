@@ -6,6 +6,7 @@ import { useList } from "../../api/useCrud";
 import type { ProductoComercial } from "../../api/types";
 import { TIPO_FITOSANITARIO_OPTIONS, TIPO_FITOSANITARIO_COLOR } from "../../constants";
 import { RegistroBadge } from "../../components/biblioteca/RegistroBadge";
+import type { ExtraccionPdfProducto } from "./ProductoComercialForm";
 
 function labelFor(options: { value: string; label: string }[], value?: string | null) {
   return options.find((o) => o.value === value)?.label ?? value ?? "—";
@@ -46,6 +47,24 @@ export default function ProductosComercialesList() {
     },
   });
 
+  const extraerPdf = useMutation({
+    mutationFn: async (file: File): Promise<{ extraccion: ExtraccionPdfProducto; file: File }> => {
+      const form = new FormData();
+      form.append("file", file);
+      const extraccion = (await api.post("/productos-comerciales/extraer-pdf", form)).data;
+      return { extraccion, file };
+    },
+    onSuccess: ({ extraccion, file }) => {
+      if (extraccion.textoInsuficiente) {
+        alert(
+          "No se pudo leer texto del PDF (¿es una imagen escaneada?). Se abre el formulario vacío; el PDF se adjuntará a la ficha para tenerlo de referencia."
+        );
+      }
+      navigate("/biblioteca/productos/nuevo", { state: { pdfExtraido: extraccion, pdfFile: file } });
+    },
+    onError: () => alert("No se pudo leer el PDF. Probá con otro archivo o cargá el producto a mano."),
+  });
+
   return (
     <div>
       <div className="page-header">
@@ -72,8 +91,24 @@ export default function ProductosComercialesList() {
               }}
             />
           </label>
+          <label className="btn secondary small" style={{ cursor: "pointer" }}>
+            {extraerPdf.isPending ? "Leyendo PDF…" : "📄 Cargar desde PDF"}
+            <input
+              type="file"
+              accept=".pdf,application/pdf"
+              style={{ display: "none" }}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) extraerPdf.mutate(file);
+                e.target.value = "";
+              }}
+            />
+          </label>
           <button className="btn" onClick={() => navigate("/biblioteca/productos/nuevo")}>
             + Nuevo
+          </button>
+          <button className="btn secondary" onClick={() => navigate("/biblioteca/carga-rapida")}>
+            ⚡ Carga rápida
           </button>
         </div>
       </div>
@@ -141,10 +176,12 @@ export default function ProductosComercialesList() {
                 </span>
               )}
             </h3>
-            <p style={{ margin: "0.3rem 0" }}>
-              <span className="tag" style={{ background: TIPO_FITOSANITARIO_COLOR[p.tipo] + "22", color: TIPO_FITOSANITARIO_COLOR[p.tipo] }}>
-                {labelFor(TIPO_FITOSANITARIO_OPTIONS, p.tipo)}
-              </span>
+            <p style={{ margin: "0.3rem 0", display: "flex", gap: "0.3rem", flexWrap: "wrap" }}>
+              {p.tipos.map((t) => (
+                <span key={t} className="tag" style={{ background: TIPO_FITOSANITARIO_COLOR[t] + "22", color: TIPO_FITOSANITARIO_COLOR[t] }}>
+                  {labelFor(TIPO_FITOSANITARIO_OPTIONS, t)}
+                </span>
+              ))}
             </p>
             <p style={{ fontSize: "0.85rem", margin: "0 0 0.3rem" }}>
               {p.principiosActivos?.map((r) => r.principioActivo?.nombre).filter(Boolean).join(" + ") || "—"}

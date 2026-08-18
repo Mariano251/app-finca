@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { api } from "../../api/client";
 import { useCreate, useList, useOne, useUpdate } from "../../api/useCrud";
 import type { Cultivo, Organismo, PrincipioActivo, ProductoComercial } from "../../api/types";
 import {
@@ -9,6 +10,19 @@ import {
   EFICACIA_PRODUCTO_OPTIONS,
 } from "../../constants";
 import { MultiSelectPicker } from "../../components/MultiSelectPicker";
+
+/** Borrador que arma el servidor al leer un PDF de etiqueta/ficha técnica (ver
+ *  POST /productos-comerciales/extraer-pdf) — es "best effort" por reglas, no IA, por eso siempre
+ *  se precarga acá para revisión en vez de crearse solo. */
+export interface ExtraccionPdfProducto {
+  nombreComercial: string | null;
+  tipos: string[];
+  formulacion: string | null;
+  registroArgentina: string | null;
+  fuenteInformacion: string | null;
+  principiosActivos: { principioActivoId: number; nombre: string; concentracion: number | null; unidad: string | null }[];
+  textoInsuficiente: boolean;
+}
 
 interface FilaPrincipio {
   key: string;
@@ -47,6 +61,12 @@ export default function ProductoComercialForm() {
   const editando = id !== undefined;
   const productoId = Number(id);
   const navigate = useNavigate();
+  const location = useLocation();
+  const pdfState = !editando
+    ? (location.state as { pdfExtraido?: ExtraccionPdfProducto; pdfFile?: File } | null)
+    : null;
+  const pdfExtraido = pdfState?.pdfExtraido;
+  const pdfFile = pdfState?.pdfFile;
 
   const { data: existente } = useOne<ProductoComercial>("/productos-comerciales", editando ? productoId : undefined);
   const { data: cultivos } = useList<Cultivo>("/cultivos", { activo: "true" });
@@ -58,7 +78,7 @@ export default function ProductoComercialForm() {
   const submitting = create.isPending || update.isPending;
 
   const [nombreComercial, setNombreComercial] = useState("");
-  const [tipo, setTipo] = useState("OTRO");
+  const [tipos, setTipos] = useState<string[]>([]);
   const [formulacion, setFormulacion] = useState("");
   const [movilidad, setMovilidad] = useState("");
   const [observaciones, setObservaciones] = useState("");
@@ -78,7 +98,7 @@ export default function ProductoComercialForm() {
   useEffect(() => {
     if (!existente) return;
     setNombreComercial(existente.nombreComercial);
-    setTipo(existente.tipo);
+    setTipos(existente.tipos);
     setFormulacion(existente.formulacion ?? "");
     setMovilidad(existente.movilidad ?? "");
     setObservaciones(existente.observaciones ?? "");
@@ -118,8 +138,34 @@ export default function ProductoComercialForm() {
     );
   }, [existente]);
 
+  // Precarga desde un PDF leído en el listado (ver ProductosComercialesList) — sólo al crear, y
+  // sólo una vez: no debe pisar lo que el usuario ya haya tocado si vuelve a este efecto.
+  useEffect(() => {
+    if (!pdfExtraido) return;
+    if (pdfExtraido.nombreComercial) setNombreComercial(pdfExtraido.nombreComercial);
+    if (pdfExtraido.tipos.length > 0) setTipos(pdfExtraido.tipos);
+    if (pdfExtraido.formulacion) setFormulacion(pdfExtraido.formulacion);
+    if (pdfExtraido.registroArgentina) setRegistroArgentina(pdfExtraido.registroArgentina);
+    if (pdfExtraido.fuenteInformacion) setFuenteInformacion(pdfExtraido.fuenteInformacion);
+    if (pdfExtraido.principiosActivos.length > 0) {
+      setFilasPrincipios(
+        pdfExtraido.principiosActivos.map((p) => ({
+          key: nuevaClave(),
+          principioActivoId: String(p.principioActivoId),
+          concentracion: p.concentracion != null ? String(p.concentracion) : "",
+          unidadConcentracion: p.unidad ?? "",
+        }))
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (tipos.length === 0) {
+      alert("Elegí al menos una categoría (insecticida, fungicida, etc.)");
+      return;
+    }
 
     const principiosData = filasPrincipios
       .filter((f) => f.principioActivoId)
@@ -155,7 +201,7 @@ export default function ProductoComercialForm() {
 
     const body = {
       nombreComercial,
-      tipo,
+      tipos,
       formulacion: formulacion || null,
       movilidad: movilidad || null,
       observaciones: observaciones || null,
@@ -178,7 +224,19 @@ export default function ProductoComercialForm() {
       );
     } else {
       create.mutate(body as unknown as Partial<ProductoComercial>, {
-        onSuccess: (creado) => navigate(`/biblioteca/productos/${(creado as ProductoComercial).id}`),
+        onSuccess: async (creado) => {
+          const nuevoId = (creado as ProductoComercial).id;
+          if (pdfFile) {
+            const form = new FormData();
+            form.append("file", pdfFile);
+            form.append("entityType", "PRODUCTO_COMERCIAL");
+            form.append("entityId", String(nuevoId));
+            form.append("descripcion", pdfFile.name);
+            // Best effort: si falla el adjunto no bloqueamos la navegación, el producto ya se creó.
+            await api.post("/adjuntos", form).catch(() => {});
+          }
+          navigate(`/biblioteca/productos/${nuevoId}`);
+        },
       });
     }
   }
@@ -198,21 +256,37 @@ export default function ProductoComercialForm() {
         </div>
       </div>
 
+      {pdfExtraido && (
+        <div className="card" style={{ marginBottom: "1rem", background: "var(--color-bg-soft, #f5f7f0)" }}>
+          <p style={{ margin: 0, fontSize: "0.85rem" }}>
+            📄 Datos precargados desde el PDF — es una lectura automática por reglas, <strong>revisá y corregí</strong> antes
+            de guardar (sobre todo dosis y principios activos). El PDF se adjuntará a la ficha como referencia.
+          </p>
+        </div>
+      )}
+
       <form className="card" onSubmit={handleSubmit}>
         <div className="form-grid">
           <div className="field">
             <label>Nombre comercial *</label>
             <input type="text" value={nombreComercial} onChange={(e) => setNombreComercial(e.target.value)} required spellCheck={false} />
           </div>
-          <div className="field">
-            <label>Tipo *</label>
-            <select value={tipo} onChange={(e) => setTipo(e.target.value)} required>
+          <div className="field" style={{ gridColumn: "1 / -1" }}>
+            <label>Categorías * (puede ser más de una, ej. insecticida y acaricida)</label>
+            <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
               {TIPO_FITOSANITARIO_OPTIONS.map((o) => (
-                <option key={o.value} value={o.value}>
+                <label key={o.value} style={{ display: "flex", alignItems: "center", gap: "0.3rem", fontSize: "0.85rem" }}>
+                  <input
+                    type="checkbox"
+                    checked={tipos.includes(o.value)}
+                    onChange={(e) =>
+                      setTipos((ts) => (e.target.checked ? [...ts, o.value] : ts.filter((t) => t !== o.value)))
+                    }
+                  />
                   {o.label}
-                </option>
+                </label>
               ))}
-            </select>
+            </div>
           </div>
           <div className="field">
             <label>Formulación</label>

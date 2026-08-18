@@ -33,7 +33,9 @@ export default function BibliotecaBuscar() {
   const tipoFito = params.get("tipoFito") ?? "";
   const tipoOrganismo = params.get("tipoOrganismo") ?? "";
   const organismoId = params.get("organismoId") ?? "";
-  const [orgQuery, setOrgQuery] = useState("");
+  // Precarga desde /biblioteca/buscar?q=... (usado por el comando rápido "/buscar", ver
+  // quickAdd/comandos.ts) — solo al montar, después es un buscador local normal.
+  const [orgQuery, setOrgQuery] = useState(() => params.get("q") ?? "");
 
   function set(patch: Record<string, string | null>) {
     const next = new URLSearchParams(params);
@@ -162,7 +164,7 @@ export default function BibliotecaBuscar() {
               <Link key={p.id} to={`/biblioteca/productos/${p.id}`} className="card" style={{ textDecoration: "none", color: "inherit" }}>
                 <h3 style={{ margin: 0 }}>{p.nombreComercial}</h3>
                 <p className="text-muted" style={{ fontSize: "0.85rem", margin: "0.3rem 0" }}>
-                  {labelFor(TIPO_FITOSANITARIO_OPTIONS, p.tipo)}
+                  {p.tipos.map((t) => labelFor(TIPO_FITOSANITARIO_OPTIONS, t)).join(", ")}
                   {!p.disponible ? " · No disponible" : ""}
                 </p>
                 <p style={{ fontSize: "0.8rem", margin: 0 }}>
