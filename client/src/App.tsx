@@ -32,7 +32,7 @@ const ProductoComercialFicha = lazy(() => import("./pages/biblioteca/ProductoCom
 const ProductoComercialForm = lazy(() => import("./pages/biblioteca/ProductoComercialForm"));
 const Comparador = lazy(() => import("./pages/biblioteca/Comparador"));
 const ChequeoMezcla = lazy(() => import("./pages/biblioteca/ChequeoMezcla"));
-const QuickAdd = lazy(() => import("./pages/biblioteca/QuickAdd"));
+const QuickAdd = lazy(() => import("./pages/QuickAdd"));
 
 function PageFallback() {
   return <p className="text-muted">Cargando…</p>;
@@ -57,7 +57,7 @@ function App() {
           <Route path="/biblioteca/buscar" element={<BibliotecaBuscar />} />
           <Route path="/biblioteca/comparar" element={<Comparador />} />
           <Route path="/biblioteca/chequeo-mezcla" element={<ChequeoMezcla />} />
-          <Route path="/biblioteca/carga-rapida" element={<QuickAdd />} />
+          <Route path="/carga-rapida" element={<QuickAdd />} />
           <Route path="/biblioteca/principios-activos" element={<PrincipiosActivosList />} />
           <Route path="/biblioteca/principios-activos/nuevo" element={<PrincipioActivoForm />} />
           <Route path="/biblioteca/principios-activos/:id" element={<PrincipioActivoFicha />} />

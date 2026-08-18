@@ -47,9 +47,14 @@ export default function StockList() {
     <div>
       <div className="page-header">
         <h1>Stock de insumos</h1>
-        <button className="btn" onClick={() => setShowCreate(true)}>
-          + Nuevo insumo
-        </button>
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+          <button className="btn" onClick={() => setShowCreate(true)}>
+            + Nuevo insumo
+          </button>
+          <button className="btn secondary" onClick={() => navigate("/carga-rapida?modo=stock")}>
+            ⚡ Carga rápida
+          </button>
+        </div>
       </div>
 
       {fincas && fincas.length > 1 && (

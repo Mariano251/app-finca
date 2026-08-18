@@ -95,11 +95,6 @@ export default function PrincipioActivoFicha() {
 
         <div style={{ marginTop: "0.75rem" }}>
           <RegistroBadge value={p.registroArgentina} />
-          {p.fuenteInformacion && (
-            <span className="text-muted" style={{ fontSize: "0.8rem", marginLeft: "0.5rem" }}>
-              Fuente: {p.fuenteInformacion}
-            </span>
-          )}
           {p.fechaVerificacion && (
             <span className="text-muted" style={{ fontSize: "0.8rem", marginLeft: "0.5rem" }}>
               Verificado el {new Date(p.fechaVerificacion).toLocaleDateString()}

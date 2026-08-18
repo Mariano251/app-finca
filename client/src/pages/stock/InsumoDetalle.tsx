@@ -131,6 +131,9 @@ export default function InsumoDetalle() {
           <button className="btn small" onClick={() => setShowMovimiento(true)}>
             + Movimiento
           </button>
+          <button className="btn secondary small" onClick={() => navigate("/carga-rapida?modo=stock")}>
+            ⚡ Carga rápida
+          </button>
           <button className="btn secondary" onClick={() => setEditing(true)}>
             Editar
           </button>

@@ -1,4 +1,5 @@
-import type { PrincipioActivo } from "../../../api/types";
+import type { PrincipioActivo } from "../api/types";
+import { normalizar } from "./normalizar";
 
 /**
  * Comandos rápidos (punto 23 del pedido): interpretación local, sin red — el usuario los escribe
@@ -7,10 +8,6 @@ import type { PrincipioActivo } from "../../../api/types";
 export type ResultadoComando =
   | { tipo: "navegar"; to: string }
   | { tipo: "error"; mensaje: string };
-
-function normalizar(s: string): string {
-  return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
-}
 
 /** Devuelve `null` si el texto no es un comando (no empieza con "/") — en ese caso quien llama
  *  debe mandarlo al parser de texto libre en vez de acá. */
@@ -28,6 +25,9 @@ export function parseComando(texto: string, principiosActivos: PrincipioActivo[]
   if (comando === "nuevo" && (partes[1] ?? "").toLowerCase() === "principio") {
     return { tipo: "navegar", to: "/biblioteca/principios-activos/nuevo" };
   }
+  if (comando === "nuevo" && (partes[1] ?? "").toLowerCase() === "insumo") {
+    return { tipo: "navegar", to: "/stock" };
+  }
   if (comando === "buscar") {
     if (!resto) return { tipo: "error", mensaje: "Usá /buscar seguido de lo que querés buscar, ej: /buscar trips" };
     return { tipo: "navegar", to: `/biblioteca/buscar?q=${encodeURIComponent(resto)}` };
@@ -39,8 +39,7 @@ export function parseComando(texto: string, principiosActivos: PrincipioActivo[]
     }
     const ids: number[] = [];
     for (const n of nombres) {
-      const nn = normalizar(n);
-      const match = principiosActivos.find((p) => normalizar(p.nombre).includes(nn) || nn.includes(normalizar(p.nombre)));
+      const match = principiosActivos.find((p) => normalizar(p.nombre).includes(normalizar(n)) || normalizar(n).includes(normalizar(p.nombre)));
       if (!match) return { tipo: "error", mensaje: `No encontré en la biblioteca local ningún principio activo parecido a "${n}".` };
       ids.push(match.id);
     }

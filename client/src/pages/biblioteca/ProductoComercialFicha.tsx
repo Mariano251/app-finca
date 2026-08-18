@@ -87,11 +87,6 @@ export default function ProductoComercialFicha() {
 
         <div style={{ marginTop: "0.75rem" }}>
           <RegistroBadge value={p.registroArgentina} />
-          {p.fuenteInformacion && (
-            <span className="text-muted" style={{ fontSize: "0.8rem", marginLeft: "0.5rem" }}>
-              Fuente: {p.fuenteInformacion}
-            </span>
-          )}
         </div>
 
         {p.principiosActivos && p.principiosActivos.length > 0 && (

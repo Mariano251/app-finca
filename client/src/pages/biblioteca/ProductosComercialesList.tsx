@@ -107,7 +107,7 @@ export default function ProductosComercialesList() {
           <button className="btn" onClick={() => navigate("/biblioteca/productos/nuevo")}>
             + Nuevo
           </button>
-          <button className="btn secondary" onClick={() => navigate("/biblioteca/carga-rapida")}>
+          <button className="btn secondary" onClick={() => navigate("/carga-rapida?modo=biblioteca")}>
             ⚡ Carga rápida
           </button>
         </div>
